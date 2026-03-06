@@ -1,11 +1,8 @@
 * {
-  box-sizing: border-box;
-  font-family: Raleway;
-}
-html,
-body {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: Raleway;
 }
 .nav ul {
   margin: 0;
@@ -52,9 +49,7 @@ body {
   margin: 1em;
 }
 .container {
-  max-width: 980px;
   margin: 0 auto;
-  padding: 0 1.5em;
   color: #2d9cdb;
   text-align: center;
 }
@@ -304,6 +299,7 @@ body {
   font-size: 1.75em;
 }
 
+
 .halluu {
   color: dodgerblue;
 }
@@ -330,7 +326,7 @@ body {
 }
 
 #submit {
-  margin: 15px 38%;
+  margin: -15px 38% 15px;
   padding: 15px 40px;
   border-radius: 50px;
   background-color: #3498db;
@@ -342,4 +338,60 @@ body {
 
 #submit:hover {
   background-color: #2980b9;
+}
+
+.success-message {
+  padding: 5px;
+  margin: 0 auto;
+  background-color: #d4edda;
+  color: #155724;
+  border-radius: 8px;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.5s ease-in-out;
+  pointer-events: none;
+}
+
+
+.success-message.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.failed-message {
+  padding: 5px;
+  margin: 0 auto;
+  background-color: #d4edda;
+  color: #155724;
+  border-radius: 8px;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(-40px);
+  transition: all 0.5s ease-in-out;
+  pointer-events: none;
+}
+
+
+.failed-message.show {
+  opacity: 1;
+  transform: translateY(-20px);
+}
+
+.purchase-message {
+  margin-top: 10px;
+  padding: 5px;
+  background-color: #d4edda;
+  color: #155724;
+  border-radius: 8px;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.5s ease;
+  pointer-events: none;
+}
+
+
+.purchase-message.show {
+  opacity: 1;
+  transform: translateY(0px);
 }

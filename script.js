@@ -23,11 +23,18 @@ function ready() {
         button.addEventListener('click', addToCartClicked)
     }
 
-    document.getElementsByClassName('btn-purchase')[0].addEventListener('click', purchaseClicked)
+    const purchased = document.getElementsByClassName('btn-purchase')[0]
+    if (purchased) {
+        purchased.addEventListener('click', purchaseClicked)
+    }
 }
 
+const purchaseMessage = document.getElementById('purchaseMessage')
 function purchaseClicked() {
-    alert('Thank you for your purchase')
+    purchaseMessage.classList.add("show")
+        setTimeout(() => {
+            purchaseMessage.classList.remove("show")
+        }, 4000)
     var cartItems = document.getElementsByClassName('cart-items')[0]
     while (cartItems.hasChildNodes()) {
         cartItems.removeChild(cartItems.firstChild)
@@ -102,17 +109,30 @@ function updateCartTotal() {
     document.getElementsByClassName('cart-total-price')[0].innerText = '$' + total
 }
 
-document.getElementById("contactForm").addEventListener("submit", function (event) {
-    event.preventDefault();
 
-    let name = document.getElementById("name").value;
-    let email = document.getElementById("email").value;
-    let message = document.getElementById("message").value;
+const contact = document.getElementById('contactForm')
+const successMessage = document.getElementById('successMessage')
+const failedMessage = document.getElementById('failedMessage')
 
-    if (name === "" || email === "" || message === "") {
-        alert("Please fill in all fields.");
-    } else {
-        alert("Thank you, " + name + "! Your message has been sent.");
-        this.reset();
-    }
-});
+if (contact) {
+    contact.addEventListener('submit', submit)
+}
+
+    function submit(e) {
+        e.preventDefault();
+        let name = document.getElementById('name').value
+        let email = document.getElementById('email').value
+        let message = document.getElementById('message').value
+
+        if (name === "" || email === "" || message === "") {failedMessage.classList.add("show");
+            setTimeout(() => {
+                failedMessage.classList.remove("show")
+            }, 4000);
+        } else {
+            successMessage.classList.add("show");
+            contact.reset();
+            setTimeout(() => {
+                successMessage.classList.remove("show");
+            }, 4000);
+        }
+    };
