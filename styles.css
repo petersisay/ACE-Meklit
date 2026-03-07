@@ -149,23 +149,18 @@
   width: 12%;
   font-weight: bold;
 }
-
 .video-sg {
   width: 25%;
 }
-
 .video-rn {
   width: 30%;
 }
-
 .video-btn {
   max-width: 30%;
 }
-
 .shop-item {
   margin: 30px;
 }
-
 .shop-item-title {
   display: block;
   width: 100%;
@@ -175,34 +170,28 @@
   color: #333;
   margin-bottom: 15px;
 }
-
 .shop-item-image {
   height: 250px;
 }
-
 .shop-item-details {
   display: flex;
   align-items: center;
   padding: 5px;
 }
-
 .shop-item-price {
   flex-grow: 1;
   color: #333;
 }
-
 .shop-items {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
 }
-
 .cart-header {
   font-weight: bold;
   font-size: 1.25em;
   color: #333;
 }
-
 .cart-column {
   display: flex;
   align-items: center;
@@ -211,37 +200,30 @@
   padding-bottom: 10px;
   margin-top: 10px;
 }
-
 .cart-row {
   display: flex;
 }
-
 .cart-item {
   width: 45%;
 }
-
 .cart-price {
   width: 20%;
   font-size: 1.2em;
   color: #333;
 }
-
 .cart-quantity {
   width: 35%;
 }
-
 .cart-item-title {
   color: #333;
   margin-left: 0.5em;
   font-size: 1.2em;
 }
-
 .cart-item-image {
   width: 75px;
   height: auto;
   border-radius: 10px;
 }
-
 .btn-danger {
   color: white;
   background-color: #eb5757;
@@ -249,11 +231,9 @@
   border-radius: 0.3em;
   font-weight: bold;
 }
-
 .btn-danger:hover {
   background-color: #cc4c4c;
 }
-
 .cart-quantity-input {
   height: 34px;
   width: 50px;
@@ -266,40 +246,32 @@
   font-size: 1.2em;
   margin-right: 25px;
 }
-
 .cart-row:last-child {
   border-bottom: 1px solid black;
 }
-
 .cart-row:last-child .cart-column {
   border: none;
 }
-
 .cart-total {
   text-align: end;
   margin-top: 10px;
   margin-right: 10px;
 }
-
 .cart-total-title {
   font-weight: bold;
   font-size: 1.5em;
   color: black;
   margin-right: 20px;
 }
-
 .cart-total-price {
   color: #333;
   font-size: 1.1em;
 }
-
 .btn-purchase {
   display: block;
   margin: 40px auto 80px auto;
   font-size: 1.75em;
 }
-
-
 .halluu {
   color: dodgerblue;
 }
@@ -311,20 +283,17 @@
   padding: 20px;
   border-radius: 8px;
 }
-
 .info {
   display: block;
   margin-top: 10px;
   font-weight: bold;
   text-align: center;
 }
-
 .enter {
   width: 50%;
   padding: 8px;
   margin: 5px 24%;
 }
-
 #submit {
   margin: -15px 38% 15px;
   padding: 15px 40px;
@@ -335,11 +304,9 @@
   font-size: 18px;
   cursor: pointer;
 }
-
 #submit:hover {
   background-color: #2980b9;
 }
-
 .success-message {
   padding: 5px;
   margin: 0 auto;
@@ -352,8 +319,6 @@
   transition: all 0.5s ease-in-out;
   pointer-events: none;
 }
-
-
 .success-message.show {
   opacity: 1;
   transform: translateY(0);
@@ -370,13 +335,10 @@
   transition: all 0.5s ease-in-out;
   pointer-events: none;
 }
-
-
 .failed-message.show {
   opacity: 1;
   transform: translateY(-20px);
 }
-
 .purchase-message {
   margin-top: 10px;
   padding: 5px;
@@ -389,8 +351,6 @@
   transition: all 0.5s ease;
   pointer-events: none;
 }
-
-
 .purchase-message.show {
   opacity: 1;
   transform: translateY(0px);
