@@ -202,6 +202,7 @@
 }
 .cart-row {
   display: flex;
+  margin-left: 2em;
 }
 .cart-item {
   width: 45%;
@@ -352,6 +353,22 @@
   pointer-events: none;
 }
 .purchase-message.show {
+  opacity: 1;
+  transform: translateY(0px);
+}
+.failed-purchase {
+  margin-top: 10px;
+  padding: 5px;
+  background-color: #d4edda;
+  color: #155724;
+  border-radius: 8px;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.5s ease;
+  pointer-events: none;
+}
+.failed-purchase.show {
   opacity: 1;
   transform: translateY(0px);
 }

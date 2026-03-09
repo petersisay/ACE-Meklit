@@ -1,58 +1,82 @@
 if (document.readyState == 'loading') {
-    document.addEventListener('DOMContentLoaded', ready)
-} else {
-    ready()              }
+    document.addEventListener('DOMContentLoaded', ready);
+    } else {
+    ready();
+}
 function ready() {
-    var removeCartItemButtons = document.getElementsByClassName('btn-danger')
+    var removeCartItemButtons = document.getElementsByClassName('btn-danger');
     for (var i = 0; i < removeCartItemButtons.length; i++) {
-        var button = removeCartItemButtons[i]
-        button.addEventListener('click', removeCartItem)         }
-    var quantityInputs = document.getElementsByClassName('cart-quantity-input')
+        var button = removeCartItemButtons[i];
+        button.addEventListener('click', removeCartItem);
+    }
+    var quantityInputs = document.getElementsByClassName('cart-quantity-input');
     for (var i = 0; i < quantityInputs.length; i++) {
-        var input = quantityInputs[i]
-        input.addEventListener('change', quantityChanged)                 }
-    var addToCartButtons = document.getElementsByClassName('shop-item-button')
+        var input = quantityInputs[i];
+        input.addEventListener('change', quantityChanged);
+    }
+    var addToCartButtons = document.getElementsByClassName('shop-item-button');
     for (var i = 0; i < addToCartButtons.length; i++) {
-        var button = addToCartButtons[i]
-        button.addEventListener('click', addToCartClicked)       }
+        var button = addToCartButtons[i];
+        button.addEventListener('click', addToCartClicked);
+    }
     const purchased = document.getElementsByClassName('btn-purchase')[0]
     if (purchased) {
-        purchased.addEventListener('click', purchaseClicked)            }                 }
-const purchaseMessage = document.getElementById('purchaseMessage')
+        purchased.addEventListener('click', purchaseClicked);
+    }
+}
+const purchaseMessage = document.getElementById('purchaseMessage');
 function purchaseClicked() {
-    purchaseMessage.classList.add("show")
-        setTimeout(() => {
-            purchaseMessage.classList.remove("show")
+    var purchaseTotal = document.getElementsByClassName("cart-total-price")[0].innerText.replace('$', '');
+    if (purchaseTotal != 0) {
+        purchaseMessage.classList.add("show");
+    setTimeout((e) => {
+        purchaseMessage.classList.remove("show");
+    }, 4000)
+    }
+    else {
+        failedPurchase.classList.add("show");
+        setTimeout((e) => {
+            failedPurchase.classList.remove("show");
         }, 4000)
-    var cartItems = document.getElementsByClassName('cart-items')[0]
+    }
+    var cartItems = document.getElementsByClassName('cart-items')[0];
     while (cartItems.hasChildNodes()) {
-        cartItems.removeChild(cartItems.firstChild)                                  }
-    updateCartTotal()                           }
+        cartItems.removeChild(cartItems.firstChild);
+    }
+    updateCartTotal();
+}
 function removeCartItem(event) {
-    var buttonClicked = event.target
-    buttonClicked.parentElement.parentElement.remove()
-    updateCartTotal()                    }
+    var buttonClicked = event.target;
+    buttonClicked.parentElement.parentElement.remove();
+    updateCartTotal();
+}
 function quantityChanged(event) {
-    var input = event.target
+    var input = event.target;
     if (isNaN(input.value) || input.value <= 0) {
-        input.value = 1    }
-    updateCartTotal()        }
+        input.value = 1;
+    }
+    updateCartTotal();
+}
 function addToCartClicked(event) {
-    var button = event.target
-    var shopItem = button.parentElement.parentElement
-    var title = shopItem.getElementsByClassName('shop-item-title')[0].innerText
-    var price = shopItem.getElementsByClassName('shop-item-price')[0].innerText
-    var imageSrc = shopItem.getElementsByClassName('shop-item-image')[0].src
-    addItemToCart(title, price, imageSrc)
-    updateCartTotal()                             }
+    var button = event.target;
+    var shopItem = button.parentElement.parentElement;
+    var title = shopItem.getElementsByClassName('shop-item-title')[0].innerText;
+    var price = shopItem.getElementsByClassName('shop-item-price')[0].innerText;
+    var imageSrc = shopItem.getElementsByClassName('shop-item-image')[0].src;
+    addItemToCart(title, price, imageSrc);
+    updateCartTotal();
+}
 function addItemToCart(title, price, imageSrc) {
-    var cartRow = document.createElement('div')
-    cartRow.classList.add('cart-row')
-    var cartItems = document.getElementsByClassName('cart-items')[0]
-    var cartItemNames = cartItems.getElementsByClassName('cart-item-title')
+    var cartRow = document.createElement('div');
+    cartRow.classList.add('cart-row');
+    var cartItems = document.getElementsByClassName('cart-items')[0];
+    var cartItemNames = cartItems.getElementsByClassName('cart-item-title');
     for (var i = 0; i < cartItemNames.length; i++) {
-        if (cartItemNames[i].innerText == title) { alert('This item is already added to the cart')
-            return    }       }
+        if (cartItemNames[i].innerText == title) {
+            alert('This item is already added to the cart');
+            return ;
+        }
+    }
     var cartRowContents = `
         <div class="cart-item cart-column">
             <img class="cart-item-image" src="${imageSrc}" width="100" height="100">
@@ -62,39 +86,48 @@ function addItemToCart(title, price, imageSrc) {
         <div class="cart-quantity cart-column">
             <input class="cart-quantity-input" type="number" value="1">
             <button class="btn btn-danger" type="button">REMOVE</button>
-        </div>`
-    cartRow.innerHTML = cartRowContents
-    cartItems.append(cartRow)
-    cartRow.getElementsByClassName('btn-danger')[0].addEventListener('click', removeCartItem)
-    cartRow.getElementsByClassName('cart-quantity-input')[0].addEventListener('change', quantityChanged)           }
+        </div>`;
+    cartRow.innerHTML = cartRowContents;
+    cartItems.append(cartRow);
+    cartRow.getElementsByClassName('btn-danger')[0].addEventListener('click', removeCartItem);
+    cartRow.getElementsByClassName('cart-quantity-input')[0].addEventListener('change', quantityChanged);
+}
 function updateCartTotal() {
-    var cartItemContainer = document.getElementsByClassName('cart-items')[0]
-    var cartRows = cartItemContainer.getElementsByClassName('cart-row')
-    var total = 0
+    var cartItemContainer = document.getElementsByClassName('cart-items')[0];
+    var cartRows = cartItemContainer.getElementsByClassName('cart-row');
+    var total = 0;
     for (var i = 0; i < cartRows.length; i++) {
-        var cartRow = cartRows[i]
-        var priceElement = cartRow.getElementsByClassName('cart-price')[0]
-        var quantityElement = cartRow.getElementsByClassName('cart-quantity-input')[0]
-        var price = parseFloat(priceElement.innerText.replace('$', ''))
-        var quantity = quantityElement.value
-        total = total + (price * quantity)                             }
-    total = Math.round(total * 100) / 100
-    document.getElementsByClassName('cart-total-price')[0].innerText = '$' + total           }
-const contact = document.getElementById('contactForm')
-const successMessage = document.getElementById('successMessage')
-const failedMessage = document.getElementById('failedMessage')
-if (contact) { contact.addEventListener('submit', submit) }
+        var cartRow = cartRows[i];
+        var priceElement = cartRow.getElementsByClassName('cart-price')[0];
+        var quantityElement = cartRow.getElementsByClassName('cart-quantity-input')[0];
+        var price = parseFloat(priceElement.innerText.replace('$', ''));
+        var quantity = quantityElement.value;
+        total = total + (price * quantity);
+    }
+    total = Math.round(total * 100) / 100;
+    document.getElementsByClassName('cart-total-price')[0].innerText = '$' + total;
+}
+const contact = document.getElementById('contactForm');
+const successMessage = document.getElementById('successMessage');
+const failedMessage = document.getElementById('failedMessage');
+if (contact) {
+    contact.addEventListener('submit', submit);
+}
     function submit(e) {
         e.preventDefault();
-        let name = document.getElementById('name').value
-        let email = document.getElementById('email').value
-        let message = document.getElementById('message').value
-        if (name === "" || email === "" || message === "") {failedMessage.classList.add("show");
+        let name = document.getElementById('name').value;
+        let email = document.getElementById('email').value;
+        let message = document.getElementById('message').value;
+        if (name === "" || email === "" || message === "") {
+            failedMessage.classList.add("show");
             setTimeout(() => {
-                failedMessage.classList.remove("show")            }, 4000);
+                failedMessage.classList.remove("show");
+            }, 4000);
         } else {
             successMessage.classList.add("show");
             contact.reset();
             setTimeout(() => {
                 successMessage.classList.remove("show");
-            }, 4000);       }              };
+            }, 4000);
+        }
+    }
