@@ -1,8 +1,8 @@
-## 📖 README.md
+📖 README.md
 
-# Apostolic Church of Ethiopia (ACE) Web Project
+ Apostolic Church of Ethiopia (ACE) Web Project
 
-A static, multi-page website built to represent the **Apostolic Church of Ethiopia (ACE)** and its affiliated content, including gospel music, preachings, and the **ACE Meklit** faith-based apparel and merchandise store.
+A static, multi-page website built to represent the **Apostolic Church of Ethiopia (ACE)** and its affiliated content, including gospel music, preachings, and the ACE Mekli faith-based apparel and merchandise store.
 
 The project integrates Christian values with modern web design, offering both spiritual content and a simple client-side shopping cart experience.
 
@@ -15,15 +15,15 @@ The project integrates Christian values with modern web design, offering both sp
 
 ---
 
-## ✨ Features
+ ✨ Features
 
-### 🏠 Home Page
+ 🏠 Home Page
 - Displays gospel albums and apostolic preachings
 - Embedded YouTube videos
 - Bible verse highlighted at the top
 - Clean navigation between pages
 
-### 🛍️ ACE Meklit Store
+ 🛍️ ACE Meklit Store
 - Faith-based products (apparel, mugs, Bible covers, books)
 - Categories:
   - Logo products
@@ -33,23 +33,23 @@ The project integrates Christian values with modern web design, offering both sp
 - Dynamic cart updates (quantity & total price)
 - Simple **Purchase** button (front-end only)
 
-### ℹ️ About Page
+ ℹ️ About Page
 - Overview of ACE Meklit brand vision and mission
 - Emphasis on biblical values and quality
 - Contact form (front-end validation only)
 
 ---
 
-## 🛠️ Built With
+ 🛠️ Built With
 
-- **HTML5** – semantic structure
-- **CSS3** – layout, styling, responsiveness
-- **JavaScript (Vanilla JS)** – cart logic and interactivity
-- **YouTube Embed API** – video content
+- HTML5 – semantic structure
+- CSS3 – layout, styling, responsiveness
+- JavaScript (Vanilla JS) – cart logic and interactivity
+- YouTube Embed API – video content
 
 ---
 
-## 📂 Project Structure
+ 📂 Project Structure
 
 ```text
 .
@@ -64,7 +64,7 @@ The project integrates Christian values with modern web design, offering both sp
 
 ---
 
-## ⚙️ How to Run Locally
+ ⚙️ How to Run Locally
 
 1. Clone the repository:
 
@@ -83,7 +83,7 @@ The project integrates Christian values with modern web design, offering both sp
 
 ---
 
-## 📌 Limitations
+ 📌 Limitations
 
 * No backend integration
 * No payment gateway
@@ -92,7 +92,7 @@ The project integrates Christian values with modern web design, offering both sp
 
 ---
 
-## 🔮 Future Improvements
+ 🔮 Future Improvements
 
 * Backend integration (Node.js / PHP / Firebase)
 * Database for products and orders
@@ -103,15 +103,15 @@ The project integrates Christian values with modern web design, offering both sp
 ---
 
 
-## 👤 Author
+ 👤 Author
 
-**Petros Sisay**
+Petros Sisay
 Web Developer
 Apostolic Church of Ethiopia Project
 
 ---
 
-## 📜 License
+ 📜 License
 
 This project is for educational and ministry purposes.
 All rights reserved © 2026.
