@@ -9,9 +9,10 @@
     "client": "npm run dev --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "npm run build --prefix client",
+    "render-build": "npm run install:all && npm run build",
     "seed": "node server/seeder.js",
     "seed:destroy": "node server/seeder.js -d",
-    "install:all": "npm install && npm install --prefix server && npm install --prefix client"
+    "install:all": "npm install && npm install --prefix server && npm install --prefix client --include=dev"
   },
   "keywords": [
     "mern",
@@ -25,7 +26,7 @@
   ],
   "author": "Petros Sisay",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "concurrently": "^8.2.2"
   }
 }
