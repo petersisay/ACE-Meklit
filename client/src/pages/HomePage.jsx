@@ -1,0 +1,191 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { ShoppingBag, Play, ArrowRight, Sparkles, BookOpen, Music, ShieldCheck } from 'lucide-react';
+import ProductCard from '../components/ProductCard';
+import MediaCard from '../components/MediaCard';
+import { productsApi, mediaApi } from '../services/api';
+
+const HomePage = () => {
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [featuredMedia, setFeaturedMedia] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [prodRes, mediaRes] = await Promise.all([
+          productsApi.getAll({ limit: 4 }),
+          mediaApi.getAll({ featured: true }),
+        ]);
+        setFeaturedProducts(prodRes.data.slice(0, 4));
+        setFeaturedMedia(mediaRes.data);
+      } catch (err) {
+        console.error('Error fetching home data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const musics = featuredMedia.filter((m) => m.type === 'music').slice(0, 2);
+  const preachings = featuredMedia.filter((m) => m.type === 'preaching').slice(0, 2);
+
+  return (
+    <div className="homepage">
+      {/* Hero Header */}
+      <section className="hero">
+        <div className="container hero-content">
+          <span className="hero-tag">Apostolic Church of Ethiopia</span>
+          <h1 className="hero-title">ACE MEKLIT & CONTENTS</h1>
+          <div className="hero-scripture">
+            <p className="scripture-quote">
+              " Hear, O Israel: The LORD our GOD, The LORD is one. "
+            </p>
+            <span style={{ fontSize: '0.9rem', fontWeight: 700, letterSpacing: '0.05em' }}>
+              DEUTERONOMY 6:4
+            </span>
+          </div>
+          <p style={{ fontSize: '1.1rem', color: '#e2e8f0', marginBottom: '2rem', maxWidth: '680px', margin: '0 auto 2rem' }}>
+            Scripture Thread • Living Word Apparel • Covenant Cotton • Verity Wear • Biblical Books & Apostolic Hymns
+          </p>
+          <div className="hero-buttons">
+            <Link to="/store" className="btn btn-primary">
+              <ShoppingBag size={18} />
+              <span>Shop ACE Meklit Store</span>
+            </Link>
+            <Link to="/media" className="btn btn-outline-white">
+              <Play size={18} />
+              <span>Listen to Gospel Music & Sermons</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Brand Value Pillars */}
+      <section style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0', padding: '2.5rem 0' }}>
+        <div className="container">
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+              gap: '2rem',
+              textAlign: 'center',
+            }}
+          >
+            <div style={{ padding: '1rem' }}>
+              <div style={{ color: '#d97706', marginBottom: '0.75rem', display: 'flex', justifyContent: 'center' }}>
+                <Sparkles size={32} />
+              </div>
+              <h3 style={{ fontSize: '1.1rem', marginBottom: '0.35rem' }}>Purposeful Faith Style</h3>
+              <p style={{ fontSize: '0.88rem', color: '#64748b' }}>
+                Weaving scripture and biblical identity into comfortable, high-quality contemporary apparel.
+              </p>
+            </div>
+
+            <div style={{ padding: '1rem' }}>
+              <div style={{ color: '#1e3a8a', marginBottom: '0.75rem', display: 'flex', justifyContent: 'center' }}>
+                <Music size={32} />
+              </div>
+              <h3 style={{ fontSize: '1.1rem', marginBottom: '0.35rem' }}>Anointed Gospel Songs</h3>
+              <p style={{ fontSize: '0.88rem', color: '#64748b' }}>
+                Full gospel albums and Apostolic choir worship melodies that exalt Jesus Christ.
+              </p>
+            </div>
+
+            <div style={{ padding: '1rem' }}>
+              <div style={{ color: '#d97706', marginBottom: '0.75rem', display: 'flex', justifyContent: 'center' }}>
+                <BookOpen size={32} />
+              </div>
+              <h3 style={{ fontSize: '1.1rem', marginBottom: '0.35rem' }}>Biblical Sound Doctrine</h3>
+              <p style={{ fontSize: '0.88rem', color: '#64748b' }}>
+                Sermons from Apostolic bishops and doctrinal books upholding holiness and the Word of God.
+              </p>
+            </div>
+
+            <div style={{ padding: '1rem' }}>
+              <div style={{ color: '#10b981', marginBottom: '0.75rem', display: 'flex', justifyContent: 'center' }}>
+                <ShieldCheck size={32} />
+              </div>
+              <h3 style={{ fontSize: '1.1rem', marginBottom: '0.35rem' }}>Integrity & Ministry</h3>
+              <p style={{ fontSize: '0.88rem', color: '#64748b' }}>
+                Every purchase supports ministry outreach, church publishing, and Christian community support.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Products Section */}
+      <section className="section container">
+        <div className="section-header">
+          <span className="section-subtitle">Faith-Based Apparel & Essentials</span>
+          <h2 className="section-title">ACE Meklit Highlights</h2>
+          <p className="section-desc">
+            Explore apparel, custom mugs, and Bible covers created to reflect living biblical truths.
+          </p>
+        </div>
+
+        {loading ? (
+          <p style={{ textAlign: 'center', color: '#64748b' }}>Loading products...</p>
+        ) : (
+          <div className="products-grid">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+        )}
+
+        <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+          <Link to="/store" className="btn btn-navy">
+            <span>View All Store Products</span>
+            <ArrowRight size={18} />
+          </Link>
+        </div>
+      </section>
+
+      {/* Music & Preachings Preview */}
+      <section className="section" style={{ background: '#f1f5f9' }}>
+        <div className="container">
+          <div className="section-header">
+            <span className="section-subtitle">Worship & Ministry</span>
+            <h2 className="section-title">Full Album Musics & Sermons</h2>
+            <p className="section-desc">
+              Stream anointed Apostolic songs and life-changing preachings directly.
+            </p>
+          </div>
+
+          <div style={{ marginBottom: '3rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+              <h3 style={{ fontSize: '1.35rem', color: '#0f172a' }}>🎵 Full Album Musics</h3>
+              <Link to="/media?type=music" style={{ color: '#1e3a8a', fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                View all albums <ArrowRight size={14} />
+              </Link>
+            </div>
+            <div className="media-grid">
+              {musics.map((item) => (
+                <MediaCard key={item._id} media={item} />
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+              <h3 style={{ fontSize: '1.35rem', color: '#0f172a' }}>📖 Best Apostolic Preachings</h3>
+              <Link to="/media?type=preaching" style={{ color: '#1e3a8a', fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                View all sermons <ArrowRight size={14} />
+              </Link>
+            </div>
+            <div className="media-grid">
+              {preachings.map((item) => (
+                <MediaCard key={item._id} media={item} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default HomePage;
