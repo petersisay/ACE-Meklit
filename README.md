@@ -83,15 +83,6 @@ The project integrates Christian values with modern web design, offering both sp
 
 ---
 
- 📌 Limitations
-
-* No backend integration
-* No payment gateway
-* Cart data is not persistent (refresh resets it)
-* Contact form does not submit to a server
-
----
-
  🔮 Future Improvements
 
 * Backend integration (Node.js / PHP / Firebase)
