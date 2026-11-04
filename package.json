@@ -1,0 +1,31 @@
+{
+  "name": "ace-meklit-mern",
+  "version": "2.0.0",
+  "description": "Apostolic Church of Ethiopia (ACE) Meklit - Full MERN Stack Web Application",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "server": "node server/server.js",
+    "client": "npm run dev --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "npm run build --prefix client",
+    "seed": "node server/seeder.js",
+    "seed:destroy": "node server/seeder.js -d",
+    "install:all": "npm install && npm install --prefix server && npm install --prefix client"
+  },
+  "keywords": [
+    "mern",
+    "react",
+    "express",
+    "mongodb",
+    "nodejs",
+    "apostolic-church-of-ethiopia",
+    "ace-meklit",
+    "ecommerce"
+  ],
+  "author": "Petros Sisay",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
