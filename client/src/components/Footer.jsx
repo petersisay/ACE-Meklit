@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 const Footer = () => {
+  const { t } = useLanguage();
+
   return (
     <footer className="footer">
       <div className="container">
@@ -17,7 +20,7 @@ const Footer = () => {
               <h3 style={{ margin: 0, color: '#ffffff' }}>APOSTOLIC SONGS & MEKLIT</h3>
             </div>
             <p style={{ fontSize: '0.9rem', marginBottom: '1rem', color: '#94a3b8' }}>
-              Apostolic Church of Ethiopia — Proclaiming the living gospel of our Lord Jesus Christ through spirit-filled worship, sound doctrine, and faith-based apparel.
+              {t('church_name')} — Proclaiming the living gospel of our Lord Jesus Christ through spirit-filled worship, sound doctrine, and faith-based apparel.
             </p>
             <div
               style={{
@@ -28,39 +31,39 @@ const Footer = () => {
               }}
             >
               <p className="scripture-quote" style={{ fontSize: '0.88rem', margin: 0 }}>
-                "Hear, O Israel: The LORD our GOD, The LORD is one."
+                {t('hero_quote')}
               </p>
-              <small style={{ color: '#d97706', fontWeight: 600 }}>Deuteronomy 6:4</small>
+              <small style={{ color: '#d97706', fontWeight: 600 }}>{t('hero_verse')}</small>
             </div>
           </div>
 
           {/* Quick links */}
           <div>
-            <h4 className="footer-title">Navigation</h4>
+            <h4 className="footer-title">{t('footer_quick_links')}</h4>
             <ul className="footer-links">
-              <li><Link to="/">Home Overview</Link></li>
-              <li><Link to="/store">ACE Meklit Store</Link></li>
-              <li><Link to="/media">Music & Preachings</Link></li>
-              <li><Link to="/about">About ACE Meklit</Link></li>
-              <li><Link to="/contact">Contact Church</Link></li>
+              <li><Link to="/">{t('nav_home')}</Link></li>
+              <li><Link to="/store">{t('nav_store')}</Link></li>
+              <li><Link to="/media">{t('nav_media')}</Link></li>
+              <li><Link to="/about">{t('nav_about')}</Link></li>
+              <li><Link to="/contact">{t('nav_contact')}</Link></li>
             </ul>
           </div>
 
           {/* Categories */}
           <div>
-            <h4 className="footer-title">Categories</h4>
+            <h4 className="footer-title">{t('footer_categories')}</h4>
             <ul className="footer-links">
-              <li><Link to="/store?category=ACE%20Logo%20Products">ACE Logo Products</Link></li>
-              <li><Link to="/store?category=Bible%20Verse%20Products">Bible Verse Products</Link></li>
-              <li><Link to="/store?category=Holy%20Bible%20Covers%20and%20Books">Bible Covers & Books</Link></li>
-              <li><Link to="/media?type=music">Full Album Musics</Link></li>
-              <li><Link to="/media?type=preaching">Apostolic Sermons</Link></li>
+              <li><Link to="/store?category=ACE%20Logo%20Products">{t('store_cat_logo')}</Link></li>
+              <li><Link to="/store?category=Bible%20Verse%20Products">{t('store_cat_verse')}</Link></li>
+              <li><Link to="/store?category=Holy%20Bible%20Covers%20and%20Books">{t('store_cat_books')}</Link></li>
+              <li><Link to="/media?type=music">{t('media_sec_music')}</Link></li>
+              <li><Link to="/media?type=preaching">{t('media_sec_preaching')}</Link></li>
             </ul>
           </div>
 
           {/* Connect & Social */}
           <div>
-            <h4 className="footer-title">Connect With Us</h4>
+            <h4 className="footer-title">{t('footer_connect')}</h4>
             <p style={{ fontSize: '0.88rem', marginBottom: '1rem' }}>
               Follow our official ministry channels on social media for sermons, live fellowship, and new apparel drops.
             </p>
@@ -107,7 +110,7 @@ const Footer = () => {
 
         {/* Footer bottom */}
         <div className="footer-bottom">
-          <p>© {new Date().getFullYear()} Apostolic Church of Ethiopia & ACE Meklit. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {t('church_name')}. {t('footer_rights')}</p>
           <p>
             Upgraded & Maintained by <strong style={{ color: '#ffffff' }}>Petros Sisay</strong>
           </p>
