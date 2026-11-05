@@ -9,14 +9,14 @@ const orderSchema = new mongoose.Schema(
     },
     orderItems: [
       {
+        _id: { type: mongoose.Schema.Types.Mixed },
         name: { type: String, required: true },
         qty: { type: Number, required: true, default: 1 },
         image: { type: String, required: true },
         price: { type: Number, required: true },
         product: {
-          type: mongoose.Schema.Types.ObjectId,
+          type: mongoose.Schema.Types.Mixed,
           required: true,
-          ref: 'Product',
         },
       },
     ],
