@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { ShoppingBag, User, LogOut, Menu, X, Shield } from 'lucide-react';
+import { ShoppingBag, User, LogOut, Menu, X, Shield, Globe } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 
 const Navbar = () => {
   const { user, isAdmin, logout } = useAuth();
   const { totalItems } = useCart();
+  const { language, toggleLanguage, t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const navigate = useNavigate();
@@ -25,7 +27,7 @@ const Navbar = () => {
           <img src="/Images/ace logo.jpg" alt="ACE Logo" />
           <div>
             <span>ACE MEKLIT</span>
-            <small>Apostolic Church of Ethiopia</small>
+            <small>{t('church_name')}</small>
           </div>
         </Link>
 
@@ -33,33 +35,55 @@ const Navbar = () => {
         <ul className="nav-links">
           <li>
             <NavLink to="/" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} end>
-              Home
+              {t('nav_home')}
             </NavLink>
           </li>
           <li>
             <NavLink to="/store" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
-              Meklit Store
+              {t('nav_store')}
             </NavLink>
           </li>
           <li>
             <NavLink to="/media" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
-              Music & Sermons
+              {t('nav_media')}
             </NavLink>
           </li>
           <li>
             <NavLink to="/about" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
-              About Us
+              {t('nav_about')}
             </NavLink>
           </li>
           <li>
             <NavLink to="/contact" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
-              Contact
+              {t('nav_contact')}
             </NavLink>
           </li>
         </ul>
 
         {/* Right Actions */}
         <div className="nav-actions">
+          {/* Language Switcher */}
+          <button
+            type="button"
+            onClick={toggleLanguage}
+            className="btn btn-sm btn-outline-white"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+              fontSize: '0.82rem',
+              fontWeight: 700,
+              padding: '0.35rem 0.65rem',
+              borderColor: '#38bdf8',
+              color: '#38bdf8',
+              borderRadius: '6px',
+            }}
+            title={language === 'en' ? 'ወደ አማርኛ ቀይር' : 'Switch to English'}
+          >
+            <Globe size={15} />
+            <span>{language === 'en' ? 'አማርኛ' : 'EN'}</span>
+          </button>
+
           {/* Cart Icon */}
           <Link to="/cart" className="cart-btn" title="View Cart">
             <ShoppingBag size={20} />
@@ -112,7 +136,7 @@ const Navbar = () => {
                     }}
                   >
                     <User size={16} />
-                    My Account & Orders
+                    {t('nav_profile')}
                   </Link>
 
                   {isAdmin && (
@@ -130,7 +154,7 @@ const Navbar = () => {
                       }}
                     >
                       <Shield size={16} />
-                      Admin Dashboard
+                      {t('nav_admin')}
                     </Link>
                   )}
 
@@ -153,7 +177,7 @@ const Navbar = () => {
                     }}
                   >
                     <LogOut size={16} />
-                    Log Out
+                    {t('nav_logout')}
                   </button>
                 </div>
               )}
@@ -161,10 +185,10 @@ const Navbar = () => {
           ) : (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Link to="/login" className="btn btn-sm btn-outline-white">
-                Log In
+                {t('nav_login')}
               </Link>
               <Link to="/register" className="btn btn-sm btn-primary">
-                Join
+                {t('nav_join')}
               </Link>
             </div>
           )}
@@ -197,7 +221,7 @@ const Navbar = () => {
                 onClick={() => setMobileMenuOpen(false)}
                 style={{ color: '#ffffff', fontSize: '1.05rem', fontWeight: 600 }}
               >
-                Home
+                {t('nav_home')}
               </Link>
             </li>
             <li>
@@ -206,7 +230,7 @@ const Navbar = () => {
                 onClick={() => setMobileMenuOpen(false)}
                 style={{ color: '#ffffff', fontSize: '1.05rem', fontWeight: 600 }}
               >
-                Meklit Store
+                {t('nav_store')}
               </Link>
             </li>
             <li>
@@ -215,7 +239,7 @@ const Navbar = () => {
                 onClick={() => setMobileMenuOpen(false)}
                 style={{ color: '#ffffff', fontSize: '1.05rem', fontWeight: 600 }}
               >
-                Music & Sermons
+                {t('nav_media')}
               </Link>
             </li>
             <li>
@@ -224,7 +248,7 @@ const Navbar = () => {
                 onClick={() => setMobileMenuOpen(false)}
                 style={{ color: '#ffffff', fontSize: '1.05rem', fontWeight: 600 }}
               >
-                About Us
+                {t('nav_about')}
               </Link>
             </li>
             <li>
@@ -233,7 +257,7 @@ const Navbar = () => {
                 onClick={() => setMobileMenuOpen(false)}
                 style={{ color: '#ffffff', fontSize: '1.05rem', fontWeight: 600 }}
               >
-                Contact
+                {t('nav_contact')}
               </Link>
             </li>
             {isAdmin && (
@@ -243,7 +267,7 @@ const Navbar = () => {
                   onClick={() => setMobileMenuOpen(false)}
                   style={{ color: '#f59e0b', fontSize: '1.05rem', fontWeight: 700 }}
                 >
-                  Admin Dashboard
+                  {t('nav_admin')}
                 </Link>
               </li>
             )}
