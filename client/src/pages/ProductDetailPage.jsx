@@ -3,12 +3,14 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ShoppingBag, ArrowLeft, Check, Shield, Truck, RotateCcw } from 'lucide-react';
 import { productsApi } from '../services/api';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 import ProductCard from '../components/ProductCard';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { t, language } = useLanguage();
 
   const [product, setProduct] = useState(null);
   const [related, setRelated] = useState([]);
@@ -41,7 +43,7 @@ const ProductDetailPage = () => {
   if (loading) {
     return (
       <div className="container section" style={{ textAlign: 'center', padding: '5rem 0' }}>
-        <p>Loading product details...</p>
+        <p>{language === 'am' ? 'የምርት መረጃ በመጫን ላይ...' : 'Loading product details...'}</p>
       </div>
     );
   }
@@ -49,12 +51,12 @@ const ProductDetailPage = () => {
   if (error || !product) {
     return (
       <div className="container section" style={{ textAlign: 'center', padding: '5rem 0' }}>
-        <h2>Product Not Found</h2>
+        <h2>{language === 'am' ? 'ምርቱ አልተገኘም' : 'Product Not Found'}</h2>
         <p style={{ color: '#64748b', margin: '1rem 0 2rem' }}>
-          The requested product could not be located.
+          {language === 'am' ? 'የተጠየቀው ምርት አልተገኘም ወይም አልቋል።' : 'The requested product could not be located.'}
         </p>
         <Link to="/store" className="btn btn-primary">
-          Return to Meklit Store
+          {language === 'am' ? 'ወደ መክሊት መደብር ተመለስ' : 'Return to Meklit Store'}
         </Link>
       </div>
     );
@@ -85,7 +87,7 @@ const ProductDetailPage = () => {
             }}
           >
             <ArrowLeft size={18} />
-            <span>Back to Products</span>
+            <span>{t('product_back')}</span>
           </button>
         </div>
 
@@ -134,11 +136,11 @@ const ProductDetailPage = () => {
               </span>
               {product.countInStock > 0 ? (
                 <span style={{ fontSize: '0.8rem', color: '#10b981', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
-                  <Check size={14} /> In Stock ({product.countInStock} available)
+                  <Check size={14} /> {t('product_in_stock')} ({product.countInStock} {language === 'am' ? 'አለ' : 'available'})
                 </span>
               ) : (
                 <span style={{ fontSize: '0.8rem', color: '#ef4444', fontWeight: 600 }}>
-                  Out of Stock
+                  {t('product_out_of_stock')}
                 </span>
               )}
             </div>
@@ -158,7 +160,7 @@ const ProductDetailPage = () => {
                 }}
               >
                 <p className="scripture-quote" style={{ fontSize: '0.95rem', margin: 0, color: '#92400e' }}>
-                  ✝ Biblical Inspiration: {product.scriptureReference}
+                  ✝ {language === 'am' ? 'የመጽሐፍ ቅዱስ ጥቅስ' : 'Biblical Inspiration'}: {product.scriptureReference}
                 </p>
               </div>
             )}
@@ -169,7 +171,7 @@ const ProductDetailPage = () => {
 
             <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '1.5rem', marginBottom: '1.75rem' }}>
               <h3 style={{ fontSize: '1.05rem', marginBottom: '0.6rem', color: '#0f172a' }}>
-                About this item
+                {language === 'am' ? 'ስለ እቃው ማብራሪያ' : 'About this item'}
               </h3>
               <p style={{ color: '#475569', lineHeight: 1.7, fontSize: '1rem' }}>
                 {product.description}
@@ -211,7 +213,7 @@ const ProductDetailPage = () => {
                 style={{ flex: '1 1 200px', padding: '0.85rem 1.75rem' }}
               >
                 <ShoppingBag size={20} />
-                <span>Add to Shopping Cart</span>
+                <span>{t('store_add_cart')}</span>
               </button>
             </div>
 
@@ -229,11 +231,11 @@ const ProductDetailPage = () => {
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Truck size={18} color="#1e3a8a" />
-                <span>Reliable Delivery in Ethiopia</span>
+                <span>{language === 'am' ? 'በመላው ኢትዮጵያ አስተማማኝ አቅርቦት' : 'Reliable Delivery in Ethiopia'}</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Shield size={18} color="#1e3a8a" />
-                <span>100% Authentic ACE Merchandise</span>
+                <span>{language === 'am' ? '100% ትክክለኛ የኤሲኢ ምርቶች' : '100% Authentic ACE Merchandise'}</span>
               </div>
             </div>
           </div>
@@ -243,7 +245,7 @@ const ProductDetailPage = () => {
         {related.length > 0 && (
           <div>
             <h2 style={{ fontSize: '1.75rem', marginBottom: '1.75rem', color: '#0f172a' }}>
-              More from {product.category}
+              {language === 'am' ? `ተጨማሪ ከ ${product.category}` : `More from ${product.category}`}
             </h2>
             <div className="products-grid">
               {related.map((item) => (
