@@ -31,7 +31,7 @@ const orderSchema = new mongoose.Schema(
     paymentMethod: {
       type: String,
       required: true,
-      default: 'Telebirr / Card',
+      default: 'Chapa (Telebirr, CBE Birr, Cards)',
     },
     paymentResult: {
       id: { type: String },
