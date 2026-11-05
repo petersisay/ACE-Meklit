@@ -58,6 +58,11 @@ const StorePage = () => {
     setSearchParams(searchParams);
   };
 
+  // Group products by category for sectional display when viewing All without active search
+  const aceLogoItems = products.filter((p) => p.category === 'ACE Logo Products');
+  const bibleVerseItems = products.filter((p) => p.category === 'Bible Verse Products');
+  const bibleCoverItems = products.filter((p) => p.category === 'Holy Bible Covers and Books');
+
   return (
     <div className="store-page">
       {/* Store Header Banner */}
@@ -74,8 +79,8 @@ const StorePage = () => {
             Faith-Based Apparel & Merchandise
           </span>
           <h1 style={{ fontSize: '2.5rem', margin: '0.5rem 0 1rem' }}>ACE MEKLIT STORE</h1>
-          <p style={{ maxWidth: '650px', margin: '0 auto', color: '#cbd5e1', fontSize: '1.05rem' }}>
-            Scripture Thread • Living Word Apparel • Covenant Cotton • Verity Wear • Biblical Books & Accessories
+          <p style={{ maxWidth: '650px', margin: '0 auto', color: '#cbd5e1', fontSize: '1.05rem', fontWeight: 500 }}>
+            Scripture Thread • Living Word Apparel • Covenant Cotton • Verity Wear • Biblical Books ...
           </p>
         </div>
       </section>
@@ -171,6 +176,54 @@ const StorePage = () => {
             >
               Reset Filters
             </button>
+          </div>
+        ) : selectedCategory === 'All' && !searchKeyword ? (
+          /* Exact 3-section categorization from store.html */
+          <div>
+            {aceLogoItems.length > 0 && (
+              <div style={{ marginBottom: '3.5rem' }}>
+                <div style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '0.75rem', marginBottom: '1.75rem' }}>
+                  <h2 style={{ fontSize: '1.5rem', color: '#1e3a8a', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    ⇒ ACE Logo Products
+                  </h2>
+                </div>
+                <div className="products-grid">
+                  {aceLogoItems.map((product) => (
+                    <ProductCard key={product._id} product={product} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {bibleVerseItems.length > 0 && (
+              <div style={{ marginBottom: '3.5rem' }}>
+                <div style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '0.75rem', marginBottom: '1.75rem' }}>
+                  <h2 style={{ fontSize: '1.5rem', color: '#1e3a8a', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    ⇒ Bible Verse Products
+                  </h2>
+                </div>
+                <div className="products-grid">
+                  {bibleVerseItems.map((product) => (
+                    <ProductCard key={product._id} product={product} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {bibleCoverItems.length > 0 && (
+              <div style={{ marginBottom: '3.5rem' }}>
+                <div style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '0.75rem', marginBottom: '1.75rem' }}>
+                  <h2 style={{ fontSize: '1.5rem', color: '#1e3a8a', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    ⇒ Holy Bible Covers and Books
+                  </h2>
+                </div>
+                <div className="products-grid">
+                  {bibleCoverItems.map((product) => (
+                    <ProductCard key={product._id} product={product} />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <div>
