@@ -1,5 +1,11 @@
 const Product = require('../models/Product');
 
+const OFFICIAL_CATEGORIES = [
+  'ACE Logo Products',
+  'Bible Verse Products',
+  'Holy Bible Covers and Books',
+];
+
 const defaultProducts = [
   {
     name: 'Hoddie',
@@ -118,24 +124,36 @@ const defaultProducts = [
 // @access  Public
 const getProducts = async (req, res, next) => {
   try {
-    const totalCount = await Product.countDocuments();
-    if (totalCount === 0) {
-      console.log('[ProductController] No products in database. Auto-populating Meklit catalog...');
+    // Erase any unrelated foreign demo/junk products that lack images or don't belong to ACE Meklit
+    await Product.deleteMany({
+      $or: [
+        { category: { $nin: OFFICIAL_CATEGORIES } },
+        { name: { $in: ['PC', 'pc', 'Sample Product'] } },
+        { name: { $regex: /^Used /i } },
+        { image: { $nin: defaultProducts.map((p) => p.image) } },
+      ],
+    });
+
+    const validCount = await Product.countDocuments({ category: { $in: OFFICIAL_CATEGORIES } });
+    if (validCount === 0) {
+      console.log('[ProductController] Populating authentic Meklit catalog...');
       await Product.insertMany(defaultProducts);
     }
 
     const { category, keyword, sort } = req.query;
-    const filter = {};
-
-    if (category && category !== 'All') {
-      filter.category = category;
-    }
+    const filter = {
+      category: category && category !== 'All' ? category : { $in: OFFICIAL_CATEGORIES },
+    };
 
     if (keyword) {
-      filter.$or = [
-        { name: { $regex: keyword, $options: 'i' } },
-        { description: { $regex: keyword, $options: 'i' } },
-        { scriptureReference: { $regex: keyword, $options: 'i' } },
+      filter.$and = [
+        {
+          $or: [
+            { name: { $regex: keyword, $options: 'i' } },
+            { description: { $regex: keyword, $options: 'i' } },
+            { scriptureReference: { $regex: keyword, $options: 'i' } },
+          ],
+        },
       ];
     }
 
@@ -177,8 +195,8 @@ const getProductById = async (req, res, next) => {
 // @access  Public
 const getCategories = async (req, res, next) => {
   try {
-    const categories = await Product.distinct('category');
-    res.json(categories);
+    const categories = await Product.distinct('category', { category: { $in: OFFICIAL_CATEGORIES } });
+    res.json(categories.length > 0 ? categories : OFFICIAL_CATEGORIES);
   } catch (error) {
     next(error);
   }
