@@ -160,10 +160,20 @@ const StorePage = () => {
         }
 
         const { data } = await productsApi.getAll(params);
-        if (data && data.length > 0) {
-          setProducts(data);
+        // Strictly filter to authentic ACE Meklit products and eliminate any foreign demo items
+        const cleanData = (data || []).filter(
+          (p) =>
+            categories.slice(1).includes(p.category) &&
+            !p.name.toLowerCase().startsWith('used ') &&
+            p.name.toLowerCase() !== 'pc' &&
+            p.image &&
+            p.image.startsWith('/Images/')
+        );
+
+        if (cleanData.length > 0) {
+          setProducts(cleanData);
         } else {
-          // Apply local filter to default products if API returns empty
+          // Apply local filter to default products if API has no matching clean products
           let filtered = [...DEFAULT_MEKLIT_PRODUCTS];
           if (selectedCategory && selectedCategory !== 'All') {
             filtered = filtered.filter((p) => p.category === selectedCategory);
@@ -186,7 +196,6 @@ const StorePage = () => {
         }
       } catch (err) {
         console.error('Failed to load products from API, using default Meklit catalog:', err);
-        // Fallback filter locally
         let filtered = [...DEFAULT_MEKLIT_PRODUCTS];
         if (selectedCategory && selectedCategory !== 'All') {
           filtered = filtered.filter((p) => p.category === selectedCategory);
@@ -224,13 +233,10 @@ const StorePage = () => {
     setSearchParams(searchParams);
   };
 
-  // Group products by category for sectional display when viewing All without active search
+  // Group products strictly by official category
   const aceLogoItems = products.filter((p) => p.category === 'ACE Logo Products');
   const bibleVerseItems = products.filter((p) => p.category === 'Bible Verse Products');
   const bibleCoverItems = products.filter((p) => p.category === 'Holy Bible Covers and Books');
-  const otherItems = products.filter(
-    (p) => !['ACE Logo Products', 'Bible Verse Products', 'Holy Bible Covers and Books'].includes(p.category)
-  );
 
   return (
     <div className="store-page">
@@ -388,21 +394,6 @@ const StorePage = () => {
                 </div>
                 <div className="products-grid">
                   {bibleCoverItems.map((product) => (
-                    <ProductCard key={product._id} product={product} />
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {otherItems.length > 0 && (
-              <div style={{ marginBottom: '3.5rem' }}>
-                <div style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '0.75rem', marginBottom: '1.75rem' }}>
-                  <h2 style={{ fontSize: '1.5rem', color: '#1e3a8a', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    ⇒ Additional Store Items
-                  </h2>
-                </div>
-                <div className="products-grid">
-                  {otherItems.map((product) => (
                     <ProductCard key={product._id} product={product} />
                   ))}
                 </div>
