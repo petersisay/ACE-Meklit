@@ -66,7 +66,16 @@ const HomePage = () => {
           mediaApi.getAll({ featured: true }),
         ]);
         if (prodRes.data && prodRes.data.length > 0) {
-          setFeaturedProducts(prodRes.data.slice(0, 4));
+          const cleanProds = prodRes.data.filter(
+            (p) =>
+              p.image &&
+              p.image.startsWith('/Images/') &&
+              !p.name.toLowerCase().startsWith('used ') &&
+              p.name.toLowerCase() !== 'pc'
+          );
+          if (cleanProds.length > 0) {
+            setFeaturedProducts(cleanProds.slice(0, 4));
+          }
         }
         if (mediaRes.data && mediaRes.data.length > 0) {
           setFeaturedMedia(mediaRes.data);
