@@ -3,11 +3,13 @@ import { useNavigate, Link } from 'react-router-dom';
 import { ShieldCheck, CheckCircle2, Lock, ArrowLeft, AlertCircle } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { ordersApi } from '../services/api';
 
 const CheckoutPage = () => {
   const { cartItems, totalPrice, clearCart } = useCart();
   const { user } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -30,7 +32,7 @@ const CheckoutPage = () => {
         <div style={{ color: '#d97706', display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
           <AlertCircle size={56} />
         </div>
-        <h2 style={{ fontSize: '1.8rem', color: '#0f172a' }}>⚠️ Please add Items to the cart first!</h2>
+        <h2 style={{ fontSize: '1.8rem', color: '#0f172a' }}>{t('checkout_empty_alert')}</h2>
         <p style={{ color: '#64748b', margin: '1rem 0 2rem' }}>
           Your shopping cart is currently empty. Browse our catalog to select your favorite ACE apparel, cups, or books.
         </p>
@@ -114,7 +116,7 @@ const CheckoutPage = () => {
             <CheckCircle2 size={64} />
           </div>
           <h1 style={{ fontSize: '2rem', color: '#065f46', marginBottom: '0.75rem' }}>
-            ✅ Thank you! You purchased Successfully
+            {t('checkout_success_title')}
           </h1>
           <p style={{ color: '#475569', fontSize: '1.05rem', marginBottom: '1.5rem' }}>
             Thank you for supporting ACE Meklit! Your order <strong>#{orderSuccess._id.slice(-8)}</strong> has been registered and confirmed.
