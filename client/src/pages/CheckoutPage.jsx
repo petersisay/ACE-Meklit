@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { ShieldCheck, CheckCircle2, Lock, ArrowLeft, AlertCircle } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -11,6 +11,7 @@ const CheckoutPage = () => {
   const { user } = useAuth();
   const { t, language } = useLanguage();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [formData, setFormData] = useState({
     fullName: user ? user.name : '',
@@ -25,6 +26,30 @@ const CheckoutPage = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [orderSuccess, setOrderSuccess] = useState(null);
+
+  // Handle return from hosted Chapa checkout
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const chapaSuccess = params.get('chapa_success');
+    const orderId = params.get('order_id');
+    const txRef = params.get('tx_ref');
+
+    if (chapaSuccess && orderId) {
+      const verifyAndLoad = async () => {
+        try {
+          if (txRef) {
+            await ordersApi.verifyChapa(txRef);
+          }
+          const { data } = await ordersApi.getById(orderId);
+          clearCart();
+          setOrderSuccess(data);
+        } catch (err) {
+          console.error('Failed to verify Chapa return:', err);
+        }
+      };
+      verifyAndLoad();
+    }
+  }, [location.search]);
 
   if (cartItems.length === 0 && !orderSuccess) {
     return (
@@ -80,16 +105,27 @@ const CheckoutPage = () => {
 
       const { data } = await ordersApi.create(orderData);
 
-      // Chapa Trial Payment Execution
-      const chapaTxRef = `CHAPA-TEST-${Date.now()}`;
-      await ordersApi.pay(data._id, {
-        id: chapaTxRef,
-        status: 'PAID (Chapa Trial)',
-        email_address: user.email,
-      });
-
-      clearCart();
-      setOrderSuccess(data);
+      // Initialize Chapa Payment (uses Render CHAPA_SECRET_KEY if configured, or trial simulation)
+      try {
+        const chapaRes = await ordersApi.initializeChapa(data._id);
+        if (chapaRes.data && chapaRes.data.checkout_url) {
+          clearCart();
+          window.location.href = chapaRes.data.checkout_url;
+          return;
+        }
+        clearCart();
+        setOrderSuccess(chapaRes.data.order || data);
+      } catch (chapaErr) {
+        // Fallback simulation
+        const chapaTxRef = `CHAPA-TEST-${Date.now()}`;
+        await ordersApi.pay(data._id, {
+          id: chapaTxRef,
+          status: 'PAID (Chapa Trial)',
+          email_address: user.email,
+        });
+        clearCart();
+        setOrderSuccess(data);
+      }
     } catch (err) {
       console.error('Order creation failed:', err);
       setError(err.response?.data?.message || 'Failed to place order. Please check all fields.');
