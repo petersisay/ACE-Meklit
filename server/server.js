@@ -76,7 +76,7 @@ const ensureDatabaseBootstrap = async () => {
     const Product = require('./models/Product');
     const MediaContent = require('./models/MediaContent');
 
-    // 1. Ensure Default Admin User exists
+    // 1. Ensure Default Admin User exists and has valid credentials
     const adminEmail = 'admin@acemeklit.org';
     const adminUser = await User.findOne({ email: adminEmail });
     if (!adminUser) {
@@ -88,12 +88,17 @@ const ensureDatabaseBootstrap = async () => {
         role: 'admin',
         phone: '+251911000000',
       });
-    } else if (adminUser.role !== 'admin') {
+    } else {
       adminUser.role = 'admin';
-      await adminUser.save();
+      const isMatch = await adminUser.matchPassword('password123');
+      if (!isMatch) {
+        console.log('[Server] Synchronizing Admin password to password123...');
+        adminUser.password = 'password123';
+        await adminUser.save();
+      }
     }
 
-    // 2. Ensure Default Demo Customer exists
+    // 2. Ensure Default Demo Customer exists and has valid credentials
     const demoEmail = 'bereket@example.com';
     const demoUser = await User.findOne({ email: demoEmail });
     if (!demoUser) {
@@ -105,6 +110,13 @@ const ensureDatabaseBootstrap = async () => {
         role: 'user',
         phone: '+251922000000',
       });
+    } else {
+      const isMatch = await demoUser.matchPassword('password123');
+      if (!isMatch) {
+        console.log('[Server] Synchronizing Demo user password to password123...');
+        demoUser.password = 'password123';
+        await demoUser.save();
+      }
     }
 
     // 3. Purge foreign demo/junk products & Ensure Product Catalog exists
