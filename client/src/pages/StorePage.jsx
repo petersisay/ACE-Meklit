@@ -14,7 +14,7 @@ const categories = [
 
 export const DEFAULT_MEKLIT_PRODUCTS = [
   {
-    _id: 'default-p1',
+    _id: '64b824c695e0bfc8bd000101',
     name: 'Hoddie',
     description: 'Living Word Apparel & ACE Logo official heavyweight hoodie. Scripture Thread, Covenant Cotton, Verity Wear.',
     category: 'ACE Logo Products',
@@ -25,7 +25,7 @@ export const DEFAULT_MEKLIT_PRODUCTS = [
     scriptureReference: 'Deuteronomy 6:4',
   },
   {
-    _id: 'default-p2',
+    _id: '64b824c695e0bfc8bd000102',
     name: 'Cap',
     description: 'ACE faith cap displaying the Apostolic Church of Ethiopia monogram.',
     category: 'ACE Logo Products',
@@ -36,7 +36,7 @@ export const DEFAULT_MEKLIT_PRODUCTS = [
     scriptureReference: 'Ephesians 6:17',
   },
   {
-    _id: 'default-p3',
+    _id: '64b824c695e0bfc8bd000103',
     name: 'Jacket',
     description: 'Weather-resistant ACE branded winter jacket designed for purposeful style.',
     category: 'ACE Logo Products',
@@ -47,7 +47,7 @@ export const DEFAULT_MEKLIT_PRODUCTS = [
     scriptureReference: 'Psalm 91:4',
   },
   {
-    _id: 'default-p4',
+    _id: '64b824c695e0bfc8bd000104',
     name: 'Tea Mug',
     description: 'High-gloss ceramic tea mug with ACE emblem for your daily devotional.',
     category: 'ACE Logo Products',
@@ -58,7 +58,7 @@ export const DEFAULT_MEKLIT_PRODUCTS = [
     scriptureReference: 'Proverbs 3:5-6',
   },
   {
-    _id: 'default-p5',
+    _id: '64b824c695e0bfc8bd000105',
     name: 'T-Shirt',
     description: '100% premium cotton graphic shirt featuring Apostolic Church of Ethiopia faith typography.',
     category: 'ACE Logo Products',
@@ -69,7 +69,7 @@ export const DEFAULT_MEKLIT_PRODUCTS = [
     scriptureReference: '1 Corinthians 13:13',
   },
   {
-    _id: 'default-p6',
+    _id: '64b824c695e0bfc8bd000106',
     name: 'Shirt',
     description: 'Everyday comfortable pre-shrunk cotton tee with subtle ACE faith design.',
     category: 'ACE Logo Products',
@@ -80,7 +80,7 @@ export const DEFAULT_MEKLIT_PRODUCTS = [
     scriptureReference: 'Colossians 3:12',
   },
   {
-    _id: 'default-p7',
+    _id: '64b824c695e0bfc8bd000107',
     name: 'Bible Verse Hoddie',
     description: 'Scripture Thread hoodie with inspiring biblical verses woven into Covenant Cotton.',
     category: 'Bible Verse Products',
@@ -91,7 +91,7 @@ export const DEFAULT_MEKLIT_PRODUCTS = [
     scriptureReference: 'Acts 2:38',
   },
   {
-    _id: 'default-p8',
+    _id: '64b824c695e0bfc8bd000108',
     name: 'Bible Verse Coffee Cup',
     description: 'Ceramic coffee cup featuring biblical scriptures to inspire your mornings.',
     category: 'Bible Verse Products',
@@ -102,7 +102,7 @@ export const DEFAULT_MEKLIT_PRODUCTS = [
     scriptureReference: 'Isaiah 40:31',
   },
   {
-    _id: 'default-p9',
+    _id: '64b824c695e0bfc8bd000109',
     name: 'Bible Verse Tote Bag',
     description: 'Durable eco-friendly canvas tote bag with scripture imprint, perfect for Holy Bibles and books.',
     category: 'Bible Verse Products',
@@ -113,7 +113,7 @@ export const DEFAULT_MEKLIT_PRODUCTS = [
     scriptureReference: 'Joshua 1:9',
   },
   {
-    _id: 'default-p10',
+    _id: '64b824c695e0bfc8bd000110',
     name: 'Bible Cover',
     description: 'Protective handcrafted Holy Bible cover case with zip closure to safeguard scripture.',
     category: 'Holy Bible Covers and Books',
@@ -124,7 +124,7 @@ export const DEFAULT_MEKLIT_PRODUCTS = [
     scriptureReference: 'Hebrews 4:12',
   },
   {
-    _id: 'default-p11',
+    _id: '64b824c695e0bfc8bd000111',
     name: 'Biblical Books',
     description: 'ቃሉ ይናገር (Kalu Ynager) — Sound biblical teachings and doctrine from Bishop Teklemariam Gezahagne.',
     category: 'Holy Bible Covers and Books',
