@@ -3,8 +3,10 @@ import { useSearchParams } from 'react-router-dom';
 import { Search, Music, BookOpen, Video } from 'lucide-react';
 import MediaCard from '../components/MediaCard';
 import { mediaApi } from '../services/api';
+import { useLanguage } from '../context/LanguageContext';
 
 const MediaPage = () => {
+  const { t } = useLanguage();
   const [searchParams, setSearchParams] = useSearchParams();
   const initialType = searchParams.get('type') || 'all';
 
@@ -69,13 +71,13 @@ const MediaPage = () => {
       >
         <div className="container">
           <span style={{ color: '#d97706', fontWeight: 700, fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-            Apostolic Songs & Teachings
+            {t('media_subtitle')}
           </span>
           <h1 style={{ fontSize: '2.5rem', margin: '0.5rem 0 1rem' }}>
-            GOSPEL MUSIC & SERMONS
+            {t('media_title')}
           </h1>
           <p style={{ maxWidth: '650px', margin: '0 auto', color: '#cbd5e1', fontSize: '1.05rem', fontWeight: 500 }}>
-            Stream full gospel albums and spirit-filled preaching from Apostolic Church of Ethiopia bishops and choirs.
+            {t('media_desc')}
           </p>
         </div>
       </section>
@@ -113,21 +115,21 @@ const MediaPage = () => {
               onClick={() => handleTypeChange('all')}
               className={`filter-tab ${selectedType === 'all' ? 'active' : ''}`}
             >
-              All Content ({filteredMedia.length})
+              {t('media_all')} ({filteredMedia.length})
             </button>
             <button
               type="button"
               onClick={() => handleTypeChange('music')}
               className={`filter-tab ${selectedType === 'music' ? 'active' : ''}`}
             >
-              🎵 Full Album Musics
+              {t('media_music')}
             </button>
             <button
               type="button"
               onClick={() => handleTypeChange('preaching')}
               className={`filter-tab ${selectedType === 'preaching' ? 'active' : ''}`}
             >
-              📖 Apostolic Preachings
+              {t('media_preaching')}
             </button>
           </div>
         </div>
@@ -149,7 +151,7 @@ const MediaPage = () => {
               <div style={{ marginBottom: '3.5rem' }}>
                 <div style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '0.75rem', marginBottom: '1.75rem' }}>
                   <h2 style={{ fontSize: '1.5rem', color: '#1e3a8a', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    ⇒ Full AlbumMusics
+                    {t('media_sec_music')}
                   </h2>
                 </div>
                 <div className="media-grid">
@@ -164,7 +166,7 @@ const MediaPage = () => {
               <div style={{ marginBottom: '3.5rem' }}>
                 <div style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '0.75rem', marginBottom: '1.75rem' }}>
                   <h2 style={{ fontSize: '1.5rem', color: '#1e3a8a', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    ⇒ Best Preachings
+                    {t('media_sec_preaching')}
                   </h2>
                 </div>
                 <div className="media-grid">
