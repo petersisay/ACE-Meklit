@@ -11,19 +11,142 @@ const categories = [
   'Holy Bible Covers and Books',
 ];
 
+export const DEFAULT_MEKLIT_PRODUCTS = [
+  {
+    _id: 'default-p1',
+    name: 'Hoddie',
+    description: 'Living Word Apparel & ACE Logo official heavyweight hoodie. Scripture Thread, Covenant Cotton, Verity Wear.',
+    category: 'ACE Logo Products',
+    price: 19.99,
+    image: '/Images/hoddie.png',
+    countInStock: 30,
+    isFeatured: true,
+    scriptureReference: 'Deuteronomy 6:4',
+  },
+  {
+    _id: 'default-p2',
+    name: 'Cap',
+    description: 'ACE faith cap displaying the Apostolic Church of Ethiopia monogram.',
+    category: 'ACE Logo Products',
+    price: 1.99,
+    image: '/Images/hat.png',
+    countInStock: 50,
+    isFeatured: true,
+    scriptureReference: 'Ephesians 6:17',
+  },
+  {
+    _id: 'default-p3',
+    name: 'Jacket',
+    description: 'Weather-resistant ACE branded winter jacket designed for purposeful style.',
+    category: 'ACE Logo Products',
+    price: 29.99,
+    image: '/Images/jacket.png',
+    countInStock: 20,
+    isFeatured: true,
+    scriptureReference: 'Psalm 91:4',
+  },
+  {
+    _id: 'default-p4',
+    name: 'Tea Mug',
+    description: 'High-gloss ceramic tea mug with ACE emblem for your daily devotional.',
+    category: 'ACE Logo Products',
+    price: 0.99,
+    image: '/Images/mug.png',
+    countInStock: 60,
+    isFeatured: false,
+    scriptureReference: 'Proverbs 3:5-6',
+  },
+  {
+    _id: 'default-p5',
+    name: 'T-Shirt',
+    description: '100% premium cotton graphic shirt featuring Apostolic Church of Ethiopia faith typography.',
+    category: 'ACE Logo Products',
+    price: 12.99,
+    image: '/Images/shirt.png',
+    countInStock: 35,
+    isFeatured: true,
+    scriptureReference: '1 Corinthians 13:13',
+  },
+  {
+    _id: 'default-p6',
+    name: 'Shirt',
+    description: 'Everyday comfortable pre-shrunk cotton tee with subtle ACE faith design.',
+    category: 'ACE Logo Products',
+    price: 2.99,
+    image: '/Images/t-shirt.png',
+    countInStock: 45,
+    isFeatured: false,
+    scriptureReference: 'Colossians 3:12',
+  },
+  {
+    _id: 'default-p7',
+    name: 'Bible Verse Hoddie',
+    description: 'Scripture Thread hoodie with inspiring biblical verses woven into Covenant Cotton.',
+    category: 'Bible Verse Products',
+    price: 19.99,
+    image: '/Images/peter_hoddie.png',
+    countInStock: 25,
+    isFeatured: true,
+    scriptureReference: 'Acts 2:38',
+  },
+  {
+    _id: 'default-p8',
+    name: 'Bible Verse Coffee Cup',
+    description: 'Ceramic coffee cup featuring biblical scriptures to inspire your mornings.',
+    category: 'Bible Verse Products',
+    price: 6.99,
+    image: '/Images/coffee_cup.png',
+    countInStock: 40,
+    isFeatured: true,
+    scriptureReference: 'Isaiah 40:31',
+  },
+  {
+    _id: 'default-p9',
+    name: 'Bible Verse Tote Bag',
+    description: 'Durable eco-friendly canvas tote bag with scripture imprint, perfect for Holy Bibles and books.',
+    category: 'Bible Verse Products',
+    price: 1.99,
+    image: '/Images/bag.png',
+    countInStock: 50,
+    isFeatured: false,
+    scriptureReference: 'Joshua 1:9',
+  },
+  {
+    _id: 'default-p10',
+    name: 'Bible Cover',
+    description: 'Protective handcrafted Holy Bible cover case with zip closure to safeguard scripture.',
+    category: 'Holy Bible Covers and Books',
+    price: 9.99,
+    image: '/Images/Bible cover.jpg',
+    countInStock: 30,
+    isFeatured: true,
+    scriptureReference: 'Hebrews 4:12',
+  },
+  {
+    _id: 'default-p11',
+    name: 'Biblical Books',
+    description: 'ቃሉ ይናገር (Kalu Ynager) — Sound biblical teachings and doctrine from Bishop Teklemariam Gezahagne.',
+    category: 'Holy Bible Covers and Books',
+    price: 4.99,
+    image: '/Images/kalu ynager.jpg',
+    countInStock: 55,
+    isFeatured: true,
+    scriptureReference: '2 Timothy 3:16',
+  },
+];
+
 const StorePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialCategory = searchParams.get('category') || 'All';
 
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState(DEFAULT_MEKLIT_PRODUCTS);
+  const [loading, setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [sortBy, setSortBy] = useState('newest');
 
   useEffect(() => {
     const fetchProducts = async () => {
-      setLoading(true);
       try {
         const params = {};
         if (selectedCategory && selectedCategory !== 'All') {
@@ -37,9 +160,52 @@ const StorePage = () => {
         }
 
         const { data } = await productsApi.getAll(params);
-        setProducts(data);
+        if (data && data.length > 0) {
+          setProducts(data);
+        } else {
+          // Apply local filter to default products if API returns empty
+          let filtered = [...DEFAULT_MEKLIT_PRODUCTS];
+          if (selectedCategory && selectedCategory !== 'All') {
+            filtered = filtered.filter((p) => p.category === selectedCategory);
+          }
+          if (searchKeyword.trim()) {
+            const q = searchKeyword.toLowerCase();
+            filtered = filtered.filter(
+              (p) =>
+                p.name.toLowerCase().includes(q) ||
+                p.description.toLowerCase().includes(q) ||
+                (p.scriptureReference && p.scriptureReference.toLowerCase().includes(q))
+            );
+          }
+          if (sortBy === 'price-low') {
+            filtered.sort((a, b) => a.price - b.price);
+          } else if (sortBy === 'price-high') {
+            filtered.sort((a, b) => b.price - a.price);
+          }
+          setProducts(filtered);
+        }
       } catch (err) {
-        console.error('Failed to load products:', err);
+        console.error('Failed to load products from API, using default Meklit catalog:', err);
+        // Fallback filter locally
+        let filtered = [...DEFAULT_MEKLIT_PRODUCTS];
+        if (selectedCategory && selectedCategory !== 'All') {
+          filtered = filtered.filter((p) => p.category === selectedCategory);
+        }
+        if (searchKeyword.trim()) {
+          const q = searchKeyword.toLowerCase();
+          filtered = filtered.filter(
+            (p) =>
+              p.name.toLowerCase().includes(q) ||
+              p.description.toLowerCase().includes(q) ||
+              (p.scriptureReference && p.scriptureReference.toLowerCase().includes(q))
+          );
+        }
+        if (sortBy === 'price-low') {
+          filtered.sort((a, b) => a.price - b.price);
+        } else if (sortBy === 'price-high') {
+          filtered.sort((a, b) => b.price - a.price);
+        }
+        setProducts(filtered);
       } finally {
         setLoading(false);
       }
@@ -62,6 +228,9 @@ const StorePage = () => {
   const aceLogoItems = products.filter((p) => p.category === 'ACE Logo Products');
   const bibleVerseItems = products.filter((p) => p.category === 'Bible Verse Products');
   const bibleCoverItems = products.filter((p) => p.category === 'Holy Bible Covers and Books');
+  const otherItems = products.filter(
+    (p) => !['ACE Logo Products', 'Bible Verse Products', 'Holy Bible Covers and Books'].includes(p.category)
+  );
 
   return (
     <div className="store-page">
@@ -177,7 +346,7 @@ const StorePage = () => {
               Reset Filters
             </button>
           </div>
-        ) : selectedCategory === 'All' && !searchKeyword ? (
+        ) : selectedCategory === 'All' && !searchKeyword && (aceLogoItems.length > 0 || bibleVerseItems.length > 0 || bibleCoverItems.length > 0) ? (
           /* Exact 3-section categorization from store.html */
           <div>
             {aceLogoItems.length > 0 && (
@@ -219,6 +388,21 @@ const StorePage = () => {
                 </div>
                 <div className="products-grid">
                   {bibleCoverItems.map((product) => (
+                    <ProductCard key={product._id} product={product} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {otherItems.length > 0 && (
+              <div style={{ marginBottom: '3.5rem' }}>
+                <div style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '0.75rem', marginBottom: '1.75rem' }}>
+                  <h2 style={{ fontSize: '1.5rem', color: '#1e3a8a', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    ⇒ Additional Store Items
+                  </h2>
+                </div>
+                <div className="products-grid">
+                  {otherItems.map((product) => (
                     <ProductCard key={product._id} product={product} />
                   ))}
                 </div>
