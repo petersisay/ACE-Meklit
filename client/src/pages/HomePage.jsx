@@ -4,11 +4,59 @@ import { ShoppingBag, Play, ArrowRight, Sparkles, BookOpen, Music, ShieldCheck }
 import ProductCard from '../components/ProductCard';
 import MediaCard from '../components/MediaCard';
 import { productsApi, mediaApi } from '../services/api';
+import { DEFAULT_MEKLIT_PRODUCTS } from './StorePage';
+
+const DEFAULT_FEATURED_MEDIA = [
+  {
+    _id: 'default-m1',
+    title: 'Eyesus Mulate',
+    artistOrSpeaker: 'Hibret Zmare Senduk',
+    type: 'music',
+    releaseType: 'Full Album',
+    youtubeId: 'kz9EyrTOIco',
+    youtubeUrl: 'https://www.youtube.com/embed/kz9EyrTOIco?si=gSx-IJQ8WAZRAoZe',
+    description: 'Full gospel album music by Hibret Zmare Senduk exalting Jesus Christ.',
+    isFeatured: true,
+  },
+  {
+    _id: 'default-m2',
+    title: 'Anuregn',
+    artistOrSpeaker: 'Hibret Mezmur 17',
+    type: 'music',
+    releaseType: 'Full Album',
+    youtubeId: 'u45Gv3R5fe0',
+    youtubeUrl: 'https://www.youtube.com/embed/u45Gv3R5fe0?si=nY2eU1l6Anc3kGbB',
+    description: 'Full gospel album music from Hibret Mezmur Volume 17.',
+    isFeatured: true,
+  },
+  {
+    _id: 'default-m3',
+    title: 'Atcheneku',
+    artistOrSpeaker: 'Bishop Elias Asha',
+    type: 'preaching',
+    releaseType: 'Preaching',
+    youtubeId: 'm71KeEO2BxM',
+    youtubeUrl: 'https://www.youtube.com/embed/m71KeEO2BxM?si=x5lFcVqxCvPYxOGF',
+    description: 'Best Preaching: Bishop Elias Asha — Atcheneku.',
+    isFeatured: true,
+  },
+  {
+    _id: 'default-m4',
+    title: 'Jmareyachinin Anirsa',
+    artistOrSpeaker: 'Bishop Degu Kebede',
+    type: 'preaching',
+    releaseType: 'Preaching',
+    youtubeId: 'xUCGEPX1Rmk',
+    youtubeUrl: 'https://www.youtube.com/embed/xUCGEPX1Rmk?si=J1MumHvxVROqVaHE',
+    description: 'Best Preaching: Bishop Degu Kebede — Jmareyachinin Anirsa.',
+    isFeatured: true,
+  },
+];
 
 const HomePage = () => {
-  const [featuredProducts, setFeaturedProducts] = useState([]);
-  const [featuredMedia, setFeaturedMedia] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [featuredProducts, setFeaturedProducts] = useState(DEFAULT_MEKLIT_PRODUCTS.slice(0, 4));
+  const [featuredMedia, setFeaturedMedia] = useState(DEFAULT_FEATURED_MEDIA);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,10 +65,14 @@ const HomePage = () => {
           productsApi.getAll({ limit: 4 }),
           mediaApi.getAll({ featured: true }),
         ]);
-        setFeaturedProducts(prodRes.data.slice(0, 4));
-        setFeaturedMedia(mediaRes.data);
+        if (prodRes.data && prodRes.data.length > 0) {
+          setFeaturedProducts(prodRes.data.slice(0, 4));
+        }
+        if (mediaRes.data && mediaRes.data.length > 0) {
+          setFeaturedMedia(mediaRes.data);
+        }
       } catch (err) {
-        console.error('Error fetching home data:', err);
+        console.error('Error fetching home data, using default items:', err);
       } finally {
         setLoading(false);
       }
