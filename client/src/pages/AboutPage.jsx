@@ -5,7 +5,7 @@ import { contactApi } from '../services/api';
 import { useLanguage } from '../context/LanguageContext';
 
 const AboutPage = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState({ loading: false, success: false, error: null });
 
@@ -61,7 +61,9 @@ const AboutPage = () => {
             {t('about_title')}
           </h1>
           <p style={{ maxWidth: '650px', margin: '0 auto', color: '#cbd5e1', fontSize: '1.05rem', fontWeight: 500 }}>
-            {t('church_name')} — Integrating timeless biblical values with contemporary fashion, gospel music, and spiritual growth.
+            {language === 'am'
+              ? `${t('church_name')} — ዘመን ተሻጋሪ የመጽሐፍ ቅዱስ እውነቶችን ከዘመናዊ ፋሽን፣ ከመንፈሳዊ መዝሙራትና ከእምነት ዕድገት ጋር ማስተሳሰር።`
+              : `${t('church_name')} — Integrating timeless biblical values with contemporary fashion, gospel music, and spiritual growth.`}
           </p>
         </div>
       </section>
@@ -85,10 +87,14 @@ const AboutPage = () => {
               {t('about_story_title')}
             </h2>
             <p style={{ color: '#475569', fontSize: '1.05rem', lineHeight: 1.8, marginBottom: '1.25rem' }}>
-              ACE Meklit is a premier apparel brand dedicated to integrating timeless biblical values with contemporary fashion. Our mission is to provide believers with a sophisticated means of expressing their faith through high-quality, thoughtfully designed clothing and accessories.
+              {language === 'am'
+                ? 'ኤሲኢ መክሊት ዘመን ተሻጋሪ የመጽሐፍ ቅዱስ እውነቶችን ከዘመናዊ ፋሽን ጋር በማስተሳሰር የተቋቋመ ጥራት ያለው የልብስ ብራንድ ነው። ተልዕኳችን አማኞች እምነታቸውን ጥራት ባላቸው እና በተመረጡ አልባሳት አማካኝነት በኩራት እንዲገልጹ ማስቻል ነው።'
+                : 'ACE Meklit is a premier apparel brand dedicated to integrating timeless biblical values with contemporary fashion. Our mission is to provide believers with a sophisticated means of expressing their faith through high-quality, thoughtfully designed clothing and accessories.'}
             </p>
             <p style={{ color: '#475569', fontSize: '1.05rem', lineHeight: 1.8, marginBottom: '1.75rem' }}>
-              We believe that scripture is a living word, and by weaving these sacred truths into the fabric of daily life, we aim to inspire, encourage, and strengthen our community across Ethiopia and worldwide.
+              {language === 'am'
+                ? 'የእግዚአብሔር ቃል ሕያው እንደሆነ እናምናለን፤ እነዚህን ቅዱሳት እውነቶች በዕለት ተዕለት ሕይወት ልብሶች ውስጥ በማስረጽ፣ በኢትዮጵያና በመላው ዓለም የሚገኘውን ማኅበረሰባችንን ለማነሳሳት፣ ለማበረታታትና ለማጽናት እንተጋለን።'
+                : 'We believe that scripture is a living word, and by weaving these sacred truths into the fabric of daily life, we aim to inspire, encourage, and strengthen our community across Ethiopia and worldwide.'}
             </p>
 
             <div
@@ -100,9 +106,9 @@ const AboutPage = () => {
               }}
             >
               <p className="scripture-quote" style={{ fontSize: '1.05rem', margin: '0 0 0.3rem', color: '#92400e' }}>
-                "Hear, O Israel: The LORD our GOD, The LORD is one."
+                {t('hero_quote')}
               </p>
-              <strong style={{ color: '#b45309', fontSize: '0.85rem' }}>Deuteronomy 6:4</strong>
+              <strong style={{ color: '#b45309', fontSize: '0.85rem' }}>{t('hero_verse')}</strong>
             </div>
           </div>
 
@@ -131,10 +137,10 @@ const AboutPage = () => {
                 }}
               />
               <h3 style={{ fontSize: '1.25rem', color: '#0f172a', marginBottom: '0.35rem' }}>
-                Apostolic Church of Ethiopia
+                {t('church_name')}
               </h3>
               <p style={{ color: '#64748b', fontSize: '0.9rem' }}>
-                Faith • Holiness • Gospel Excellence
+                {language === 'am' ? 'እምነት • ቅድስና • የወንጌል ብቃት' : 'Faith • Holiness • Gospel Excellence'}
               </p>
             </div>
           </div>
@@ -153,13 +159,15 @@ const AboutPage = () => {
         >
           <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 3rem' }}>
             <span style={{ color: '#1e3a8a', fontWeight: 700, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-              Our Commitment
+              {t('about_commitment')}
             </span>
             <h2 style={{ fontSize: '2.1rem', color: '#0f172a', margin: '0.5rem 0 1rem' }}>
-              Quality and Integrity
+              {t('about_commitment_title')}
             </h2>
             <p style={{ color: '#475569', fontSize: '1.05rem', lineHeight: 1.8 }}>
-              Every garment in our collection is curated with an unwavering commitment to excellence. From the selection of premium materials to the precision of our designs, we prioritize integrity in every step of our process.
+              {language === 'am'
+                ? 'በስብስባችን ውስጥ የሚገኙ እያንዳንዱ አልባሳት ለየት ባለ የጥራት ደረጃ የተዘጋጁ ናቸው። ከተመረጡ ጥራት ያላቸው ጥሬ ዕቃዎች ጀምሮ እስከ ስፌታቸው ጥንቃቄ ድረስ በሁሉም ሂደት ውስጥ ታማኝነትን እናስቀድማለን።'
+                : 'Every garment in our collection is curated with an unwavering commitment to excellence. From the selection of premium materials to the precision of our designs, we prioritize integrity in every step of our process.'}
             </p>
           </div>
 
@@ -175,10 +183,12 @@ const AboutPage = () => {
                 <Award size={28} />
               </div>
               <h3 style={{ fontSize: '1.15rem', marginBottom: '0.5rem', color: '#0f172a' }}>
-                Premium Craftsmanship
+                {language === 'am' ? 'የላቀ ጥራት ያለው አሠራር' : 'Premium Craftsmanship'}
               </h3>
               <p style={{ color: '#64748b', fontSize: '0.92rem', lineHeight: 1.6 }}>
-                Carefully chosen heavyweight cotton and durable fabrics that withstand daily wear while keeping comfort at the forefront.
+                {language === 'am'
+                  ? 'ለዕለት ተዕለት አጠቃቀም የሚሆኑ ጠንካራና ምቹ የሆኑ ከባድ የጥጥ ጨርቆች።'
+                  : 'Carefully chosen heavyweight cotton and durable fabrics that withstand daily wear while keeping comfort at the forefront.'}
               </p>
             </div>
 
@@ -187,10 +197,12 @@ const AboutPage = () => {
                 <ShieldCheck size={28} />
               </div>
               <h3 style={{ fontSize: '1.15rem', marginBottom: '0.5rem', color: '#0f172a' }}>
-                Authentic Biblical Messages
+                {language === 'am' ? 'እውነተኛ መጽሐፍ ቅዱሳዊ መልእክቶች' : 'Authentic Biblical Messages'}
               </h3>
               <p style={{ color: '#64748b', fontSize: '0.92rem', lineHeight: 1.6 }}>
-                Scriptures and church emblems are verified according to true apostolic sound doctrine, creating conversation starters that testify to Christ.
+                {language === 'am'
+                  ? 'በእውነተኛ ሐዋርያዊ ትምህርት መሠረት የተመረጡ የመጽሐፍ ቅዱስ ጥቅሶችና የቤተክርስቲያን አርማዎች።'
+                  : 'Scriptures and church emblems are verified according to true apostolic sound doctrine, creating conversation starters that testify to Christ.'}
               </p>
             </div>
 
@@ -199,16 +211,18 @@ const AboutPage = () => {
                 <Heart size={28} />
               </div>
               <h3 style={{ fontSize: '1.15rem', marginBottom: '0.5rem', color: '#0f172a' }}>
-                Ministry Support
+                {language === 'am' ? 'የአገልግሎት ድጋፍ' : 'Ministry Support'}
               </h3>
               <p style={{ color: '#64748b', fontSize: '0.92rem', lineHeight: 1.6 }}>
-                Our apparel and media platforms empower church initiatives, gospel music publishing, and church youth empowerment.
+                {language === 'am'
+                  ? 'የእኛ አልባሳትና የሚዲያ አገልግሎቶች የወንጌል ስርጭትን፣ የመዝሙራት ሕትመትንና የወጣቶችን አገልግሎት ይደግፋሉ።'
+                  : 'Our apparel and media platforms empower church initiatives, gospel music publishing, and church youth empowerment.'}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Original Contact Section from about.html */}
+        {/* Contact Section inside AboutPage */}
         <div
           style={{
             background: '#ffffff',
@@ -228,7 +242,7 @@ const AboutPage = () => {
               {t('contact_title')}
             </h2>
             <p style={{ color: '#64748b', fontSize: '0.95rem' }}>
-              Leave us a message, prayer request, or order inquiry below.
+              {language === 'am' ? 'መልእክትዎን፣ የጸሎት ጥያቄዎን ወይም የትዕዛዝ አስተያየትዎን ከዚህ በታች ይላኩልን።' : 'Leave us a message, prayer request, or order inquiry below.'}
             </p>
           </div>
 
@@ -281,7 +295,7 @@ const AboutPage = () => {
                 type="text"
                 name="name"
                 id="name"
-                placeholder="Enter Your Name"
+                placeholder={language === 'am' ? 'ሙሉ ስምዎን ያስገቡ' : 'Enter Your Name'}
                 value={formData.name}
                 onChange={handleChange}
                 className="form-input"
@@ -296,7 +310,7 @@ const AboutPage = () => {
                 type="email"
                 name="email"
                 id="email"
-                placeholder="Enter Your Email"
+                placeholder={language === 'am' ? 'ኢሜይልዎን ያስገቡ' : 'Enter Your Email'}
                 value={formData.email}
                 onChange={handleChange}
                 className="form-input"
@@ -311,7 +325,7 @@ const AboutPage = () => {
                 name="message"
                 id="message"
                 rows="4"
-                placeholder="Type Here ..."
+                placeholder={language === 'am' ? 'መልእክትዎን እዚህ ይጻፉ...' : 'Type Here ...'}
                 value={formData.message}
                 onChange={handleChange}
                 className="form-input"
@@ -327,7 +341,7 @@ const AboutPage = () => {
               style={{ width: '100%', padding: '0.85rem', fontSize: '1rem', justifyContent: 'center' }}
             >
               <Send size={18} />
-              <span>{status.loading ? 'Sending...' : t('contact_submit')}</span>
+              <span>{status.loading ? (language === 'am' ? 'በመላክ ላይ...' : 'Sending...') : t('contact_submit')}</span>
             </button>
           </form>
         </div>
