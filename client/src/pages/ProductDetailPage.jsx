@@ -235,7 +235,7 @@ const ProductDetailPage = () => {
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Shield size={18} color="#1e3a8a" />
-                <span>{language === 'am' ? '100% ትክክለኛ የኤሲኢ ምርቶች' : '100% Authentic ACE Merchandise'}</span>
+                <span>{language === 'am' ? '100% ትክክለኛ የኢሐቤክ ምርቶች' : '100% Authentic ACE Merchandise'}</span>
               </div>
             </div>
           </div>
