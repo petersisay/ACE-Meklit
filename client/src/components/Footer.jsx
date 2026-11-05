@@ -45,7 +45,6 @@ const Footer = () => {
               <li><Link to="/store">{t('nav_store')}</Link></li>
               <li><Link to="/media">{t('nav_media')}</Link></li>
               <li><Link to="/about">{t('nav_about')}</Link></li>
-              <li><Link to="/contact">{t('nav_contact')}</Link></li>
             </ul>
           </div>
 
