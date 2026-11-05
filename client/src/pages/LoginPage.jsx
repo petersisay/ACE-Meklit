@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Lock, Mail, AlertCircle, LogIn, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 
 const LoginPage = () => {
+  const { t } = useLanguage();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -64,10 +66,10 @@ const LoginPage = () => {
             style={{ width: '64px', height: '64px', borderRadius: '50%', margin: '0 auto 1rem', border: '2px solid #d97706' }}
           />
           <h1 style={{ fontSize: '1.75rem', color: '#0f172a', marginBottom: '0.35rem' }}>
-            Welcome Back
+            {t('login_welcome')}
           </h1>
           <p style={{ color: '#64748b', fontSize: '0.9rem' }}>
-            Sign in to access your ACE Meklit account & orders
+            {t('login_subtitle')}
           </p>
         </div>
 
@@ -80,7 +82,7 @@ const LoginPage = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">Email Address</label>
+            <label className="form-label">{t('login_email')}</label>
             <div style={{ position: 'relative' }}>
               <Mail size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
               <input
@@ -96,7 +98,7 @@ const LoginPage = () => {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Password</label>
+            <label className="form-label">{t('login_password')}</label>
             <div style={{ position: 'relative' }}>
               <Lock size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
               <input
@@ -118,7 +120,7 @@ const LoginPage = () => {
             style={{ width: '100%', padding: '0.85rem', fontSize: '1rem', marginTop: '0.5rem' }}
           >
             <LogIn size={18} />
-            <span>{submitting ? 'Signing in...' : 'Sign In'}</span>
+            <span>{submitting ? 'Signing in...' : t('login_btn')}</span>
           </button>
         </form>
 
@@ -126,7 +128,7 @@ const LoginPage = () => {
         <div style={{ marginTop: '1.75rem', paddingTop: '1.5rem', borderTop: '1px solid #f1f5f9' }}>
           <p style={{ fontSize: '0.8rem', color: '#64748b', textAlign: 'center', marginBottom: '0.75rem', fontWeight: 600 }}>
             <Sparkles size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px', color: '#d97706' }} />
-            QUICK DEMO ACCOUNTS
+            {t('login_quick_demo')}
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
             <button
@@ -135,7 +137,7 @@ const LoginPage = () => {
               className="btn btn-sm btn-outline-primary"
               style={{ fontSize: '0.78rem' }}
             >
-              Demo Customer
+              {t('login_demo_customer')}
             </button>
             <button
               type="button"
@@ -143,15 +145,15 @@ const LoginPage = () => {
               className="btn btn-sm btn-navy"
               style={{ fontSize: '0.78rem' }}
             >
-              Demo Admin
+              {t('login_demo_admin')}
             </button>
           </div>
         </div>
 
         <div style={{ textAlign: 'center', marginTop: '1.75rem', fontSize: '0.9rem', color: '#64748b' }}>
-          Don't have an account yet?{' '}
+          {t('login_no_account')}{' '}
           <Link to="/register" style={{ color: '#1e3a8a', fontWeight: 600 }}>
-            Create one now
+            {t('login_create_one')}
           </Link>
         </div>
       </div>
