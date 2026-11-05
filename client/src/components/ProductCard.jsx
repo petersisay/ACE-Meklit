@@ -2,15 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingBag, Eye } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
+  const { language, t } = useLanguage();
 
   return (
     <div className="product-card">
       <div className="product-image-container">
         {product.isFeatured && (
-          <span className="product-badge">Featured</span>
+          <span className="product-badge">{language === 'am' ? 'ተመራጭ' : 'Featured'}</span>
         )}
         <Link to={`/product/${product._id}`} style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <img
@@ -40,7 +42,7 @@ const ProductCard = ({ product }) => {
             <Link
               to={`/product/${product._id}`}
               className="btn btn-sm btn-outline-primary"
-              title="View Product Details"
+              title={language === 'am' ? 'ዝርዝር ይመልከቱ' : 'View Product Details'}
               style={{ padding: '0.45rem 0.65rem' }}
             >
               <Eye size={16} />
@@ -49,10 +51,10 @@ const ProductCard = ({ product }) => {
               type="button"
               className="btn btn-sm btn-primary"
               onClick={() => addToCart(product, 1)}
-              title="Add to Cart"
+              title={t('store_add_cart')}
             >
               <ShoppingBag size={16} />
-              <span>Add</span>
+              <span>{language === 'am' ? 'ጨምር' : 'Add'}</span>
             </button>
           </div>
         </div>
