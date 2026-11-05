@@ -88,7 +88,7 @@ const AboutPage = () => {
             </h2>
             <p style={{ color: '#475569', fontSize: '1.05rem', lineHeight: 1.8, marginBottom: '1.25rem' }}>
               {language === 'am'
-                ? 'ኤሲኢ መክሊት ዘመን ተሻጋሪ የመጽሐፍ ቅዱስ እውነቶችን ከዘመናዊ ፋሽን ጋር በማስተሳሰር የተቋቋመ ጥራት ያለው የልብስ ብራንድ ነው። ተልዕኳችን አማኞች እምነታቸውን ጥራት ባላቸው እና በተመረጡ አልባሳት አማካኝነት በኩራት እንዲገልጹ ማስቻል ነው።'
+                ? 'ኢሐቤክ መክሊት ዘመን ተሻጋሪ የመጽሐፍ ቅዱስ እውነቶችን ከዘመናዊ ፋሽን ጋር በማስተሳሰር የተቋቋመ ጥራት ያለው የልብስ ብራንድ ነው። ተልዕኳችን አማኞች እምነታቸውን ጥራት ባላቸው እና በተመረጡ አልባሳት አማካኝነት በኩራት እንዲገልጹ ማስቻል ነው።'
                 : 'ACE Meklit is a premier apparel brand dedicated to integrating timeless biblical values with contemporary fashion. Our mission is to provide believers with a sophisticated means of expressing their faith through high-quality, thoughtfully designed clothing and accessories.'}
             </p>
             <p style={{ color: '#475569', fontSize: '1.05rem', lineHeight: 1.8, marginBottom: '1.75rem' }}>
