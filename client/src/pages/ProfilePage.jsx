@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { User, Package, Clock, CheckCircle, Save, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { ordersApi, authApi } from '../services/api';
 
 const ProfilePage = () => {
   const { user, updateUser } = useAuth();
+  const { language } = useLanguage();
   const [name, setName] = useState(user?.name || '');
   const [email] = useState(user?.email || '');
   const [phone, setPhone] = useState(user?.phone || '');
@@ -44,10 +46,10 @@ const ProfilePage = () => {
       }
       const { data } = await authApi.updateProfile(updateData);
       updateUser(data);
-      setUpdateMsg('Profile updated successfully!');
+      setUpdateMsg(language === 'am' ? 'መረጃዎ በተሳካ ሁኔታ ተሻሽሏል!' : 'Profile updated successfully!');
       setPassword('');
     } catch (err) {
-      setErrorMsg(err.response?.data?.message || 'Failed to update profile');
+      setErrorMsg(err.response?.data?.message || (language === 'am' ? 'መረጃውን ማሻሻል አልተቻለም' : 'Failed to update profile'));
     } finally {
       setSubmitting(false);
     }
@@ -57,10 +59,12 @@ const ProfilePage = () => {
     <div className="profile-page section container">
       <div style={{ marginBottom: '2.5rem' }}>
         <h1 style={{ fontSize: '2.2rem', color: '#0f172a', marginBottom: '0.5rem' }}>
-          My Account & Orders
+          {language === 'am' ? 'የግል መለያ እና ትዕዛዞች' : 'My Account & Orders'}
         </h1>
         <p style={{ color: '#64748b' }}>
-          Manage your personal details and track your ACE Meklit purchases.
+          {language === 'am'
+            ? 'የግል መረጃዎን ያስተዳድሩ እና የኤሲኢ መክሊት ትዕዛዞችዎን ይከታተሉ።'
+            : 'Manage your personal details and track your ACE Meklit purchases.'}
         </p>
       </div>
 
@@ -102,7 +106,9 @@ const ProfilePage = () => {
             <div>
               <h3 style={{ fontSize: '1.2rem', color: '#0f172a', margin: 0 }}>{user?.name}</h3>
               <p style={{ fontSize: '0.85rem', color: '#64748b', margin: 0 }}>
-                {user?.role === 'admin' ? '⭐ Administrator' : 'Beloved Member'}
+                {user?.role === 'admin'
+                  ? (language === 'am' ? '⭐ አስተዳዳሪ' : '⭐ Administrator')
+                  : (language === 'am' ? 'የተወደዱ አባል' : 'Beloved Member')}
               </p>
             </div>
           </div>
@@ -123,7 +129,7 @@ const ProfilePage = () => {
 
           <form onSubmit={handleProfileUpdate}>
             <div className="form-group">
-              <label className="form-label">Full Name</label>
+              <label className="form-label">{language === 'am' ? 'ሙሉ ስም' : 'Full Name'}</label>
               <input
                 type="text"
                 value={name}
@@ -134,7 +140,7 @@ const ProfilePage = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Email Address (Read-only)</label>
+              <label className="form-label">{language === 'am' ? 'ኢሜይል አድራሻ (ሊቀየር የማይችል)' : 'Email Address (Read-only)'}</label>
               <input
                 type="email"
                 value={email}
@@ -145,7 +151,7 @@ const ProfilePage = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Phone Number</label>
+              <label className="form-label">{language === 'am' ? 'ስልክ ቁጥር' : 'Phone Number'}</label>
               <input
                 type="tel"
                 value={phone}
@@ -156,7 +162,9 @@ const ProfilePage = () => {
             </div>
 
             <div className="form-group">
-              <label className="form-label">New Password (leave blank to keep current)</label>
+              <label className="form-label">
+                {language === 'am' ? 'አዲስ የይለፍ ቃል (የነበረው እንዲቆይ ባዶ ይተዉት)' : 'New Password (leave blank to keep current)'}
+              </label>
               <input
                 type="password"
                 value={password}
@@ -173,7 +181,7 @@ const ProfilePage = () => {
               style={{ width: '100%', padding: '0.85rem' }}
             >
               <Save size={18} />
-              <span>{submitting ? 'Saving Changes...' : 'Update Profile'}</span>
+              <span>{submitting ? (language === 'am' ? 'በማስቀመጥ ላይ...' : 'Saving Changes...') : (language === 'am' ? 'መረጃ አሻሽል' : 'Update Profile')}</span>
             </button>
           </form>
         </div>
@@ -191,20 +199,22 @@ const ProfilePage = () => {
           <div style={{ padding: '1.5rem', borderBottom: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
             <Package size={22} color="#1e3a8a" />
             <h2 style={{ fontSize: '1.35rem', color: '#0f172a', margin: 0 }}>
-              Order History ({orders.length})
+              {language === 'am' ? 'የትዕዛዝ ታሪክ' : 'Order History'} ({orders.length})
             </h2>
           </div>
 
           {loadingOrders ? (
             <div style={{ padding: '3rem', textAlign: 'center', color: '#64748b' }}>
-              Loading your orders...
+              {language === 'am' ? 'ትዕዛዞችን በመጫን ላይ...' : 'Loading your orders...'}
             </div>
           ) : orders.length === 0 ? (
             <div style={{ padding: '3.5rem 1.5rem', textAlign: 'center' }}>
               <Package size={48} color="#94a3b8" style={{ margin: '0 auto 1rem' }} />
-              <h4 style={{ fontSize: '1.1rem', color: '#0f172a', marginBottom: '0.4rem' }}>No orders yet</h4>
+              <h4 style={{ fontSize: '1.1rem', color: '#0f172a', marginBottom: '0.4rem' }}>
+                {language === 'am' ? 'እስካሁን ምንም ትዕዛዝ የለም' : 'No orders yet'}
+              </h4>
               <p style={{ color: '#64748b', fontSize: '0.9rem' }}>
-                Your completed purchases and trackings will show up here.
+                {language === 'am' ? 'የተጠናቀቁ ግዢዎችዎ እና ክትትልዎ እዚህ ይታያሉ።' : 'Your completed purchases and trackings will show up here.'}
               </p>
             </div>
           ) : (
@@ -212,12 +222,12 @@ const ProfilePage = () => {
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.9rem' }}>
                 <thead>
                   <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', color: '#475569', fontWeight: 600 }}>
-                    <th style={{ padding: '0.9rem 1.25rem' }}>Order ID</th>
-                    <th style={{ padding: '0.9rem 1rem' }}>Date</th>
-                    <th style={{ padding: '0.9rem 1rem' }}>Items</th>
-                    <th style={{ padding: '0.9rem 1rem' }}>Total</th>
-                    <th style={{ padding: '0.9rem 1rem' }}>Payment</th>
-                    <th style={{ padding: '0.9rem 1.25rem' }}>Status</th>
+                    <th style={{ padding: '0.9rem 1.25rem' }}>{language === 'am' ? 'የትዕዛዝ መለያ' : 'Order ID'}</th>
+                    <th style={{ padding: '0.9rem 1rem' }}>{language === 'am' ? 'ቀን' : 'Date'}</th>
+                    <th style={{ padding: '0.9rem 1rem' }}>{language === 'am' ? 'ዕቃዎች' : 'Items'}</th>
+                    <th style={{ padding: '0.9rem 1rem' }}>{language === 'am' ? 'ጠቅላላ' : 'Total'}</th>
+                    <th style={{ padding: '0.9rem 1rem' }}>{language === 'am' ? 'ክፍያ' : 'Payment'}</th>
+                    <th style={{ padding: '0.9rem 1.25rem' }}>{language === 'am' ? 'ሁኔታ' : 'Status'}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -230,7 +240,7 @@ const ProfilePage = () => {
                         {new Date(order.createdAt).toLocaleDateString()}
                       </td>
                       <td style={{ padding: '1rem 1rem' }}>
-                        {order.orderItems.length} item{order.orderItems.length > 1 ? 's' : ''}
+                        {order.orderItems.length} {language === 'am' ? 'ዕቃ(ዎች)' : `item${order.orderItems.length > 1 ? 's' : ''}`}
                       </td>
                       <td style={{ padding: '1rem 1rem', fontWeight: 700, color: '#0f172a' }}>
                         ${Number(order.totalPrice).toFixed(2)}
@@ -238,11 +248,11 @@ const ProfilePage = () => {
                       <td style={{ padding: '1rem 1rem' }}>
                         {order.isPaid ? (
                           <span style={{ color: '#10b981', fontWeight: 600, fontSize: '0.85rem' }}>
-                            ✓ Paid
+                            ✓ {language === 'am' ? 'ተከፍሏል' : 'Paid'}
                           </span>
                         ) : (
                           <span style={{ color: '#ef4444', fontWeight: 600, fontSize: '0.85rem' }}>
-                            Unpaid
+                            {language === 'am' ? 'ያልተከፈለ' : 'Unpaid'}
                           </span>
                         )}
                       </td>
@@ -267,7 +277,11 @@ const ProfilePage = () => {
                                 : '#b45309',
                           }}
                         >
-                          {order.status}
+                          {order.status === 'Delivered'
+                            ? (language === 'am' ? 'ደርሷል' : 'Delivered')
+                            : order.status === 'Processing'
+                            ? (language === 'am' ? 'በሂደት ላይ' : 'Processing')
+                            : order.status}
                         </span>
                       </td>
                     </tr>
