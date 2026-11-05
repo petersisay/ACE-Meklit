@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Heart, Award, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { contactApi } from '../services/api';
+import { useLanguage } from '../context/LanguageContext';
 
 const AboutPage = () => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState({ loading: false, success: false, error: null });
 
@@ -53,13 +55,13 @@ const AboutPage = () => {
       >
         <div className="container">
           <span style={{ color: '#d97706', fontWeight: 700, fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-            Our Calling & Heritage
+            {t('about_subtitle')}
           </span>
           <h1 style={{ fontSize: '2.5rem', margin: '0.5rem 0 1rem' }}>
-            ABOUT ACE MEKLIT
+            {t('about_title')}
           </h1>
           <p style={{ maxWidth: '650px', margin: '0 auto', color: '#cbd5e1', fontSize: '1.05rem', fontWeight: 500 }}>
-            Apostolic Church of Ethiopia — Integrating timeless biblical values with contemporary fashion, gospel music, and spiritual growth.
+            {t('church_name')} — Integrating timeless biblical values with contemporary fashion, gospel music, and spiritual growth.
           </p>
         </div>
       </section>
@@ -77,10 +79,10 @@ const AboutPage = () => {
         >
           <div>
             <span style={{ color: '#d97706', fontWeight: 700, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-              Our Story
+              {t('about_our_story')}
             </span>
             <h2 style={{ fontSize: '2.1rem', color: '#0f172a', margin: '0.5rem 0 1.25rem' }}>
-              Dedicated to Purposeful Style
+              {t('about_story_title')}
             </h2>
             <p style={{ color: '#475569', fontSize: '1.05rem', lineHeight: 1.8, marginBottom: '1.25rem' }}>
               ACE Meklit is a premier apparel brand dedicated to integrating timeless biblical values with contemporary fashion. Our mission is to provide believers with a sophisticated means of expressing their faith through high-quality, thoughtfully designed clothing and accessories.
@@ -220,10 +222,10 @@ const AboutPage = () => {
         >
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
             <span style={{ color: '#d97706', fontWeight: 700, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-              Get In Touch
+              {t('contact_subtitle')}
             </span>
             <h2 style={{ fontSize: '1.9rem', color: '#0f172a', margin: '0.4rem 0 0.6rem' }}>
-              Contact ACE Meklit
+              {t('contact_title')}
             </h2>
             <p style={{ color: '#64748b', fontSize: '0.95rem' }}>
               Leave us a message, prayer request, or order inquiry below.
@@ -246,7 +248,7 @@ const AboutPage = () => {
               }}
             >
               <CheckCircle2 size={20} color="#10b981" />
-              <span>✅ Message sent successfully!</span>
+              <span>{t('contact_success')}</span>
             </div>
           )}
 
@@ -273,7 +275,7 @@ const AboutPage = () => {
           <form onSubmit={handleSubmit}>
             <div style={{ marginBottom: '1.25rem' }}>
               <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, marginBottom: '0.4rem', color: '#334155' }}>
-                Name
+                {t('contact_name')}
               </label>
               <input
                 type="text"
@@ -288,7 +290,7 @@ const AboutPage = () => {
 
             <div style={{ marginBottom: '1.25rem' }}>
               <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, marginBottom: '0.4rem', color: '#334155' }}>
-                Email
+                {t('contact_email')}
               </label>
               <input
                 type="email"
@@ -303,7 +305,7 @@ const AboutPage = () => {
 
             <div style={{ marginBottom: '1.5rem' }}>
               <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, marginBottom: '0.4rem', color: '#334155' }}>
-                Message
+                {t('contact_message')}
               </label>
               <textarea
                 name="message"
@@ -325,7 +327,7 @@ const AboutPage = () => {
               style={{ width: '100%', padding: '0.85rem', fontSize: '1rem', justifyContent: 'center' }}
             >
               <Send size={18} />
-              <span>{status.loading ? 'Sending...' : 'Submit'}</span>
+              <span>{status.loading ? 'Sending...' : t('contact_submit')}</span>
             </button>
           </form>
         </div>
