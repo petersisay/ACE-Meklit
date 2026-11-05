@@ -43,6 +43,8 @@ export const ordersApi = {
   getMyOrders: () => API.get('/orders/myorders'),
   getAll: () => API.get('/orders'),
   pay: (id, paymentResult) => API.put(`/orders/${id}/pay`, paymentResult),
+  initializeChapa: (id) => API.post(`/orders/${id}/chapa/initialize`),
+  verifyChapa: (tx_ref) => API.get(`/orders/chapa/verify/${tx_ref}`),
   updateStatus: (id, status) => API.put(`/orders/${id}/status`, { status }),
 };
 
