@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Lock, Mail, AlertCircle, LogIn, Sparkles } from 'lucide-react';
+import { Lock, Mail, AlertCircle, LogIn } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -33,16 +33,6 @@ const LoginPage = () => {
       }
     } else {
       setErrorMsg(res.error);
-    }
-  };
-
-  const setDemoCredentials = (role) => {
-    if (role === 'admin') {
-      setEmail('admin@acemeklit.org');
-      setPassword('password123');
-    } else {
-      setEmail('bereket@example.com');
-      setPassword('password123');
     }
   };
 
@@ -123,32 +113,6 @@ const LoginPage = () => {
             <span>{submitting ? 'Signing in...' : t('login_btn')}</span>
           </button>
         </form>
-
-        {/* Quick Demo Logins Helper */}
-        <div style={{ marginTop: '1.75rem', paddingTop: '1.5rem', borderTop: '1px solid #f1f5f9' }}>
-          <p style={{ fontSize: '0.8rem', color: '#64748b', textAlign: 'center', marginBottom: '0.75rem', fontWeight: 600 }}>
-            <Sparkles size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px', color: '#d97706' }} />
-            {t('login_quick_demo')}
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-            <button
-              type="button"
-              onClick={() => setDemoCredentials('user')}
-              className="btn btn-sm btn-outline-primary"
-              style={{ fontSize: '0.78rem' }}
-            >
-              {t('login_demo_customer')}
-            </button>
-            <button
-              type="button"
-              onClick={() => setDemoCredentials('admin')}
-              className="btn btn-sm btn-navy"
-              style={{ fontSize: '0.78rem' }}
-            >
-              {t('login_demo_admin')}
-            </button>
-          </div>
-        </div>
 
         <div style={{ textAlign: 'center', marginTop: '1.75rem', fontSize: '0.9rem', color: '#64748b' }}>
           {t('login_no_account')}{' '}
