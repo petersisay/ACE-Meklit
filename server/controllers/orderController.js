@@ -30,7 +30,7 @@ const createOrder = async (req, res, next) => {
       })),
       user: req.user._id,
       shippingAddress,
-      paymentMethod: paymentMethod || 'Telebirr / Card',
+      paymentMethod: paymentMethod || 'Chapa (Telebirr, CBE Birr, Cards)',
       itemsPrice: Number(itemsPrice || 0),
       taxPrice: Number(taxPrice || 0),
       shippingPrice: Number(shippingPrice || 0),
@@ -106,7 +106,7 @@ const updateOrderToPaid = async (req, res, next) => {
       order.paidAt = Date.now();
       order.status = 'Processing';
       order.paymentResult = {
-        id: req.body.id || `TXN-${Date.now()}`,
+        id: req.body.id || `CHAPA-TXN-${Date.now()}`,
         status: req.body.status || 'COMPLETED',
         update_time: req.body.update_time || new Date().toISOString(),
         email_address: req.body.email_address || req.user.email,
