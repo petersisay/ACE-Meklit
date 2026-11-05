@@ -53,11 +53,6 @@ const Navbar = () => {
               {t('nav_about')}
             </NavLink>
           </li>
-          <li>
-            <NavLink to="/contact" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
-              {t('nav_contact')}
-            </NavLink>
-          </li>
         </ul>
 
         {/* Right Actions */}
@@ -249,15 +244,6 @@ const Navbar = () => {
                 style={{ color: '#ffffff', fontSize: '1.05rem', fontWeight: 600 }}
               >
                 {t('nav_about')}
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/contact"
-                onClick={() => setMobileMenuOpen(false)}
-                style={{ color: '#ffffff', fontSize: '1.05rem', fontWeight: 600 }}
-              >
-                {t('nav_contact')}
               </Link>
             </li>
             {isAdmin && (
