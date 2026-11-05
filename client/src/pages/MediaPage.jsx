@@ -53,6 +53,9 @@ const MediaPage = () => {
     );
   });
 
+  const musics = filteredMedia.filter((m) => m.type === 'music');
+  const preachings = filteredMedia.filter((m) => m.type === 'preaching');
+
   return (
     <div className="media-page">
       {/* Header Banner */}
@@ -71,7 +74,7 @@ const MediaPage = () => {
           <h1 style={{ fontSize: '2.5rem', margin: '0.5rem 0 1rem' }}>
             GOSPEL MUSIC & SERMONS
           </h1>
-          <p style={{ maxWidth: '650px', margin: '0 auto', color: '#cbd5e1', fontSize: '1.05rem' }}>
+          <p style={{ maxWidth: '650px', margin: '0 auto', color: '#cbd5e1', fontSize: '1.05rem', fontWeight: 500 }}>
             Stream full gospel albums and spirit-filled preaching from Apostolic Church of Ethiopia bishops and choirs.
           </p>
         </div>
@@ -139,6 +142,38 @@ const MediaPage = () => {
             <Video size={48} color="#94a3b8" style={{ margin: '0 auto 1rem' }} />
             <h3 style={{ fontSize: '1.3rem', marginBottom: '0.5rem' }}>No media items found</h3>
             <p style={{ color: '#64748b' }}>Try adjusting your search terms or filter selection.</p>
+          </div>
+        ) : selectedType === 'all' && !searchQuery ? (
+          <div>
+            {musics.length > 0 && (
+              <div style={{ marginBottom: '3.5rem' }}>
+                <div style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '0.75rem', marginBottom: '1.75rem' }}>
+                  <h2 style={{ fontSize: '1.5rem', color: '#1e3a8a', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    ⇒ Full AlbumMusics
+                  </h2>
+                </div>
+                <div className="media-grid">
+                  {musics.map((media) => (
+                    <MediaCard key={media._id} media={media} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {preachings.length > 0 && (
+              <div style={{ marginBottom: '3.5rem' }}>
+                <div style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '0.75rem', marginBottom: '1.75rem' }}>
+                  <h2 style={{ fontSize: '1.5rem', color: '#1e3a8a', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    ⇒ Best Preachings
+                  </h2>
+                </div>
+                <div className="media-grid">
+                  {preachings.map((media) => (
+                    <MediaCard key={media._id} media={media} />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <div className="media-grid">
