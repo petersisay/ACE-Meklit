@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 
 const Footer = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   return (
     <footer className="footer">
@@ -17,10 +17,14 @@ const Footer = () => {
                 alt="Apostolic Songs"
                 style={{ height: '42px', width: 'auto' }}
               />
-              <h3 style={{ margin: 0, color: '#ffffff' }}>APOSTOLIC SONGS & MEKLIT</h3>
+              <h3 style={{ margin: 0, color: '#ffffff' }}>
+                {language === 'am' ? 'ሐዋርያዊ መዝሙራት እና መክሊት' : 'APOSTOLIC SONGS & MEKLIT'}
+              </h3>
             </div>
             <p style={{ fontSize: '0.9rem', marginBottom: '1rem', color: '#94a3b8' }}>
-              {t('church_name')} — Proclaiming the living gospel of our Lord Jesus Christ through spirit-filled worship, sound doctrine, and faith-based apparel.
+              {language === 'am'
+                ? `${t('church_name')} — መንፈሳዊ አምልኮን፣ ትክክለኛ ሐዋርያዊ ትምህርትንና የእምነት አልባሳትን በማቅረብ የጌታችን የኢየሱስ ክርስቶስን ሕያው ወንጌል ማወጅ።`
+                : `${t('church_name')} — Proclaiming the living gospel of our Lord Jesus Christ through spirit-filled worship, sound doctrine, and faith-based apparel.`}
             </p>
             <div
               style={{
@@ -64,7 +68,9 @@ const Footer = () => {
           <div>
             <h4 className="footer-title">{t('footer_connect')}</h4>
             <p style={{ fontSize: '0.88rem', marginBottom: '1rem' }}>
-              Follow our official ministry channels on social media for sermons, live fellowship, and new apparel drops.
+              {language === 'am'
+                ? 'ስብከቶችን፣ የቀጥታ ስርጭቶችንና አዳዲስ ምርቶችን ለመከታተል ይፋዊ የማኅበራዊ ገጾቻችንን ይከተሉ።'
+                : 'Follow our official ministry channels on social media for sermons, live fellowship, and new apparel drops.'}
             </p>
             <div className="footer-socials">
               <a
@@ -111,7 +117,8 @@ const Footer = () => {
         <div className="footer-bottom">
           <p>© {new Date().getFullYear()} {t('church_name')}. {t('footer_rights')}</p>
           <p>
-            Upgraded & Maintained by <strong style={{ color: '#ffffff' }}>Petros Sisay</strong>
+            {language === 'am' ? 'የተዘጋጀውና የሚተዳደረው በ ' : 'Upgraded & Maintained by '}
+            <strong style={{ color: '#ffffff' }}>Petros Sisay</strong>
           </p>
         </div>
       </div>
