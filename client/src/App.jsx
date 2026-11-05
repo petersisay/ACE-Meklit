@@ -7,7 +7,6 @@ import StorePage from './pages/StorePage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import MediaPage from './pages/MediaPage';
 import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import LoginPage from './pages/LoginPage';
@@ -77,7 +76,6 @@ function App() {
           <Route path="/product/:id" element={<ProductDetailPage />} />
           <Route path="/media" element={<MediaPage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route
             path="/checkout"
