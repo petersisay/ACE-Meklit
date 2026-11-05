@@ -7,18 +7,18 @@ import { productsApi, mediaApi } from '../services/api';
 
 const HomePage = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
-  const [mediaList, setMediaList] = useState([]);
+  const [featuredMedia, setFeaturedMedia] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [prodRes, mediaRes] = await Promise.all([
-          productsApi.getAll({ limit: 6 }),
-          mediaApi.getAll(),
+          productsApi.getAll({ limit: 4 }),
+          mediaApi.getAll({ featured: true }),
         ]);
-        setFeaturedProducts(prodRes.data.slice(0, 6));
-        setMediaList(mediaRes.data);
+        setFeaturedProducts(prodRes.data.slice(0, 4));
+        setFeaturedMedia(mediaRes.data);
       } catch (err) {
         console.error('Error fetching home data:', err);
       } finally {
@@ -28,78 +28,36 @@ const HomePage = () => {
     fetchData();
   }, []);
 
-  const musics = mediaList.filter((m) => m.type === 'music');
-  const preachings = mediaList.filter((m) => m.type === 'preaching');
-
-  const scrollToPreachings = (e) => {
-    e.preventDefault();
-    const elem = document.getElementById('sbiket');
-    if (elem) {
-      elem.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const musics = featuredMedia.filter((m) => m.type === 'music').slice(0, 2);
+  const preachings = featuredMedia.filter((m) => m.type === 'preaching').slice(0, 2);
 
   return (
     <div className="homepage">
-      {/* Hero Header with Original Deuteronomy 6:4 Scripture */}
+      {/* Hero Header */}
       <section className="hero">
         <div className="container hero-content">
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.25rem' }}>
-            <img
-              src="/Images/ace logo.jpg"
-              alt="Apostolic Church of Ethiopia"
-              style={{
-                width: '90px',
-                height: '90px',
-                borderRadius: '50%',
-                border: '3px solid #d97706',
-                boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
-                objectFit: 'cover',
-              }}
-            />
-          </div>
           <span className="hero-tag">Apostolic Church of Ethiopia</span>
           <h1 className="hero-title">ACE MEKLIT & CONTENTS</h1>
           <div className="hero-scripture">
             <p className="scripture-quote">
               " Hear, O Israel: The LORD our GOD, The LORD is one. "
             </p>
-            <span style={{ fontSize: '0.95rem', fontWeight: 800, letterSpacing: '0.08em', color: '#fbbf24' }}>
-              ( Deuteronomy 6:4 )
+            <span style={{ fontSize: '0.9rem', fontWeight: 700, letterSpacing: '0.05em' }}>
+              DEUTERONOMY 6:4
             </span>
           </div>
-          <p style={{ fontSize: '1.1rem', color: '#f8fafc', marginBottom: '2rem', maxWidth: '720px', margin: '0 auto 2rem', fontWeight: 500 }}>
+          <p style={{ fontSize: '1.1rem', color: '#e2e8f0', marginBottom: '2rem', maxWidth: '680px', margin: '0 auto 2rem' }}>
             Scripture Thread • Living Word Apparel • Covenant Cotton • Verity Wear • Biblical Books & Apostolic Hymns
           </p>
           <div className="hero-buttons">
             <Link to="/store" className="btn btn-primary">
               <ShoppingBag size={18} />
-              <span>Explore Store</span>
+              <span>Shop ACE Meklit Store</span>
             </Link>
-            <a href="#sbiket" onClick={scrollToPreachings} className="btn btn-outline-white">
+            <Link to="/media" className="btn btn-outline-white">
               <Play size={18} />
-              <span>Full AlbumMusics & Sermons</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Apostolic Songs Banner Image Showcase */}
-      <section style={{ background: '#0b1329', padding: '1.5rem 0', borderBottom: '1px solid #1e293b' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <div
-            style={{
-              overflow: 'hidden',
-              borderRadius: '12px',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.4)',
-              maxHeight: '260px',
-            }}
-          >
-            <img
-              src="/Images/AS-banner.jpg"
-              alt="Apostolic Songs Banner"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-            />
+              <span>Listen to Gospel Music & Sermons</span>
+            </Link>
           </div>
         </div>
       </section>
@@ -186,36 +144,43 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Original Full AlbumMusics Section with id="sbiket" */}
-      <section id="sbiket" className="section" style={{ background: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
+      {/* Music & Preachings Preview */}
+      <section className="section" style={{ background: '#f1f5f9' }}>
         <div className="container">
           <div className="section-header">
-            <span className="section-subtitle">Apostolic Choir & Worship</span>
-            <h2 className="section-title" style={{ color: '#1e3a8a' }}>⇒ Full AlbumMusics</h2>
+            <span className="section-subtitle">Worship & Ministry</span>
+            <h2 className="section-title">Full Album Musics & Sermons</h2>
             <p className="section-desc">
-              Complete gospel music albums by anointed Ethiopian Apostolic singers and choirs.
+              Stream anointed Apostolic songs and life-changing preachings directly.
             </p>
           </div>
 
-          <div className="media-grid" style={{ marginBottom: '4rem' }}>
-            {musics.map((item) => (
-              <MediaCard key={item._id || item.youtubeId} media={item} />
-            ))}
+          <div style={{ marginBottom: '3rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+              <h3 style={{ fontSize: '1.35rem', color: '#0f172a' }}>🎵 Full Album Musics</h3>
+              <Link to="/media?type=music" style={{ color: '#1e3a8a', fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                View all albums <ArrowRight size={14} />
+              </Link>
+            </div>
+            <div className="media-grid">
+              {musics.map((item) => (
+                <MediaCard key={item._id} media={item} />
+              ))}
+            </div>
           </div>
 
-          {/* Original Best Preachings Section */}
-          <div className="section-header">
-            <span className="section-subtitle">Sound Apostolic Doctrine</span>
-            <h2 className="section-title" style={{ color: '#1e3a8a' }}>⇒ Best Preachings</h2>
-            <p className="section-desc">
-              Inspiring messages by Bishop Elias Asha and Bishop Degu Kebede on faith and perseverance.
-            </p>
-          </div>
-
-          <div className="media-grid">
-            {preachings.map((item) => (
-              <MediaCard key={item._id || item.youtubeId} media={item} />
-            ))}
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+              <h3 style={{ fontSize: '1.35rem', color: '#0f172a' }}>📖 Best Apostolic Preachings</h3>
+              <Link to="/media?type=preaching" style={{ color: '#1e3a8a', fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                View all sermons <ArrowRight size={14} />
+              </Link>
+            </div>
+            <div className="media-grid">
+              {preachings.map((item) => (
+                <MediaCard key={item._id} media={item} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
