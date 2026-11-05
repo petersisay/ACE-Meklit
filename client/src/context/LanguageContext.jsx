@@ -118,6 +118,23 @@ const translations = {
     login_no_account: "Don't have an account yet?",
     login_create_one: 'Create one now',
 
+    register_title: 'Create an Account',
+    register_subtitle: 'Join the ACE Meklit community for faith apparel and spiritual content',
+    register_name: 'Full Name *',
+    register_email: 'Email Address *',
+    register_phone: 'Phone Number (Optional)',
+    register_password: 'Password *',
+    register_confirm_password: 'Confirm Password *',
+    register_btn: 'Register Account',
+    register_creating: 'Creating Account...',
+    register_has_account: 'Already have an account?',
+    register_sign_in: 'Sign In here',
+
+    product_in_stock: 'In Stock',
+    product_out_of_stock: 'Out of Stock',
+    product_add_to_cart: 'Add to Cart',
+    product_back: 'Back to Store',
+
     // Footer
     footer_rights: 'All rights reserved.',
     footer_quick_links: 'Navigation',
@@ -240,6 +257,23 @@ const translations = {
     login_demo_admin: 'የሙከራ አስተዳዳሪ',
     login_no_account: 'መለያ የለዎትም?',
     login_create_one: 'አሁን ይመዝገቡ',
+
+    register_title: 'መለያ ይፍጠሩ',
+    register_subtitle: 'የእምነት አልባሳትና መንፈሳዊ ይዘቶችን ለማግኘት የኤሲኢ መክሊት አባል ይሁኑ',
+    register_name: 'ሙሉ ስም *',
+    register_email: 'ኢሜይል አድራሻ *',
+    register_phone: 'ስልክ ቁጥር (አስገዳጅ ያልሆነ)',
+    register_password: 'የይለፍ ቃል *',
+    register_confirm_password: 'የይለፍ ቃል አረጋግጥ *',
+    register_btn: 'ይመዝገቡ',
+    register_creating: 'በመመዝገብ ላይ...',
+    register_has_account: 'ቀደም ሲል መለያ አለዎት?',
+    register_sign_in: 'እዚህ ይግቡ',
+
+    product_in_stock: 'በመደብር ውስጥ አለ',
+    product_out_of_stock: 'አልቋል',
+    product_add_to_cart: 'ወደ ጋሪ ጨምር',
+    product_back: 'ወደ መደብር ተመለስ',
 
     // Footer
     footer_rights: 'መብቱ በሕግ የተጠበቀ ነው።',
