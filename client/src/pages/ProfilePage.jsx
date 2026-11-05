@@ -63,7 +63,7 @@ const ProfilePage = () => {
         </h1>
         <p style={{ color: '#64748b' }}>
           {language === 'am'
-            ? 'የግል መረጃዎን ያስተዳድሩ እና የኤሲኢ መክሊት ትዕዛዞችዎን ይከታተሉ።'
+            ? 'የግል መረጃዎን ያስተዳድሩ እና የኢሐቤክ መክሊት ትዕዛዞችዎን ይከታተሉ።'
             : 'Manage your personal details and track your ACE Meklit purchases.'}
         </p>
       </div>
