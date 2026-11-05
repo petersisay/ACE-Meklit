@@ -1,10 +1,129 @@
 const Product = require('../models/Product');
 
+const defaultProducts = [
+  {
+    name: 'Hoddie',
+    description: 'Living Word Apparel & ACE Logo official heavyweight hoodie. Scripture Thread, Covenant Cotton, Verity Wear.',
+    category: 'ACE Logo Products',
+    price: 19.99,
+    image: '/Images/hoddie.png',
+    countInStock: 30,
+    isFeatured: true,
+    scriptureReference: 'Deuteronomy 6:4',
+  },
+  {
+    name: 'Cap',
+    description: 'ACE faith cap displaying the Apostolic Church of Ethiopia monogram.',
+    category: 'ACE Logo Products',
+    price: 1.99,
+    image: '/Images/hat.png',
+    countInStock: 50,
+    isFeatured: true,
+    scriptureReference: 'Ephesians 6:17',
+  },
+  {
+    name: 'Jacket',
+    description: 'Weather-resistant ACE branded winter jacket designed for purposeful style.',
+    category: 'ACE Logo Products',
+    price: 29.99,
+    image: '/Images/jacket.png',
+    countInStock: 20,
+    isFeatured: true,
+    scriptureReference: 'Psalm 91:4',
+  },
+  {
+    name: 'Tea Mug',
+    description: 'High-gloss ceramic tea mug with ACE emblem for your daily devotional.',
+    category: 'ACE Logo Products',
+    price: 0.99,
+    image: '/Images/mug.png',
+    countInStock: 60,
+    isFeatured: false,
+    scriptureReference: 'Proverbs 3:5-6',
+  },
+  {
+    name: 'T-Shirt',
+    description: '100% premium cotton graphic shirt featuring Apostolic Church of Ethiopia faith typography.',
+    category: 'ACE Logo Products',
+    price: 12.99,
+    image: '/Images/shirt.png',
+    countInStock: 35,
+    isFeatured: true,
+    scriptureReference: '1 Corinthians 13:13',
+  },
+  {
+    name: 'Shirt',
+    description: 'Everyday comfortable pre-shrunk cotton tee with subtle ACE faith design.',
+    category: 'ACE Logo Products',
+    price: 2.99,
+    image: '/Images/t-shirt.png',
+    countInStock: 45,
+    isFeatured: false,
+    scriptureReference: 'Colossians 3:12',
+  },
+  {
+    name: 'Bible Verse Hoddie',
+    description: 'Scripture Thread hoodie with inspiring biblical verses woven into Covenant Cotton.',
+    category: 'Bible Verse Products',
+    price: 19.99,
+    image: '/Images/peter_hoddie.png',
+    countInStock: 25,
+    isFeatured: true,
+    scriptureReference: 'Acts 2:38',
+  },
+  {
+    name: 'Bible Verse Coffee Cup',
+    description: 'Ceramic coffee cup featuring biblical scriptures to inspire your mornings.',
+    category: 'Bible Verse Products',
+    price: 6.99,
+    image: '/Images/coffee_cup.png',
+    countInStock: 40,
+    isFeatured: true,
+    scriptureReference: 'Isaiah 40:31',
+  },
+  {
+    name: 'Bible Verse Tote Bag',
+    description: 'Durable eco-friendly canvas tote bag with scripture imprint, perfect for Holy Bibles and books.',
+    category: 'Bible Verse Products',
+    price: 1.99,
+    image: '/Images/bag.png',
+    countInStock: 50,
+    isFeatured: false,
+    scriptureReference: 'Joshua 1:9',
+  },
+  {
+    name: 'Bible Cover',
+    description: 'Protective handcrafted Holy Bible cover case with zip closure to safeguard scripture.',
+    category: 'Holy Bible Covers and Books',
+    price: 9.99,
+    image: '/Images/Bible cover.jpg',
+    countInStock: 30,
+    isFeatured: true,
+    scriptureReference: 'Hebrews 4:12',
+  },
+  {
+    name: 'Biblical Books',
+    description: 'ቃሉ ይናገር (Kalu Ynager) — Sound biblical teachings and doctrine from Bishop Teklemariam Gezahagne.',
+    category: 'Holy Bible Covers and Books',
+    price: 4.99,
+    image: '/Images/kalu ynager.jpg',
+    countInStock: 55,
+    isFeatured: true,
+    scriptureReference: '2 Timothy 3:16',
+  },
+];
+
 // @desc    Fetch all products with optional search and category filters
 // @route   GET /api/products
 // @access  Public
 const getProducts = async (req, res, next) => {
   try {
+    const totalCount = await Product.countDocuments();
+    if (totalCount === 0) {
+      console.log('[ProductController] No products in database. Auto-populating Meklit catalog...');
+      await Product.insertMany(defaultProducts);
+    }
+
     const { category, keyword, sort } = req.query;
     const filter = {};
 
