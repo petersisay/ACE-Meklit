@@ -157,7 +157,7 @@ const translations = {
     brand_sub: 'የኢትዮጵያ ሐዋርያዊት ቤተክርስቲያን',
 
     // Hero & Scripture
-    hero_title: 'የኤሲኢ መክሊት እና ይዘቶች',
+    hero_title: 'የኢሐቤክ መክሊት እና ይዘቶች',
     hero_quote: '" ስማ እስራኤል ሆይ፤ አምላካችን እግዚአብሔር አንድ እግዚአብሔር ነው፤ "',
     hero_verse: '( ዘዳግም 6:4 )',
     hero_sub: 'የቅዱስ ቃል ልብሶች • የቃል ኪዳን ጥጥ • የእውነት ልብስ • ቅዱሳት መጻሕፍት እና ሐዋርያዊ ዝማሬዎች',
@@ -175,12 +175,12 @@ const translations = {
     pillar_integrity_desc: 'እያንዳንዱ ግዢ የወንጌል አገልግሎትን፣ የሕትመት ሥራንና ማኅበረሰብን ይደግፋል።',
 
     // Store
-    store_title: 'የኤሲኢ መክሊት መደብር',
+    store_title: 'የኢሐቤክ መክሊት መደብር',
     store_subtitle: 'የእምነት ልብሶች እና ንዋየ ቅድሳት',
     store_desc: 'የቅዱስ ቃል ልብሶች • የቃል ኪዳን ጥጥ • የእውነት ልብስ • ቅዱሳት መጻሕፍት ...',
     store_search_placeholder: 'ምርቶችን በስም፣ በቁልፍ ቃል ወይም በጥቅስ ይፈልጉ...',
     store_all: 'ሁሉም',
-    store_cat_logo: 'የኤሲኢ አርማ ምርቶች',
+    store_cat_logo: 'የኢሐቤክ አርማ ምርቶች',
     store_cat_verse: 'የመጽሐፍ ቅዱስ ጥቅስ ምርቶች',
     store_cat_books: 'ቅዱስ መጽሐፍ ቅዱስ እና መጻሕፍት',
     store_view_all: 'ሁሉንም የመደብር ምርቶች ይመልከቱ',
@@ -231,13 +231,13 @@ const translations = {
     checkout_place_order: 'እዘዝ እና ክፈል',
 
     // About & Contact
-    about_title: 'ስለ ኤሲኢ መክሊት',
+    about_title: 'ስለ ኢሐቤክ መክሊት',
     about_subtitle: 'ጥሪያችን እና ቅርሳችን',
     about_our_story: 'ታሪካችን',
     about_story_title: 'ዓላማ ላለው የእምነት ፋሽን የተተጋ',
     about_commitment: 'የእኛ ቃል ኪዳን',
     about_commitment_title: 'ጥራት እና ታማኝነት',
-    contact_title: 'ኤሲኢ መክሊትን ያግኙ',
+    contact_title: 'ኢሐቤክ መክሊትን ያግኙ',
     contact_subtitle: 'መልእክት ይላኩልን',
     contact_name: 'ስም',
     contact_email: 'ኢሜይል',
@@ -248,7 +248,7 @@ const translations = {
 
     // Auth
     login_welcome: 'እንኳን ደህና መጡ',
-    login_subtitle: 'ወደ ኤሲኢ መክሊት መለያዎ ለመግባት መረጃዎን ያስገቡ',
+    login_subtitle: 'ወደ ኢሐቤክ መክሊት መለያዎ ለመግባት መረጃዎን ያስገቡ',
     login_email: 'ኢሜይል አድራሻ',
     login_password: 'የይለፍ ቃል',
     login_btn: 'ግባ',
@@ -259,7 +259,7 @@ const translations = {
     login_create_one: 'አሁን ይመዝገቡ',
 
     register_title: 'መለያ ይፍጠሩ',
-    register_subtitle: 'የእምነት አልባሳትና መንፈሳዊ ይዘቶችን ለማግኘት የኤሲኢ መክሊት አባል ይሁኑ',
+    register_subtitle: 'የእምነት አልባሳትና መንፈሳዊ ይዘቶችን ለማግኘት የኢሐቤክ መክሊት አባል ይሁኑ',
     register_name: 'ሙሉ ስም *',
     register_email: 'ኢሜይል አድራሻ *',
     register_phone: 'ስልክ ቁጥር (አስገዳጅ ያልሆነ)',
