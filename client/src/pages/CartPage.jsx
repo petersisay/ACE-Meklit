@@ -2,9 +2,11 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Trash2, ShoppingBag, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 
 const CartPage = () => {
   const { cartItems, updateQuantity, removeFromCart, clearCart, totalPrice, totalItems } = useCart();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   if (cartItems.length === 0) {
@@ -25,13 +27,13 @@ const CartPage = () => {
             <ShoppingBag size={56} />
           </div>
           <h2 style={{ fontSize: '1.75rem', marginBottom: '0.75rem', color: '#0f172a' }}>
-            Your Cart is Empty
+            {t('cart_empty_title')}
           </h2>
           <p style={{ color: '#64748b', marginBottom: '2rem' }}>
-            You haven't added any ACE Meklit apparel or books yet. Explore our faith-based store to find items that inspire your walk with God.
+            {t('cart_empty_desc')}
           </p>
           <Link to="/store" className="btn btn-primary">
-            <span>Explore Meklit Store</span>
+            <span>{t('cart_explore_store')}</span>
             <ArrowRight size={18} />
           </Link>
         </div>
@@ -195,17 +197,17 @@ const CartPage = () => {
           }}
         >
           <h3 style={{ fontSize: '1.25rem', marginBottom: '1.25rem', color: '#0f172a' }}>
-            Order Summary
+            {t('cart_order_summary')}
           </h3>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem', color: '#64748b' }}>
-            <span>Subtotal ({totalItems} items)</span>
+            <span>{t('cart_subtotal')} ({totalItems})</span>
             <span>${totalPrice}</span>
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem', color: '#64748b' }}>
-            <span>Estimated Shipping</span>
-            <span style={{ color: '#10b981', fontWeight: 600 }}>Free</span>
+            <span>{t('cart_shipping')}</span>
+            <span style={{ color: '#10b981', fontWeight: 600 }}>{t('cart_free')}</span>
           </div>
 
           <div
@@ -221,7 +223,7 @@ const CartPage = () => {
               marginBottom: '1.5rem',
             }}
           >
-            <span>Total</span>
+            <span>{t('cart_total')}</span>
             <span style={{ color: '#1e3a8a' }}>${totalPrice}</span>
           </div>
 
@@ -231,7 +233,7 @@ const CartPage = () => {
             onClick={() => navigate('/checkout')}
             style={{ width: '100%', padding: '0.9rem', fontSize: '1.05rem', marginBottom: '1rem' }}
           >
-            <span>Proceed to Checkout</span>
+            <span>{t('cart_checkout')}</span>
             <ArrowRight size={18} />
           </button>
 
@@ -248,7 +250,7 @@ const CartPage = () => {
             }}
           >
             <ArrowLeft size={16} />
-            <span>Continue Shopping</span>
+            <span>{t('cart_continue_shopping')}</span>
           </Link>
         </div>
       </div>
