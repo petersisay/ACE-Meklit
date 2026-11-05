@@ -5,6 +5,7 @@ import ProductCard from '../components/ProductCard';
 import MediaCard from '../components/MediaCard';
 import { productsApi, mediaApi } from '../services/api';
 import { DEFAULT_MEKLIT_PRODUCTS } from './StorePage';
+import { useLanguage } from '../context/LanguageContext';
 
 const DEFAULT_FEATURED_MEDIA = [
   {
@@ -54,6 +55,7 @@ const DEFAULT_FEATURED_MEDIA = [
 ];
 
 const HomePage = () => {
+  const { t } = useLanguage();
   const [featuredProducts, setFeaturedProducts] = useState(DEFAULT_MEKLIT_PRODUCTS.slice(0, 4));
   const [featuredMedia, setFeaturedMedia] = useState(DEFAULT_FEATURED_MEDIA);
   const [loading, setLoading] = useState(false);
@@ -97,27 +99,27 @@ const HomePage = () => {
       {/* Hero Header */}
       <section className="hero">
         <div className="container hero-content">
-          <span className="hero-tag">Apostolic Church of Ethiopia</span>
-          <h1 className="hero-title">ACE MEKLIT & CONTENTS</h1>
+          <span className="hero-tag">{t('church_name')}</span>
+          <h1 className="hero-title">{t('hero_title')}</h1>
           <div className="hero-scripture">
             <p className="scripture-quote">
-              " Hear, O Israel: The LORD our GOD, The LORD is one. "
+              {t('hero_quote')}
             </p>
             <span style={{ fontSize: '0.9rem', fontWeight: 700, letterSpacing: '0.05em' }}>
-              DEUTERONOMY 6:4
+              {t('hero_verse')}
             </span>
           </div>
           <p style={{ fontSize: '1.1rem', color: '#e2e8f0', marginBottom: '2rem', maxWidth: '680px', margin: '0 auto 2rem' }}>
-            Scripture Thread • Living Word Apparel • Covenant Cotton • Verity Wear • Biblical Books & Apostolic Hymns
+            {t('hero_sub')}
           </p>
           <div className="hero-buttons">
             <Link to="/store" className="btn btn-primary">
               <ShoppingBag size={18} />
-              <span>Shop ACE Meklit Store</span>
+              <span>{t('btn_shop')}</span>
             </Link>
             <Link to="/media" className="btn btn-outline-white">
               <Play size={18} />
-              <span>Listen to Gospel Music & Sermons</span>
+              <span>{t('btn_media')}</span>
             </Link>
           </div>
         </div>
@@ -138,9 +140,9 @@ const HomePage = () => {
               <div style={{ color: '#d97706', marginBottom: '0.75rem', display: 'flex', justifyContent: 'center' }}>
                 <Sparkles size={32} />
               </div>
-              <h3 style={{ fontSize: '1.1rem', marginBottom: '0.35rem' }}>Purposeful Faith Style</h3>
+              <h3 style={{ fontSize: '1.1rem', marginBottom: '0.35rem' }}>{t('pillar_style_title')}</h3>
               <p style={{ fontSize: '0.88rem', color: '#64748b' }}>
-                Weaving scripture and biblical identity into comfortable, high-quality contemporary apparel.
+                {t('pillar_style_desc')}
               </p>
             </div>
 
@@ -148,9 +150,9 @@ const HomePage = () => {
               <div style={{ color: '#1e3a8a', marginBottom: '0.75rem', display: 'flex', justifyContent: 'center' }}>
                 <Music size={32} />
               </div>
-              <h3 style={{ fontSize: '1.1rem', marginBottom: '0.35rem' }}>Anointed Gospel Songs</h3>
+              <h3 style={{ fontSize: '1.1rem', marginBottom: '0.35rem' }}>{t('pillar_music_title')}</h3>
               <p style={{ fontSize: '0.88rem', color: '#64748b' }}>
-                Full gospel albums and Apostolic choir worship melodies that exalt Jesus Christ.
+                {t('pillar_music_desc')}
               </p>
             </div>
 
@@ -158,9 +160,9 @@ const HomePage = () => {
               <div style={{ color: '#d97706', marginBottom: '0.75rem', display: 'flex', justifyContent: 'center' }}>
                 <BookOpen size={32} />
               </div>
-              <h3 style={{ fontSize: '1.1rem', marginBottom: '0.35rem' }}>Biblical Sound Doctrine</h3>
+              <h3 style={{ fontSize: '1.1rem', marginBottom: '0.35rem' }}>{t('pillar_doctrine_title')}</h3>
               <p style={{ fontSize: '0.88rem', color: '#64748b' }}>
-                Sermons from Apostolic bishops and doctrinal books upholding holiness and the Word of God.
+                {t('pillar_doctrine_desc')}
               </p>
             </div>
 
@@ -168,9 +170,9 @@ const HomePage = () => {
               <div style={{ color: '#10b981', marginBottom: '0.75rem', display: 'flex', justifyContent: 'center' }}>
                 <ShieldCheck size={32} />
               </div>
-              <h3 style={{ fontSize: '1.1rem', marginBottom: '0.35rem' }}>Integrity & Ministry</h3>
+              <h3 style={{ fontSize: '1.1rem', marginBottom: '0.35rem' }}>{t('pillar_integrity_title')}</h3>
               <p style={{ fontSize: '0.88rem', color: '#64748b' }}>
-                Every purchase supports ministry outreach, church publishing, and Christian community support.
+                {t('pillar_integrity_desc')}
               </p>
             </div>
           </div>
@@ -180,10 +182,10 @@ const HomePage = () => {
       {/* Featured Products Section */}
       <section className="section container">
         <div className="section-header">
-          <span className="section-subtitle">Faith-Based Apparel & Essentials</span>
+          <span className="section-subtitle">{t('store_subtitle')}</span>
           <h2 className="section-title">ACE Meklit Highlights</h2>
           <p className="section-desc">
-            Explore apparel, custom mugs, and Bible covers created to reflect living biblical truths.
+            {t('store_desc')}
           </p>
         </div>
 
@@ -199,7 +201,7 @@ const HomePage = () => {
 
         <div style={{ textAlign: 'center', marginTop: '3rem' }}>
           <Link to="/store" className="btn btn-navy">
-            <span>View All Store Products</span>
+            <span>{t('store_view_all')}</span>
             <ArrowRight size={18} />
           </Link>
         </div>
@@ -209,18 +211,18 @@ const HomePage = () => {
       <section className="section" style={{ background: '#f1f5f9' }}>
         <div className="container">
           <div className="section-header">
-            <span className="section-subtitle">Worship & Ministry</span>
-            <h2 className="section-title">Full Album Musics & Sermons</h2>
+            <span className="section-subtitle">{t('media_subtitle')}</span>
+            <h2 className="section-title">{t('media_title')}</h2>
             <p className="section-desc">
-              Stream anointed Apostolic songs and life-changing preachings directly.
+              {t('media_desc')}
             </p>
           </div>
 
           <div style={{ marginBottom: '3rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-              <h3 style={{ fontSize: '1.35rem', color: '#0f172a' }}>🎵 Full Album Musics</h3>
+              <h3 style={{ fontSize: '1.35rem', color: '#0f172a' }}>{t('media_music')}</h3>
               <Link to="/media?type=music" style={{ color: '#1e3a8a', fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                View all albums <ArrowRight size={14} />
+                {t('store_view_all')} <ArrowRight size={14} />
               </Link>
             </div>
             <div className="media-grid">
@@ -232,9 +234,9 @@ const HomePage = () => {
 
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
-              <h3 style={{ fontSize: '1.35rem', color: '#0f172a' }}>📖 Best Apostolic Preachings</h3>
+              <h3 style={{ fontSize: '1.35rem', color: '#0f172a' }}>{t('media_preaching')}</h3>
               <Link to="/media?type=preaching" style={{ color: '#1e3a8a', fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                View all sermons <ArrowRight size={14} />
+                {t('store_view_all')} <ArrowRight size={14} />
               </Link>
             </div>
             <div className="media-grid">
