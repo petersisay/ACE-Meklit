@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Search, SlidersHorizontal, ShoppingBag } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import { productsApi } from '../services/api';
+import { useLanguage } from '../context/LanguageContext';
 
 const categories = [
   'All',
@@ -136,8 +137,16 @@ export const DEFAULT_MEKLIT_PRODUCTS = [
 ];
 
 const StorePage = () => {
+  const { t } = useLanguage();
   const [searchParams, setSearchParams] = useSearchParams();
   const initialCategory = searchParams.get('category') || 'All';
+
+  const categoryLabels = {
+    'All': t('store_all'),
+    'ACE Logo Products': t('store_cat_logo'),
+    'Bible Verse Products': t('store_cat_verse'),
+    'Holy Bible Covers and Books': t('store_cat_books'),
+  };
 
   const [products, setProducts] = useState(DEFAULT_MEKLIT_PRODUCTS);
   const [loading, setLoading] = useState(false);
@@ -251,11 +260,11 @@ const StorePage = () => {
       >
         <div className="container">
           <span style={{ color: '#d97706', fontWeight: 700, fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-            Faith-Based Apparel & Merchandise
+            {t('store_subtitle')}
           </span>
-          <h1 style={{ fontSize: '2.5rem', margin: '0.5rem 0 1rem' }}>ACE MEKLIT STORE</h1>
+          <h1 style={{ fontSize: '2.5rem', margin: '0.5rem 0 1rem' }}>{t('store_title')}</h1>
           <p style={{ maxWidth: '650px', margin: '0 auto', color: '#cbd5e1', fontSize: '1.05rem', fontWeight: 500 }}>
-            Scripture Thread • Living Word Apparel • Covenant Cotton • Verity Wear • Biblical Books ...
+            {t('store_desc')}
           </p>
         </div>
       </section>
@@ -290,7 +299,7 @@ const StorePage = () => {
               />
               <input
                 type="text"
-                placeholder="Search products by title, keyword, or scripture..."
+                placeholder={t('store_search_placeholder')}
                 value={searchKeyword}
                 onChange={(e) => setSearchKeyword(e.target.value)}
                 className="form-input"
@@ -323,7 +332,7 @@ const StorePage = () => {
                 onClick={() => handleCategoryChange(cat)}
                 className={`filter-tab ${selectedCategory === cat ? 'active' : ''}`}
               >
-                {cat}
+                {categoryLabels[cat] || cat}
               </button>
             ))}
           </div>
@@ -337,7 +346,7 @@ const StorePage = () => {
         ) : products.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '4rem 1rem', background: '#ffffff', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
             <ShoppingBag size={48} color="#94a3b8" style={{ margin: '0 auto 1rem' }} />
-            <h3 style={{ fontSize: '1.3rem', marginBottom: '0.5rem' }}>No products found</h3>
+            <h3 style={{ fontSize: '1.3rem', marginBottom: '0.5rem' }}>{t('store_no_products')}</h3>
             <p style={{ color: '#64748b', marginBottom: '1.5rem' }}>
               We could not find any products matching your search criteria.
             </p>
@@ -349,7 +358,7 @@ const StorePage = () => {
                 setSearchKeyword('');
               }}
             >
-              Reset Filters
+              {t('store_reset_filters')}
             </button>
           </div>
         ) : selectedCategory === 'All' && !searchKeyword && (aceLogoItems.length > 0 || bibleVerseItems.length > 0 || bibleCoverItems.length > 0) ? (
@@ -359,7 +368,7 @@ const StorePage = () => {
               <div style={{ marginBottom: '3.5rem' }}>
                 <div style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '0.75rem', marginBottom: '1.75rem' }}>
                   <h2 style={{ fontSize: '1.5rem', color: '#1e3a8a', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    ⇒ ACE Logo Products
+                    ⇒ {t('store_cat_logo')}
                   </h2>
                 </div>
                 <div className="products-grid">
@@ -374,7 +383,7 @@ const StorePage = () => {
               <div style={{ marginBottom: '3.5rem' }}>
                 <div style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '0.75rem', marginBottom: '1.75rem' }}>
                   <h2 style={{ fontSize: '1.5rem', color: '#1e3a8a', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    ⇒ Bible Verse Products
+                    ⇒ {t('store_cat_verse')}
                   </h2>
                 </div>
                 <div className="products-grid">
@@ -389,7 +398,7 @@ const StorePage = () => {
               <div style={{ marginBottom: '3.5rem' }}>
                 <div style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '0.75rem', marginBottom: '1.75rem' }}>
                   <h2 style={{ fontSize: '1.5rem', color: '#1e3a8a', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    ⇒ Holy Bible Covers and Books
+                    ⇒ {t('store_cat_books')}
                   </h2>
                 </div>
                 <div className="products-grid">
@@ -404,7 +413,7 @@ const StorePage = () => {
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
               <p style={{ color: '#64748b', fontSize: '0.95rem' }}>
-                Showing <strong>{products.length}</strong> items in <em>{selectedCategory}</em>
+                {t('store_showing')} <strong>{products.length}</strong> {t('store_items_in')} <em>{categoryLabels[selectedCategory] || selectedCategory}</em>
               </p>
             </div>
             <div className="products-grid">
