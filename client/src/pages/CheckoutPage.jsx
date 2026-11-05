@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ShieldCheck, CheckCircle2, Lock, ArrowLeft } from 'lucide-react';
+import { ShieldCheck, CheckCircle2, Lock, ArrowLeft, AlertCircle } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { ordersApi } from '../services/api';
@@ -27,9 +27,12 @@ const CheckoutPage = () => {
   if (cartItems.length === 0 && !orderSuccess) {
     return (
       <div className="section container" style={{ textAlign: 'center', padding: '5rem 0' }}>
-        <h2>Your cart is currently empty</h2>
+        <div style={{ color: '#d97706', display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+          <AlertCircle size={56} />
+        </div>
+        <h2 style={{ fontSize: '1.8rem', color: '#0f172a' }}>⚠️ Please add Items to the cart first!</h2>
         <p style={{ color: '#64748b', margin: '1rem 0 2rem' }}>
-          Please add items to your cart before proceeding to checkout.
+          Your shopping cart is currently empty. Browse our catalog to select your favorite ACE apparel, cups, or books.
         </p>
         <Link to="/store" className="btn btn-primary">
           Browse Store Products
@@ -111,7 +114,7 @@ const CheckoutPage = () => {
             <CheckCircle2 size={64} />
           </div>
           <h1 style={{ fontSize: '2rem', color: '#065f46', marginBottom: '0.75rem' }}>
-            Order Placed Successfully!
+            ✅ Thank you! You purchased Successfully
           </h1>
           <p style={{ color: '#475569', fontSize: '1.05rem', marginBottom: '1.5rem' }}>
             Thank you for supporting ACE Meklit! Your order <strong>#{orderSuccess._id.slice(-8)}</strong> has been registered and confirmed.
@@ -138,7 +141,7 @@ const CheckoutPage = () => {
             <Link to="/profile" className="btn btn-navy">
               View My Order in Dashboard
             </Link>
-            <Link to="/store" className="btn btn-primary">
+            <Link to="/store" className="btn btn-outline-navy">
               Continue Shopping
             </Link>
           </div>
@@ -148,42 +151,74 @@ const CheckoutPage = () => {
   }
 
   return (
-    <div className="checkout-page section container">
+    <div className="section container">
+      <Link
+        to="/cart"
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.4rem',
+          color: '#64748b',
+          marginBottom: '1.5rem',
+          fontWeight: 500,
+        }}
+      >
+        <ArrowLeft size={16} />
+        <span>Back to Shopping Cart</span>
+      </Link>
+
       <div style={{ marginBottom: '2rem' }}>
         <h1 style={{ fontSize: '2.2rem', color: '#0f172a', marginBottom: '0.5rem' }}>
-          Secure Checkout
+          Checkout & Shipping
         </h1>
-        <p style={{ color: '#64748b', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-          <Lock size={16} color="#10b981" /> 256-bit encrypted ministry order checkout
+        <p style={{ color: '#64748b' }}>
+          Provide your delivery details to complete your order.
         </p>
       </div>
 
-      {error && <div className="alert alert-danger">{error}</div>}
-
-      <form onSubmit={handleSubmit}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gap: '2.5rem',
+          alignItems: 'start',
+        }}
+      >
+        {/* Shipping Form */}
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '2.5rem',
-            alignItems: 'start',
+            background: '#ffffff',
+            borderRadius: '12px',
+            border: '1px solid #e2e8f0',
+            padding: '2rem',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
           }}
         >
-          {/* Shipping and Payment Form */}
-          <div
-            style={{
-              background: '#ffffff',
-              padding: '2rem',
-              borderRadius: '12px',
-              border: '1px solid #e2e8f0',
-            }}
-          >
-            <h3 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', color: '#0f172a', borderBottom: '1px solid #f1f5f9', paddingBottom: '0.75rem' }}>
-              1. Delivery Information
-            </h3>
+          <h2 style={{ fontSize: '1.3rem', marginBottom: '1.5rem', color: '#0f172a' }}>
+            Shipping Address
+          </h2>
 
-            <div className="form-group">
-              <label className="form-label">Full Name *</label>
+          {error && (
+            <div
+              style={{
+                padding: '0.85rem 1rem',
+                borderRadius: '8px',
+                background: '#fef2f2',
+                color: '#991b1b',
+                border: '1px solid #fecaca',
+                marginBottom: '1.5rem',
+                fontSize: '0.9rem',
+              }}
+            >
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, marginBottom: '0.4rem', color: '#334155' }}>
+                Full Name *
+              </label>
               <input
                 type="text"
                 name="fullName"
@@ -191,12 +226,14 @@ const CheckoutPage = () => {
                 value={formData.fullName}
                 onChange={handleChange}
                 className="form-input"
-                placeholder="Petros Sisay"
+                placeholder="Full Name"
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Phone Number *</label>
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, marginBottom: '0.4rem', color: '#334155' }}>
+                Phone Number *
+              </label>
               <input
                 type="tel"
                 name="phone"
@@ -204,12 +241,14 @@ const CheckoutPage = () => {
                 value={formData.phone}
                 onChange={handleChange}
                 className="form-input"
-                placeholder="+251 91 100 0000"
+                placeholder="+251 9..."
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Street Address / Landmark *</label>
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, marginBottom: '0.4rem', color: '#334155' }}>
+                Delivery Address *
+              </label>
               <input
                 type="text"
                 name="address"
@@ -217,13 +256,15 @@ const CheckoutPage = () => {
                 value={formData.address}
                 onChange={handleChange}
                 className="form-input"
-                placeholder="Bole, Sub-city, Near Apostolic Church"
+                placeholder="Street, Building, or Neighborhood"
               />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-              <div className="form-group">
-                <label className="form-label">City *</label>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.25rem' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, marginBottom: '0.4rem', color: '#334155' }}>
+                  City *
+                </label>
                 <input
                   type="text"
                   name="city"
@@ -233,188 +274,140 @@ const CheckoutPage = () => {
                   className="form-input"
                 />
               </div>
-              <div className="form-group">
-                <label className="form-label">Country *</label>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, marginBottom: '0.4rem', color: '#334155' }}>
+                  Country
+                </label>
                 <input
                   type="text"
                   name="country"
-                  required
+                  readOnly
                   value={formData.country}
-                  onChange={handleChange}
                   className="form-input"
+                  style={{ background: '#f8fafc' }}
                 />
               </div>
             </div>
 
-            <h3 style={{ fontSize: '1.25rem', margin: '2rem 0 1.25rem', color: '#0f172a', borderBottom: '1px solid #f1f5f9', paddingBottom: '0.75rem' }}>
-              2. Payment Method
-            </h3>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              <label
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  padding: '1rem',
-                  border: formData.paymentMethod === 'Telebirr' ? '2px solid #1e3a8a' : '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                  background: formData.paymentMethod === 'Telebirr' ? '#f0f9ff' : '#ffffff',
-                  cursor: 'pointer',
-                }}
-              >
-                <input
-                  type="radio"
-                  name="paymentMethod"
-                  value="Telebirr"
-                  checked={formData.paymentMethod === 'Telebirr'}
-                  onChange={handleChange}
-                />
-                <div>
-                  <strong>Telebirr</strong>
-                  <p style={{ fontSize: '0.82rem', color: '#64748b', margin: 0 }}>Instant electronic mobile payment</p>
-                </div>
-              </label>
-
-              <label
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  padding: '1rem',
-                  border: formData.paymentMethod === 'CBE Birr' ? '2px solid #1e3a8a' : '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                  background: formData.paymentMethod === 'CBE Birr' ? '#f0f9ff' : '#ffffff',
-                  cursor: 'pointer',
-                }}
-              >
-                <input
-                  type="radio"
-                  name="paymentMethod"
-                  value="CBE Birr"
-                  checked={formData.paymentMethod === 'CBE Birr'}
-                  onChange={handleChange}
-                />
-                <div>
-                  <strong>CBE Birr / Mobile Banking</strong>
-                  <p style={{ fontSize: '0.82rem', color: '#64748b', margin: 0 }}>Direct Commercial Bank of Ethiopia transfer</p>
-                </div>
-              </label>
-
-              <label
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  padding: '1rem',
-                  border: formData.paymentMethod === 'Credit/Debit Card' ? '2px solid #1e3a8a' : '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                  background: formData.paymentMethod === 'Credit/Debit Card' ? '#f0f9ff' : '#ffffff',
-                  cursor: 'pointer',
-                }}
-              >
-                <input
-                  type="radio"
-                  name="paymentMethod"
-                  value="Credit/Debit Card"
-                  checked={formData.paymentMethod === 'Credit/Debit Card'}
-                  onChange={handleChange}
-                />
-                <div>
-                  <strong>Credit / Debit Card</strong>
-                  <p style={{ fontSize: '0.82rem', color: '#64748b', margin: 0 }}>Visa, MasterCard, or Diaspora international card</p>
-                </div>
-              </label>
-            </div>
-          </div>
-
-          {/* Order Summary sidebar */}
-          <div
-            style={{
-              background: '#ffffff',
-              padding: '2rem',
-              borderRadius: '12px',
-              border: '1px solid #e2e8f0',
-            }}
-          >
-            <h3 style={{ fontSize: '1.25rem', marginBottom: '1.25rem', color: '#0f172a' }}>
-              Order Review
-            </h3>
-
-            <div style={{ maxHeight: '280px', overflowY: 'auto', marginBottom: '1.25rem' }}>
-              {cartItems.map((item) => (
-                <div
-                  key={item._id}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.75rem',
-                    marginBottom: '0.85rem',
-                    paddingBottom: '0.85rem',
-                    borderBottom: '1px solid #f1f5f9',
-                  }}
-                >
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    style={{ width: '48px', height: '48px', objectFit: 'contain', background: '#f8fafc', borderRadius: '6px' }}
-                    onError={(e) => {
-                      e.target.src = '/Images/ace logo.jpg';
+            {/* Payment Method Selection */}
+            <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid #e2e8f0' }}>
+              <h3 style={{ fontSize: '1.15rem', marginBottom: '1rem', color: '#0f172a' }}>
+                Payment Method
+              </h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                {['Telebirr', 'CBE Birr', 'Cash on Delivery'].map((method) => (
+                  <label
+                    key={method}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.75rem',
+                      padding: '0.85rem 1rem',
+                      borderRadius: '8px',
+                      border: formData.paymentMethod === method ? '2px solid #1e3a8a' : '1px solid #e2e8f0',
+                      background: formData.paymentMethod === method ? '#eff6ff' : '#ffffff',
+                      cursor: 'pointer',
+                      fontWeight: 600,
+                      fontSize: '0.95rem',
                     }}
-                  />
-                  <div style={{ flex: 1 }}>
-                    <p style={{ fontSize: '0.9rem', fontWeight: 600, margin: 0 }}>{item.name}</p>
-                    <p style={{ fontSize: '0.8rem', color: '#64748b', margin: 0 }}>Qty: {item.qty} × ${item.price}</p>
-                  </div>
-                  <span style={{ fontWeight: 700, fontSize: '0.95rem' }}>
-                    ${(item.price * item.qty).toFixed(2)}
+                  >
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value={method}
+                      checked={formData.paymentMethod === method}
+                      onChange={handleChange}
+                      style={{ accentColor: '#1e3a8a' }}
+                    />
+                    <span>{method}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ marginTop: '2.5rem' }}>
+              <button
+                type="submit"
+                disabled={submitting}
+                className="btn btn-primary"
+                style={{ width: '100%', padding: '0.9rem', fontSize: '1.05rem', justifyContent: 'center' }}
+              >
+                <Lock size={18} />
+                <span>{submitting ? 'Processing Order...' : `Place & Pay Order ($${totalPrice})`}</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {/* Order Items Preview */}
+        <div
+          style={{
+            background: '#ffffff',
+            borderRadius: '12px',
+            border: '1px solid #e2e8f0',
+            padding: '1.75rem',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
+          }}
+        >
+          <h3 style={{ fontSize: '1.2rem', marginBottom: '1.25rem', color: '#0f172a' }}>
+            Items in Order ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
+          </h3>
+
+          <div style={{ maxHeight: '360px', overflowY: 'auto', marginBottom: '1.5rem' }}>
+            {cartItems.map((item) => (
+              <div
+                key={item._id}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  padding: '0.75rem 0',
+                  borderBottom: '1px solid #f1f5f9',
+                }}
+              >
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  style={{ width: '48px', height: '48px', objectFit: 'contain', background: '#f8fafc', borderRadius: '6px' }}
+                />
+                <div style={{ flex: 1 }}>
+                  <h5 style={{ fontSize: '0.9rem', margin: 0, fontWeight: 600 }}>{item.name}</h5>
+                  <span style={{ fontSize: '0.8rem', color: '#64748b' }}>
+                    Qty: {item.qty} × ${item.price.toFixed(2)}
                   </span>
                 </div>
-              ))}
-            </div>
+                <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>
+                  ${(item.price * item.qty).toFixed(2)}
+                </div>
+              </div>
+            ))}
+          </div>
 
+          <div style={{ borderTop: '2px solid #e2e8f0', paddingTop: '1rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', color: '#64748b' }}>
-              <span>Items Total</span>
+              <span>Subtotal</span>
               <span>${totalPrice}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', color: '#64748b' }}>
-              <span>Shipping & Handling</span>
+              <span>Shipping</span>
               <span style={{ color: '#10b981', fontWeight: 600 }}>Free</span>
             </div>
-
             <div
               style={{
                 display: 'flex',
                 justifyContent: 'space-between',
-                paddingTop: '1rem',
-                marginTop: '1rem',
-                borderTop: '2px solid #e2e8f0',
+                fontSize: '1.25rem',
                 fontWeight: 800,
-                fontSize: '1.4rem',
-                color: '#1e3a8a',
-                marginBottom: '1.5rem',
+                color: '#0f172a',
+                marginTop: '0.75rem',
               }}
             >
-              <span>Total to Pay</span>
-              <span>${totalPrice}</span>
-            </div>
-
-            <button
-              type="submit"
-              disabled={submitting}
-              className="btn btn-primary"
-              style={{ width: '100%', padding: '0.95rem', fontSize: '1.05rem', marginBottom: '1rem' }}
-            >
-              {submitting ? 'Processing Payment...' : `Complete Purchase ($${totalPrice})`}
-            </button>
-
-            <div style={{ textAlign: 'center', fontSize: '0.8rem', color: '#64748b', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem' }}>
-              <ShieldCheck size={16} color="#10b981" />
-              <span>Safe & verified church ministry checkout</span>
+              <span>Total</span>
+              <span style={{ color: '#1e3a8a' }}>${totalPrice}</span>
             </div>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   );
 };
