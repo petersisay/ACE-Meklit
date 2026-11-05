@@ -25,20 +25,20 @@ const users = [
 ];
 
 const products = [
-  // ACE Logo Products
+  // ACE Logo Products (from store.html)
   {
-    name: 'ACE Official Hoodie',
-    description: 'Premium heavyweight cotton hoodie featuring the official Apostolic Church of Ethiopia insignia. Perfect for warmth and everyday Christian witness.',
+    name: 'Hoddie',
+    description: 'Living Word Apparel & ACE Logo official heavyweight hoodie. Scripture Thread, Covenant Cotton, Verity Wear.',
     category: 'ACE Logo Products',
     price: 19.99,
     image: '/Images/hoddie.png',
-    countInStock: 25,
+    countInStock: 30,
     isFeatured: true,
     scriptureReference: 'Deuteronomy 6:4',
   },
   {
-    name: 'ACE Faith Cap',
-    description: 'Structured adjustable embroidered cap displaying the ACE monogram. Breathable, durable, and stylish for all seasons.',
+    name: 'Cap',
+    description: 'ACE faith cap displaying the Apostolic Church of Ethiopia monogram.',
     category: 'ACE Logo Products',
     price: 1.99,
     image: '/Images/hat.png',
@@ -47,18 +47,18 @@ const products = [
     scriptureReference: 'Ephesians 6:17',
   },
   {
-    name: 'ACE Winter Jacket',
-    description: 'Weather-resistant windbreaker jacket tailored for comfort and durability with subtle ACE embroidered branding.',
+    name: 'Jacket',
+    description: 'Weather-resistant ACE branded winter jacket designed for purposeful style.',
     category: 'ACE Logo Products',
     price: 29.99,
     image: '/Images/jacket.png',
-    countInStock: 15,
+    countInStock: 20,
     isFeatured: true,
     scriptureReference: 'Psalm 91:4',
   },
   {
-    name: 'ACE Ceramic Tea Mug',
-    description: '11oz high-quality ceramic mug with high-gloss finish and inspiring ACE emblem for morning devotionals and tea.',
+    name: 'Tea Mug',
+    description: 'High-gloss ceramic tea mug with ACE emblem for your daily devotional.',
     category: 'ACE Logo Products',
     price: 0.99,
     image: '/Images/mug.png',
@@ -67,90 +67,91 @@ const products = [
     scriptureReference: 'Proverbs 3:5-6',
   },
   {
-    name: 'ACE Graphic T-Shirt',
-    description: '100% ring-spun soft cotton t-shirt with signature ACE typography and modern retail fit.',
+    name: 'T-Shirt',
+    description: '100% premium cotton graphic shirt featuring Apostolic Church of Ethiopia faith typography.',
     category: 'ACE Logo Products',
     price: 12.99,
     image: '/Images/shirt.png',
-    countInStock: 30,
+    countInStock: 35,
     isFeatured: true,
     scriptureReference: '1 Corinthians 13:13',
   },
   {
-    name: 'ACE Classic Everyday Shirt',
-    description: 'Lightweight, pre-shrunk cotton tee with classic crew neck and understated ACE Meklit faith accent.',
+    name: 'Shirt',
+    description: 'Everyday comfortable pre-shrunk cotton tee with subtle ACE faith design.',
     category: 'ACE Logo Products',
     price: 2.99,
     image: '/Images/t-shirt.png',
-    countInStock: 40,
+    countInStock: 45,
     isFeatured: false,
     scriptureReference: 'Colossians 3:12',
   },
 
-  // Bible Verse Products
+  // Bible Verse Products (from store.html)
   {
-    name: 'Bible Verse Hoodie (Acts 2:38)',
-    description: 'Living Word apparel boldly displaying Acts 2:38 apostolic repentance and baptism scripture typography on pure covenant cotton.',
+    name: 'Bible Verse Hoddie',
+    description: 'Scripture Thread hoodie with inspiring biblical verses woven into Covenant Cotton.',
     category: 'Bible Verse Products',
     price: 19.99,
     image: '/Images/peter_hoddie.png',
-    countInStock: 20,
+    countInStock: 25,
     isFeatured: true,
     scriptureReference: 'Acts 2:38',
   },
   {
     name: 'Bible Verse Coffee Cup',
-    description: 'Inspirational morning coffee cup printed with Isaiah 40:31 promise: Those who hope in the Lord will renew their strength.',
+    description: 'Ceramic coffee cup featuring biblical scriptures to inspire your mornings.',
     category: 'Bible Verse Products',
     price: 6.99,
     image: '/Images/coffee_cup.png',
-    countInStock: 35,
+    countInStock: 40,
     isFeatured: true,
     scriptureReference: 'Isaiah 40:31',
   },
   {
-    name: 'Bible Verse Canvas Tote Bag',
-    description: 'Heavy-duty eco-friendly canvas tote bag with scripture imprint, great for carrying Bibles, hymn books, and study materials.',
+    name: 'Bible Verse Tote Bag',
+    description: 'Durable eco-friendly canvas tote bag with scripture imprint, perfect for Holy Bibles and books.',
     category: 'Bible Verse Products',
     price: 1.99,
     image: '/Images/bag.png',
-    countInStock: 45,
+    countInStock: 50,
     isFeatured: false,
     scriptureReference: 'Joshua 1:9',
   },
 
-  // Holy Bible Covers and Books
+  // Holy Bible Covers and Books (from store.html)
   {
-    name: 'Handcrafted Holy Bible Leather Cover',
-    description: 'Protective embossed Bible case with zip closure, bookmark ribbon, and pen holder to preserve your sacred scriptures.',
+    name: 'Bible Cover',
+    description: 'Protective handcrafted Holy Bible cover case with zip closure to safeguard scripture.',
     category: 'Holy Bible Covers and Books',
     price: 9.99,
     image: '/Images/Bible cover.jpg',
-    countInStock: 25,
+    countInStock: 30,
     isFeatured: true,
     scriptureReference: 'Hebrews 4:12',
   },
   {
-    name: 'ቃሉ ይናገር (Kalu Ynager) Biblical Book',
-    description: 'Sound apostolic doctrine teachings and spiritual insights from Bishop Teklemariam Gezahagne on Biblical holiness and truth.',
+    name: 'Biblical Books',
+    description: 'ቃሉ ይናገር (Kalu Ynager) — Sound biblical teachings and doctrine from Bishop Teklemariam Gezahagne.',
     category: 'Holy Bible Covers and Books',
     price: 4.99,
     image: '/Images/kalu ynager.jpg',
-    countInStock: 50,
+    countInStock: 55,
     isFeatured: true,
     scriptureReference: '2 Timothy 3:16',
   },
 ];
 
 const mediaItems = [
+  // Full Album Musics (from index.html)
   {
     title: 'Eyesus Mulate',
     artistOrSpeaker: 'Hibret Zmare Senduk',
     type: 'music',
     releaseType: 'Full Album',
     youtubeId: 'kz9EyrTOIco',
-    youtubeUrl: 'https://www.youtube.com/watch?v=kz9EyrTOIco',
-    description: 'Full gospel worship album celebrating the sovereignty and fullness of Jesus Christ.',
+    youtubeUrl: 'https://www.youtube.com/embed/kz9EyrTOIco?si=gSx-IJQ8WAZRAoZe',
+    description: 'Full gospel album music by Hibret Zmare Senduk exalting Jesus Christ.',
     isFeatured: true,
   },
   {
@@ -159,8 +160,8 @@ const mediaItems = [
     type: 'music',
     releaseType: 'Full Album',
     youtubeId: 'u45Gv3R5fe0',
-    youtubeUrl: 'https://www.youtube.com/watch?v=u45Gv3R5fe0',
-    description: 'Inspiring Apostolic hymns and worship melodies from Hibret Mezmur Volume 17.',
+    youtubeUrl: 'https://www.youtube.com/embed/u45Gv3R5fe0?si=nY2eU1l6Anc3kGbB',
+    description: 'Full gospel album music from Hibret Mezmur Volume 17.',
     isFeatured: true,
   },
   {
@@ -169,8 +170,8 @@ const mediaItems = [
     type: 'music',
     releaseType: 'Full Album',
     youtubeId: '0kdVLZWfWlQ',
-    youtubeUrl: 'https://www.youtube.com/watch?v=0kdVLZWfWlQ',
-    description: 'Classic spiritual songs by Meseret Kejela filled with anointing and biblical truth.',
+    youtubeUrl: 'https://www.youtube.com/embed/0kdVLZWfWlQ?si=VHKT8vtUPRMRbIQH',
+    description: 'Full gospel album music by Meseret Kejela Volume #1.',
     isFeatured: true,
   },
   {
@@ -179,18 +180,20 @@ const mediaItems = [
     type: 'music',
     releaseType: 'Collection of Apostolic Songs',
     youtubeId: 'uAGCujczi0g',
-    youtubeUrl: 'https://www.youtube.com/watch?v=uAGCujczi0g',
-    description: 'Uplifting compilation of worship anthems and congregational praise songs.',
+    youtubeUrl: 'https://www.youtube.com/embed/uAGCujczi0g?si=KtekcA2GXNXf6YDG',
+    description: 'Collection of Apostolic Songs — Anointed gospel praise and worship.',
     isFeatured: true,
   },
+
+  // Best Preachings (from index.html)
   {
     title: 'Atcheneku',
     artistOrSpeaker: 'Bishop Elias Asha',
     type: 'preaching',
     releaseType: 'Preaching',
     youtubeId: 'm71KeEO2BxM',
-    youtubeUrl: 'https://www.youtube.com/watch?v=m71KeEO2BxM',
-    description: 'A powerful, faith-building sermon reminding believers not to be anxious but trust God completely.',
+    youtubeUrl: 'https://www.youtube.com/embed/m71KeEO2BxM?si=x5lFcVqxCvPYxOGF',
+    description: 'Best Preaching: Bishop Elias Asha — Atcheneku.',
     isFeatured: true,
   },
   {
@@ -199,8 +202,8 @@ const mediaItems = [
     type: 'preaching',
     releaseType: 'Preaching',
     youtubeId: 'xUCGEPX1Rmk',
-    youtubeUrl: 'https://www.youtube.com/watch?v=xUCGEPX1Rmk',
-    description: 'Stirring apostolic preaching urging the church never to forget where God brought us from.',
+    youtubeUrl: 'https://www.youtube.com/embed/xUCGEPX1Rmk?si=J1MumHvxVROqVaHE',
+    description: 'Best Preaching: Bishop Degu Kebede — Jmareyachinin Anirsa.',
     isFeatured: true,
   },
 ];
@@ -209,7 +212,7 @@ const contactMessages = [
   {
     name: 'Yonas Haile',
     email: 'yonas@example.com',
-    message: 'Grace and peace to you in Jesus name! I would like to inquire about ordering ACE Meklit apparel in bulk for our youth choir.',
+    message: 'Grace and peace to you in Jesus name! Inquiring about purchasing ACE Meklit apparel for our church youth choir.',
     status: 'unread',
   },
 ];
@@ -234,19 +237,16 @@ const importData = async () => {
     const adminUser = createdUsers[0]._id;
     const regularUser = createdUsers[1]._id;
 
-    console.log('[Seeder] Inserting products...');
-    const sampleProducts = products.map((product) => ({
-      ...product,
-    }));
-    const createdProducts = await Product.insertMany(sampleProducts);
+    console.log('[Seeder] Inserting all original products...');
+    const createdProducts = await Product.insertMany(products);
 
-    console.log('[Seeder] Inserting media content...');
+    console.log('[Seeder] Inserting all original gospel media...');
     await MediaContent.insertMany(mediaItems);
 
     console.log('[Seeder] Inserting contact messages...');
     await ContactMessage.insertMany(contactMessages);
 
-    console.log('[Seeder] Inserting sample order...');
+    console.log('[Seeder] Inserting sample purchase order...');
     await Order.create({
       user: regularUser,
       orderItems: [
@@ -284,7 +284,7 @@ const importData = async () => {
       status: 'Processing',
     });
 
-    console.log('✅ [Seeder] Data imported successfully!');
+    console.log('✅ [Seeder] All original materials imported successfully!');
     process.exit(0);
   } catch (error) {
     console.error(`❌ [Seeder] Error with data import: ${error.message}`);
