@@ -80,6 +80,10 @@ const orderSchema = new mongoose.Schema(
       enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'],
       default: 'Pending',
     },
+    trackingNumber: {
+      type: String,
+      default: () => 'TRK-' + Date.now() + '-' + Math.floor(1000 + Math.random() * 9000),
+    },
   },
   {
     timestamps: true,
