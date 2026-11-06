@@ -240,6 +240,7 @@ const initializeChapa = async (req, res, next) => {
             checkout_url: chapaRes.data.checkout_url,
             tx_ref: txRef,
             mode: 'live_chapa',
+            order,
           });
         } else {
           console.warn('[Chapa] Gateway initialization returned non-success:', chapaRes);
@@ -249,9 +250,9 @@ const initializeChapa = async (req, res, next) => {
       }
     }
 
-    // Fallback Revola-Style Chapa Test Mode: return checkout_url pointing to the callback flow
+    // Chapa Test Mode: Return test mode metadata so the client can display the interactive Chapa test window
     return res.json({
-      checkout_url: `${clientUrl}/payment/callback?tx_ref=${txRef}&provider=chapa&order_id=${order._id}&simulated=true`,
+      checkout_url: null,
       tx_ref: txRef,
       mode: 'test_mode',
       order,
