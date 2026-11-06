@@ -13,9 +13,14 @@ const contactMessageSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
       match: [
-        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-        'Please provide a valid email',
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        'Please provide a valid email address',
       ],
+    },
+    subject: {
+      type: String,
+      default: 'General Inquiry',
+      trim: true,
     },
     message: {
       type: String,
