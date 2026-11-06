@@ -135,13 +135,22 @@ const CheckoutPage = () => {
       }
     } catch (err) {
       console.error('Order creation error:', err);
-      setError(
-        err.response && err.response.data.message
-          ? err.response.data.message
-          : language === 'am'
-          ? 'ትዕዛዝ መፍጠር አልተቻለም። እባክዎ እንደገና ይሞክሩ።'
-          : 'Failed to process order. Please check your details and try again.'
-      );
+      const isAuthError = err.response && (err.response.status === 401 || err.response.data?.message?.includes('token'));
+      if (isAuthError) {
+        setError(
+          language === 'am'
+            ? 'የመግቢያ ክፍለ ጊዜዎ አልቋል (Session Expired)። እባክዎ እንደገና ይግቡ።'
+            : 'Your login session has expired. Please log in again to place your order.'
+        );
+      } else {
+        setError(
+          err.response && err.response.data.message
+            ? err.response.data.message
+            : language === 'am'
+            ? 'ትዕዛዝ መፍጠር አልተቻለም። እባክዎ እንደገና ይሞክሩ።'
+            : 'Failed to process order. Please check your details and try again.'
+        );
+      }
       setSubmitting(false);
     }
   };
@@ -244,7 +253,7 @@ const CheckoutPage = () => {
         {error && (
           <div
             style={{
-              padding: '1rem',
+              padding: '1rem 1.25rem',
               backgroundColor: '#fef2f2',
               color: '#b91c1c',
               border: '1px solid #fecaca',
@@ -253,11 +262,31 @@ const CheckoutPage = () => {
               fontSize: '0.92rem',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.75rem',
+              justifyContent: 'space-between',
+              gap: '1rem',
+              flexWrap: 'wrap',
             }}
           >
-            <AlertCircle size={20} />
-            <span>{error}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <AlertCircle size={20} />
+              <span>{error}</span>
+            </div>
+            {error.includes('expired') || error.includes('Session') || error.includes('token') || error.includes('ክፍለ ጊዜ') ? (
+              <Link
+                to="/login?redirect=checkout"
+                style={{
+                  backgroundColor: '#dc2626',
+                  color: '#ffffff',
+                  padding: '0.45rem 0.95rem',
+                  borderRadius: '6px',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  textDecoration: 'none',
+                }}
+              >
+                {language === 'am' ? 'እንደገና ይግቡ' : 'Log In Again'}
+              </Link>
+            ) : null}
           </div>
         )}
 
