@@ -10,6 +10,8 @@ const categories = [
   'ACE Logo Products',
   'Bible Verse Products',
   'Holy Bible Covers and Books',
+  'Apparel',
+  'Accessories',
 ];
 
 export const DEFAULT_MEKLIT_PRODUCTS = [
@@ -146,6 +148,8 @@ const StorePage = () => {
     'ACE Logo Products': t('store_cat_logo'),
     'Bible Verse Products': t('store_cat_verse'),
     'Holy Bible Covers and Books': t('store_cat_books'),
+    'Apparel': t('store_cat_apparel') || 'Apparel',
+    'Accessories': t('store_cat_accessories') || 'Accessories',
   };
 
   const [products, setProducts] = useState(DEFAULT_MEKLIT_PRODUCTS);
@@ -169,39 +173,22 @@ const StorePage = () => {
         }
 
         const { data } = await productsApi.getAll(params);
-        // Strictly filter to authentic ACE Meklit products and eliminate any foreign demo items
+        // Filter out legacy demo clutter while allowing all valid uploaded and catalog products
         const cleanData = (data || []).filter(
           (p) =>
-            categories.slice(1).includes(p.category) &&
+            p &&
+            p.name &&
             !p.name.toLowerCase().startsWith('used ') &&
             p.name.toLowerCase() !== 'pc' &&
-            p.image &&
-            p.image.startsWith('/Images/')
+            p.name.toLowerCase() !== 'sample product'
         );
 
         if (cleanData.length > 0) {
           setProducts(cleanData);
+        } else if (!searchKeyword.trim() && (!selectedCategory || selectedCategory === 'All')) {
+          setProducts(DEFAULT_MEKLIT_PRODUCTS);
         } else {
-          // Apply local filter to default products if API has no matching clean products
-          let filtered = [...DEFAULT_MEKLIT_PRODUCTS];
-          if (selectedCategory && selectedCategory !== 'All') {
-            filtered = filtered.filter((p) => p.category === selectedCategory);
-          }
-          if (searchKeyword.trim()) {
-            const q = searchKeyword.toLowerCase();
-            filtered = filtered.filter(
-              (p) =>
-                p.name.toLowerCase().includes(q) ||
-                p.description.toLowerCase().includes(q) ||
-                (p.scriptureReference && p.scriptureReference.toLowerCase().includes(q))
-            );
-          }
-          if (sortBy === 'price-low') {
-            filtered.sort((a, b) => a.price - b.price);
-          } else if (sortBy === 'price-high') {
-            filtered.sort((a, b) => b.price - a.price);
-          }
-          setProducts(filtered);
+          setProducts([]);
         }
       } catch (err) {
         console.error('Failed to load products from API, using default Meklit catalog:', err);
@@ -242,10 +229,22 @@ const StorePage = () => {
     setSearchParams(searchParams);
   };
 
-  // Group products strictly by official category
+  // Group products by category
   const aceLogoItems = products.filter((p) => p.category === 'ACE Logo Products');
   const bibleVerseItems = products.filter((p) => p.category === 'Bible Verse Products');
   const bibleCoverItems = products.filter((p) => p.category === 'Holy Bible Covers and Books');
+  const apparelItems = products.filter((p) => p.category === 'Apparel');
+  const accessoriesItems = products.filter((p) => p.category === 'Accessories');
+  const otherItems = products.filter(
+    (p) =>
+      ![
+        'ACE Logo Products',
+        'Bible Verse Products',
+        'Holy Bible Covers and Books',
+        'Apparel',
+        'Accessories',
+      ].includes(p.category)
+  );
 
   return (
     <div className="store-page">
@@ -361,8 +360,8 @@ const StorePage = () => {
               {t('store_reset_filters')}
             </button>
           </div>
-        ) : selectedCategory === 'All' && !searchKeyword && (aceLogoItems.length > 0 || bibleVerseItems.length > 0 || bibleCoverItems.length > 0) ? (
-          /* Exact 3-section categorization from store.html */
+        ) : selectedCategory === 'All' && !searchKeyword && products.length > 0 ? (
+          /* Grouped category display */
           <div>
             {aceLogoItems.length > 0 && (
               <div style={{ marginBottom: '3.5rem' }}>
@@ -403,6 +402,51 @@ const StorePage = () => {
                 </div>
                 <div className="products-grid">
                   {bibleCoverItems.map((product) => (
+                    <ProductCard key={product._id} product={product} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {apparelItems.length > 0 && (
+              <div style={{ marginBottom: '3.5rem' }}>
+                <div style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '0.75rem', marginBottom: '1.75rem' }}>
+                  <h2 style={{ fontSize: '1.5rem', color: '#1e3a8a', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    ⇒ {categoryLabels['Apparel']}
+                  </h2>
+                </div>
+                <div className="products-grid">
+                  {apparelItems.map((product) => (
+                    <ProductCard key={product._id} product={product} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {accessoriesItems.length > 0 && (
+              <div style={{ marginBottom: '3.5rem' }}>
+                <div style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '0.75rem', marginBottom: '1.75rem' }}>
+                  <h2 style={{ fontSize: '1.5rem', color: '#1e3a8a', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    ⇒ {categoryLabels['Accessories']}
+                  </h2>
+                </div>
+                <div className="products-grid">
+                  {accessoriesItems.map((product) => (
+                    <ProductCard key={product._id} product={product} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {otherItems.length > 0 && (
+              <div style={{ marginBottom: '3.5rem' }}>
+                <div style={{ borderBottom: '2px solid #e2e8f0', paddingBottom: '0.75rem', marginBottom: '1.75rem' }}>
+                  <h2 style={{ fontSize: '1.5rem', color: '#1e3a8a', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    ⇒ {t('store_cat_other') || 'More Products'}
+                  </h2>
+                </div>
+                <div className="products-grid">
+                  {otherItems.map((product) => (
                     <ProductCard key={product._id} product={product} />
                   ))}
                 </div>
