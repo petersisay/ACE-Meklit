@@ -63,8 +63,8 @@ const HomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [prodRes, mediaRes] = await Promise.all([
-          productsApi.getAll({ limit: 4 }),
+                const [prodRes, mediaRes] = await Promise.all([
+          productsApi.getAll({ limit: 8 }),
           mediaApi.getAll({ featured: true }),
         ]);
         if (prodRes.data && prodRes.data.length > 0) {
@@ -77,7 +77,8 @@ const HomePage = () => {
               p.name.toLowerCase() !== 'sample product'
           );
           if (cleanProds.length > 0) {
-            setFeaturedProducts(cleanProds.slice(0, 4));
+            const featuredOrNew = cleanProds.filter((p) => p.isFeatured);
+            setFeaturedProducts((featuredOrNew.length > 0 ? featuredOrNew : cleanProds).slice(0, 4));
           }
         }
         if (mediaRes.data && mediaRes.data.length > 0) {
