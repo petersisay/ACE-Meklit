@@ -52,4 +52,8 @@ const productSchema = new mongoose.Schema(
   }
 );
 
+// Performance compound indexes for lightning-fast catalog filtering and search
+productSchema.index({ category: 1, isFeatured: -1, createdAt: -1 });
+productSchema.index({ name: 'text', description: 'text', scriptureReference: 'text' });
+
 module.exports = mongoose.model('Product', productSchema);
