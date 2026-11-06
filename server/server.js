@@ -140,20 +140,14 @@ const ensureDatabaseBootstrap = async () => {
     }
 
     // 3. Purge foreign demo/junk products & Ensure Product Catalog exists
-    const validCategories = [
-      'ACE Logo Products',
-      'Bible Verse Products',
-      'Holy Bible Covers and Books',
-    ];
     await Product.deleteMany({
       $or: [
-        { category: { $nin: validCategories } },
         { name: { $in: ['PC', 'pc', 'Sample Product'] } },
         { name: { $regex: /^Used /i } },
       ],
     });
 
-    const productCount = await Product.countDocuments({ category: { $in: validCategories } });
+    const productCount = await Product.countDocuments();
     if (productCount === 0) {
       console.log('[Server] No valid products found. Seeding initial Meklit catalog...');
       await Product.insertMany([
