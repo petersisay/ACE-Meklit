@@ -19,7 +19,7 @@ import { ordersApi } from '../services/api';
 import ChapaTestModal from '../components/ChapaTestModal';
 
 const CheckoutPage = () => {
-  const { cartItems, totalPrice, clearCart } = useCart();
+  const { cartItems, totalPrice, clearCart, addToCart } = useCart();
   const { user } = useAuth();
   const { t, language } = useLanguage();
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ const CheckoutPage = () => {
     }
   }, [location.search, navigate]);
 
-  if (cartItems.length === 0) {
+  if (cartItems.length === 0 && !showChapaModal) {
     return (
       <div className="section container" style={{ textAlign: 'center', padding: '5rem 0' }}>
         <div style={{ color: '#d97706', display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
@@ -63,12 +63,32 @@ const CheckoutPage = () => {
         <h2 style={{ fontSize: '1.8rem', color: '#0f172a' }}>{t('checkout_empty_alert')}</h2>
         <p style={{ color: '#64748b', margin: '1rem 0 2rem' }}>
           {language === 'am'
-            ? 'ጋሪዎ በአሁኑ ጊዜ ባዶ ነው። እባክዎ ምርቶችን ከመደብር ይምረጡ።'
-            : 'Your shopping cart is currently empty. Browse our catalog to select your favorite ACE apparel, cups, or books.'}
+            ? 'ጋሪዎ በአሁኑ ጊዜ ባዶ ነው። እባክዎ ምርቶችን ከመደብር ይምረጡ ወይም ፈጣን የሙከራ እቃ ጨምረው የቻፓ ክፍያን ይሞክሩ።'
+            : 'Your shopping cart is currently empty. Browse our catalog or add a quick test product to try Chapa payment.'}
         </p>
-        <Link to="/store" className="btn btn-primary">
-          {language === 'am' ? 'ወደ መደብር ይመለሱ' : 'Browse Store Products'}
-        </Link>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => {
+              addToCart(
+                {
+                  _id: '672b10000000000000000001',
+                  name: 'ACE Meklit T-Shirt',
+                  price: 19.99,
+                  image: '/Images/peter_tshirt.png',
+                },
+                1
+              );
+            }}
+            style={{ backgroundColor: '#16a34a', borderColor: '#16a34a' }}
+          >
+            {language === 'am' ? '+ ፈጣን የሙከራ እቃ ያክሉ ($19.99)' : '+ Add Test Item ($19.99)'}
+          </button>
+          <Link to="/store" className="btn btn-secondary">
+            {language === 'am' ? 'ወደ መደብር ይመለሱ' : 'Browse Store Products'}
+          </Link>
+        </div>
       </div>
     );
   }
