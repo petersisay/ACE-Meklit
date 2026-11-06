@@ -16,7 +16,14 @@ const ProductCard = ({ product }) => {
         )}
         <Link to={`/product/${product._id}`} style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <img
-            src={product.image}
+            src={
+              product.image &&
+              (product.image.startsWith('http') ||
+                product.image.startsWith('data:') ||
+                product.image.startsWith('/'))
+                ? product.image
+                : `/${product.image || 'Images/ace logo.jpg'}`
+            }
             alt={product.name}
             className="product-image"
             onError={(e) => {
