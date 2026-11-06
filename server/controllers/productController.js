@@ -126,7 +126,7 @@ const defaultProducts = [
 // @access  Public
 const getProducts = async (req, res, next) => {
   try {
-    // Only purge legacy foreign junk items without touching newly created products
+    // Only purge legacy demo junk products from early templates
     await Product.deleteMany({
       $or: [
         { name: { $in: ['PC', 'pc', 'Sample Product'] } },
@@ -134,14 +134,16 @@ const getProducts = async (req, res, next) => {
       ],
     });
 
-    const totalCount = await Product.countDocuments();
-    if (totalCount === 0) {
+    const validCount = await Product.countDocuments();
+    if (validCount === 0) {
       console.log('[ProductController] Populating authentic Meklit catalog...');
       await Product.insertMany(defaultProducts);
     }
 
     const { category, keyword, sort } = req.query;
-    const filter = {};
+    const filter = {
+      name: { $nin: ['PC', 'pc', 'Sample Product'], $not: /^Used /i },
+    };
 
     if (category && category !== 'All') {
       filter.category = category;
@@ -197,9 +199,8 @@ const getProductById = async (req, res, next) => {
 // @access  Public
 const getCategories = async (req, res, next) => {
   try {
-    const distinctCategories = await Product.distinct('category');
-    const merged = Array.from(new Set([...OFFICIAL_CATEGORIES, ...distinctCategories])).filter(Boolean);
-    res.json(merged);
+    const categories = await Product.distinct('category');
+    res.json(categories.length > 0 ? categories : OFFICIAL_CATEGORIES);
   } catch (error) {
     next(error);
   }
