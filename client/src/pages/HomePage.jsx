@@ -70,10 +70,11 @@ const HomePage = () => {
         if (prodRes.data && prodRes.data.length > 0) {
           const cleanProds = prodRes.data.filter(
             (p) =>
+              p &&
               p.image &&
-              p.image.startsWith('/Images/') &&
               !p.name.toLowerCase().startsWith('used ') &&
-              p.name.toLowerCase() !== 'pc'
+              p.name.toLowerCase() !== 'pc' &&
+              p.name.toLowerCase() !== 'sample product'
           );
           if (cleanProds.length > 0) {
             setFeaturedProducts(cleanProds.slice(0, 4));
