@@ -47,6 +47,8 @@ const createOrder = async (req, res, next) => {
       })
     );
 
+    const generatedTracking = 'TRK-' + Date.now() + '-' + Math.floor(1000 + Math.random() * 9000);
+
     const order = new Order({
       orderItems: sanitizedOrderItems,
       user: req.user._id,
@@ -56,6 +58,7 @@ const createOrder = async (req, res, next) => {
       taxPrice: Number(taxPrice || 0),
       shippingPrice: Number(shippingPrice || 0),
       totalPrice: Number(totalPrice || 0),
+      trackingNumber: generatedTracking,
     });
 
     const createdOrder = await order.save();
