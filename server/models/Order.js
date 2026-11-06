@@ -90,4 +90,9 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
+// Performance indexes for user order queries and tracking lookups
+orderSchema.index({ user: 1, createdAt: -1 });
+orderSchema.index({ 'paymentResult.id': 1 });
+orderSchema.index({ trackingNumber: 1 });
+
 module.exports = mongoose.model('Order', orderSchema);
