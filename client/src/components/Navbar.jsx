@@ -23,7 +23,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="container nav-container">
         {/* Brand */}
-        <Link to="/" className="nav-brand" onClick={() => setMobileMenuOpen(false)}>
+        <Link to="/" className="nav-brand" onClick={() => { window.scrollTo(0, 0); setMobileMenuOpen(false); }}>
           <img src="/Images/ace logo.jpg" alt="ACE Logo" />
           <div>
             <span>ACE MEKLIT</span>
@@ -34,22 +34,22 @@ const Navbar = () => {
         {/* Desktop Links */}
         <ul className="nav-links">
           <li>
-            <NavLink to="/" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} end>
+            <NavLink to="/" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} end onClick={() => window.scrollTo(0, 0)}>
               {t('nav_home')}
             </NavLink>
           </li>
           <li>
-            <NavLink to="/store" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+            <NavLink to="/store" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} onClick={() => window.scrollTo(0, 0)}>
               {t('nav_store')}
             </NavLink>
           </li>
           <li>
-            <NavLink to="/media" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+            <NavLink to="/media" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} onClick={() => window.scrollTo(0, 0)}>
               {t('nav_media')}
             </NavLink>
           </li>
           <li>
-            <NavLink to="/about" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+            <NavLink to="/about" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} onClick={() => window.scrollTo(0, 0)}>
               {t('nav_about')}
             </NavLink>
           </li>
@@ -213,7 +213,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => { window.scrollTo(0, 0); setMobileMenuOpen(false); }}
                 style={{ color: '#ffffff', fontSize: '1.05rem', fontWeight: 600 }}
               >
                 {t('nav_home')}
@@ -222,7 +222,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/store"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => { window.scrollTo(0, 0); setMobileMenuOpen(false); }}
                 style={{ color: '#ffffff', fontSize: '1.05rem', fontWeight: 600 }}
               >
                 {t('nav_store')}
@@ -231,7 +231,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/media"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => { window.scrollTo(0, 0); setMobileMenuOpen(false); }}
                 style={{ color: '#ffffff', fontSize: '1.05rem', fontWeight: 600 }}
               >
                 {t('nav_media')}
@@ -240,7 +240,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/about"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => { window.scrollTo(0, 0); setMobileMenuOpen(false); }}
                 style={{ color: '#ffffff', fontSize: '1.05rem', fontWeight: 600 }}
               >
                 {t('nav_about')}
@@ -250,7 +250,7 @@ const Navbar = () => {
               <li>
                 <Link
                   to="/admin"
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={() => { window.scrollTo(0, 0); setMobileMenuOpen(false); }}
                   style={{ color: '#f59e0b', fontSize: '1.05rem', fontWeight: 700 }}
                 >
                   {t('nav_admin')}
