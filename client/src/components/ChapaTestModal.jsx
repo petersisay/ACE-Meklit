@@ -55,25 +55,22 @@ const ChapaTestModal = ({ isOpen, onClose, order, txRef, onPaymentSuccess }) => 
 
       setTimeout(() => {
         setProcessing(false);
-        if (onPaymentSuccess) {
-          onPaymentSuccess();
-        }
-        // Transition directly to the authentic Chapa Receipt view!
+        // Transition directly to the authentic Chapa Receipt view without premature cart reset
         setView('receipt');
       }, 1200);
     } catch (err) {
       console.error('Test mode payment error:', err);
       setTimeout(() => {
         setProcessing(false);
-        if (onPaymentSuccess) {
-          onPaymentSuccess();
-        }
         setView('receipt');
       }, 1000);
     }
   };
 
   const handleFinalReturn = () => {
+    if (onPaymentSuccess) {
+      onPaymentSuccess();
+    }
     navigate(`/payment/callback?tx_ref=${txRef}&order_id=${order._id}&provider=chapa`);
   };
 
