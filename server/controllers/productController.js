@@ -126,27 +126,23 @@ const defaultProducts = [
 // @access  Public
 const getProducts = async (req, res, next) => {
   try {
-    // Only purge legacy demo junk products from early templates
-    await Product.deleteMany({
-      $or: [
-        { name: { $in: ['PC', 'pc', 'Sample Product'] } },
-        { name: { $regex: /^Used /i } },
-      ],
-    });
-
     const validCount = await Product.countDocuments();
     if (validCount === 0) {
       console.log('[ProductController] Populating authentic Meklit catalog...');
       await Product.insertMany(defaultProducts);
     }
 
-    const { category, keyword, sort } = req.query;
+    const { category, keyword, sort, featured, limit } = req.query;
     const filter = {
       name: { $nin: ['PC', 'pc', 'Sample Product'], $not: /^Used /i },
     };
 
     if (category && category !== 'All') {
       filter.category = category;
+    }
+
+    if (featured === 'true') {
+      filter.isFeatured = true;
     }
 
     if (keyword) {
@@ -169,6 +165,13 @@ const getProducts = async (req, res, next) => {
       query = query.sort({ price: -1 });
     } else {
       query = query.sort({ createdAt: -1 });
+    }
+
+    if (limit) {
+      const parsedLimit = parseInt(limit, 10);
+      if (!isNaN(parsedLimit) && parsedLimit > 0) {
+        query = query.limit(parsedLimit);
+      }
     }
 
     const products = await query.exec();
@@ -222,15 +225,19 @@ const createProduct = async (req, res, next) => {
       scriptureReference,
     } = req.body;
 
+    if (!name || !name.trim()) {
+      return res.status(400).json({ message: 'Product name is required' });
+    }
+
     const product = new Product({
-      name: name || 'Sample Product',
-      price: price !== undefined ? price : 9.99,
-      description: description || 'Sample Description',
+      name: name.trim(),
+      price: price !== undefined ? Number(price) : 9.99,
+      description: description ? description.trim() : 'ACE Meklit collection product',
       image: image || '/Images/ace logo.jpg',
       category: category || 'ACE Logo Products',
-      countInStock: countInStock !== undefined ? countInStock : 10,
-      isFeatured: Boolean(isFeatured),
-      scriptureReference: scriptureReference || '',
+      countInStock: countInStock !== undefined ? Number(countInStock) : 10,
+      isFeatured: isFeatured !== undefined ? Boolean(isFeatured) : true,
+      scriptureReference: scriptureReference ? scriptureReference.trim() : '',
     });
 
     const createdProduct = await product.save();
