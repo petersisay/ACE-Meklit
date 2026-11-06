@@ -16,6 +16,7 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { ordersApi } from '../services/api';
+import ChapaTestModal from '../components/ChapaTestModal';
 
 const CheckoutPage = () => {
   const { cartItems, totalPrice, clearCart } = useCart();
@@ -37,6 +38,9 @@ const CheckoutPage = () => {
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const [showChapaModal, setShowChapaModal] = useState(false);
+  const [activeOrder, setActiveOrder] = useState(null);
+  const [activeTxRef, setActiveTxRef] = useState('');
 
   // If returning with chapa_success, redirect to payment callback
   useEffect(() => {
@@ -116,22 +120,28 @@ const CheckoutPage = () => {
 
       const { data: createdOrder } = await ordersApi.create(orderData);
 
-      // Initialize Chapa Payment (Live or Revola-style Test Mode)
+      // Initialize Chapa Payment (Live Hosted Checkout or Authentic Chapa Test Mode Modal)
       try {
         const chapaRes = await ordersApi.initializeChapa(createdOrder._id);
-        clearCart();
 
-        if (chapaRes.data && chapaRes.data.checkout_url) {
-          // Redirect to hosted Chapa checkout or Revola callback
+        if (chapaRes.data && chapaRes.data.mode === 'live_chapa' && chapaRes.data.checkout_url) {
+          clearCart();
           window.location.href = chapaRes.data.checkout_url;
           return;
         }
 
-        navigate(`/payment/callback?tx_ref=${chapaRes.data.tx_ref}&order_id=${createdOrder._id}&provider=chapa`);
+        // Display the authentic Chapa Test Mode interface directly
+        setActiveOrder(chapaRes.data?.order || createdOrder);
+        setActiveTxRef(chapaRes.data?.tx_ref || `TX-CHAPA-${Date.now()}-${createdOrder._id}`);
+        setShowChapaModal(true);
+        setSubmitting(false);
       } catch (chapaErr) {
-        clearCart();
+        console.error('Chapa init error, presenting test modal:', chapaErr);
         const fallbackTxRef = `TX-CHAPA-${Date.now()}-${createdOrder._id}`;
-        navigate(`/payment/callback?tx_ref=${fallbackTxRef}&order_id=${createdOrder._id}&provider=chapa`);
+        setActiveOrder(createdOrder);
+        setActiveTxRef(fallbackTxRef);
+        setShowChapaModal(true);
+        setSubmitting(false);
       }
     } catch (err) {
       console.error('Order creation error:', err);
@@ -710,6 +720,15 @@ const CheckoutPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Authentic Chapa Test Mode Interactive Modal */}
+      <ChapaTestModal
+        isOpen={showChapaModal}
+        onClose={() => setShowChapaModal(false)}
+        order={activeOrder}
+        txRef={activeTxRef}
+        onPaymentSuccess={() => clearCart()}
+      />
     </div>
   );
 };
