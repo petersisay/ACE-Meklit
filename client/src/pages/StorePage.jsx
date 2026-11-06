@@ -235,7 +235,7 @@ const StorePage = () => {
   const bibleCoverItems = products.filter((p) => p.category === 'Holy Bible Covers and Books');
   const apparelItems = products.filter((p) => p.category === 'Apparel');
   const accessoriesItems = products.filter((p) => p.category === 'Accessories');
-  const otherItems = products.filter(
+    const otherItems = products.filter(
     (p) =>
       ![
         'ACE Logo Products',
@@ -244,6 +244,13 @@ const StorePage = () => {
         'Apparel',
         'Accessories',
       ].includes(p.category)
+  );
+
+  const availableCategories = Array.from(
+    new Set([
+      ...categories,
+      ...products.map((p) => p.category).filter(Boolean),
+    ])
   );
 
   return (
@@ -324,7 +331,7 @@ const StorePage = () => {
 
           {/* Category Tabs */}
           <div className="filter-tabs" style={{ marginBottom: 0 }}>
-            {categories.map((cat) => (
+            {availableCategories.map((cat) => (
               <button
                 key={cat}
                 type="button"
