@@ -75,6 +75,15 @@ const ensureDatabaseBootstrap = async () => {
     const User = require('./models/User');
     const Product = require('./models/Product');
     const MediaContent = require('./models/MediaContent');
+    const Order = require('./models/Order');
+
+    // 0. Drop legacy unique indexes on Order collection if present
+    try {
+      await Order.collection.dropIndex('trackingNumber_1');
+      console.log('[Server] Successfully dropped legacy unique index trackingNumber_1');
+    } catch (idxErr) {
+      // Index does not exist or already dropped - safe to ignore
+    }
 
     // 1. Ensure Default Admin User exists and has valid credentials
     const adminEmail = 'admin@acemeklit.org';
