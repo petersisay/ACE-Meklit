@@ -957,40 +957,63 @@ const AdminDashboardPage = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {messages.map((msg) => (
-                        <tr key={msg._id} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                          <td style={{ padding: '0.75rem 1rem', fontWeight: 600 }}>{msg.name}</td>
-                          <td style={{ padding: '0.75rem 1rem', color: '#1e3a8a' }}>{msg.email}</td>
-                          <td style={{ padding: '0.75rem 1rem', maxWidth: '320px', color: '#475569' }}>
-                            {msg.message}
-                          </td>
-                          <td style={{ padding: '0.75rem 1rem', color: '#64748b' }}>
-                            {new Date(msg.createdAt).toLocaleDateString()}
-                          </td>
-                          <td style={{ padding: '0.75rem 1rem' }}>
-                            <select
-                              value={msg.status}
-                              onChange={(e) => handleUpdateMessageStatus(msg._id, e.target.value)}
-                              className="form-select"
-                              style={{ width: 'auto', padding: '0.3rem 0.5rem', fontSize: '0.82rem' }}
-                            >
-                              <option value="unread">Unread</option>
-                              <option value="read">Read</option>
-                              <option value="responded">Responded</option>
-                            </select>
-                          </td>
-                          <td style={{ padding: '0.75rem 1rem', textAlign: 'right' }}>
-                            <button
-                              type="button"
-                              onClick={() => handleDeleteMessage(msg._id)}
-                              style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '0.4rem' }}
-                              title="Delete Message"
-                            >
-                              <Trash2 size={18} />
-                            </button>
+                      {messages.length === 0 ? (
+                        <tr>
+                          <td colSpan="6" style={{ padding: '2.5rem', textAlign: 'center', color: '#64748b' }}>
+                            No contact inquiries received yet.
                           </td>
                         </tr>
-                      ))}
+                      ) : (
+                        messages.map((msg) => (
+                          <tr key={msg._id} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                            <td style={{ padding: '0.75rem 1rem', fontWeight: 600 }}>{msg.name}</td>
+                            <td style={{ padding: '0.75rem 1rem', color: '#1e3a8a' }}>
+                              <a href={`mailto:${msg.email}`} style={{ color: '#2563eb', textDecoration: 'underline' }}>
+                                {msg.email}
+                              </a>
+                            </td>
+                            <td style={{ padding: '0.75rem 1rem', maxWidth: '360px', color: '#334155', wordBreak: 'break-word' }}>
+                              {msg.subject && msg.subject !== 'General Inquiry' && (
+                                <div style={{ fontWeight: 600, color: '#0f172a', marginBottom: '0.2rem' }}>
+                                  {msg.subject}
+                                </div>
+                              )}
+                              <div style={{ lineHeight: '1.4' }}>{msg.message}</div>
+                            </td>
+                            <td style={{ padding: '0.75rem 1rem', color: '#64748b', fontSize: '0.82rem' }}>
+                              {new Date(msg.createdAt).toLocaleDateString()}
+                            </td>
+                            <td style={{ padding: '0.75rem 1rem' }}>
+                              <select
+                                value={msg.status}
+                                onChange={(e) => handleUpdateMessageStatus(msg._id, e.target.value)}
+                                className="form-select"
+                                style={{
+                                  width: 'auto',
+                                  padding: '0.3rem 0.5rem',
+                                  fontSize: '0.82rem',
+                                  borderColor: msg.status === 'unread' ? '#f59e0b' : '#cbd5e1',
+                                  backgroundColor: msg.status === 'unread' ? '#fffbeb' : '#ffffff',
+                                }}
+                              >
+                                <option value="unread">Unread</option>
+                                <option value="read">Read</option>
+                                <option value="responded">Responded</option>
+                              </select>
+                            </td>
+                            <td style={{ padding: '0.75rem 1rem', textAlign: 'right' }}>
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteMessage(msg._id)}
+                                style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '0.4rem' }}
+                                title="Delete Message"
+                              >
+                                <Trash2 size={18} />
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      )}
                     </tbody>
                   </table>
                 </div>
