@@ -11,6 +11,8 @@ import {
   Edit,
   CheckCircle,
   AlertCircle,
+  Upload,
+  Image as ImageIcon,
 } from 'lucide-react';
 import {
   productsApi,
@@ -94,6 +96,50 @@ const AdminDashboardPage = () => {
       setActionMsg(msg);
       setTimeout(() => setActionMsg(null), 4000);
     }
+  };
+
+  // Image upload handler from local storage with optimal canvas resizing
+  const handleImageUpload = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      triggerFeedback('Please select a valid image file (PNG, JPG, WEBP)', true);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (uploadEvent) => {
+      const img = new window.Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        const maxDim = 800;
+
+        if (width > height && width > maxDim) {
+          height = Math.round((height * maxDim) / width);
+          width = maxDim;
+        } else if (height > maxDim) {
+          width = Math.round((width * maxDim) / height);
+          height = maxDim;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const compressedDataUrl = canvas.toDataURL(file.type || 'image/jpeg', 0.85);
+        setNewProduct((prev) => ({
+          ...prev,
+          image: compressedDataUrl,
+        }));
+        triggerFeedback('Image uploaded from local storage successfully!');
+      };
+      img.src = uploadEvent.target.result;
+    };
+    reader.readAsDataURL(file);
   };
 
   // Product Actions
@@ -452,16 +498,126 @@ const AdminDashboardPage = () => {
                       />
                     </div>
 
-                    <div className="form-group">
-                      <label className="form-label">Image Path *</label>
-                      <input
-                        type="text"
-                        required
-                        value={newProduct.image}
-                        onChange={(e) => setNewProduct({ ...newProduct, image: e.target.value })}
-                        className="form-input"
-                        placeholder="/Images/hoddie.png"
-                      />
+                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                      <label className="form-label" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                        <span style={{ fontWeight: 700, color: '#0f172a' }}>Product Image * (Upload from Local Storage / Computer)</span>
+                        <span style={{ fontSize: '0.78rem', color: '#64748b' }}>PNG, JPG, JPEG, WEBP</span>
+                      </label>
+
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '1.5rem',
+                          padding: '1.25rem',
+                          backgroundColor: '#f8fafc',
+                          border: '1.5px dashed #cbd5e1',
+                          borderRadius: '12px',
+                          flexWrap: 'wrap',
+                        }}
+                      >
+                        {/* Live Image Preview (Visible to the user) */}
+                        <div
+                          style={{
+                            width: '120px',
+                            height: '120px',
+                            borderRadius: '10px',
+                            backgroundColor: '#ffffff',
+                            border: '1px solid #e2e8f0',
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            overflow: 'hidden',
+                            position: 'relative',
+                            flexShrink: 0,
+                          }}
+                        >
+                          {newProduct.image ? (
+                            <img
+                              src={newProduct.image}
+                              alt="Uploaded Preview"
+                              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                              onError={(e) => {
+                                e.target.src = '/Images/ace logo.jpg';
+                              }}
+                            />
+                          ) : (
+                            <div style={{ textAlign: 'center', color: '#94a3b8', fontSize: '0.78rem' }}>
+                              <ImageIcon size={28} style={{ margin: '0 auto 0.25rem' }} />
+                              <div>No Image</div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Upload Controls & File Input */}
+                        <div style={{ flex: 1, minWidth: '240px' }}>
+                          <input
+                            type="file"
+                            id="admin-image-file-input"
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            onChange={handleImageUpload}
+                          />
+
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
+                            <label
+                              htmlFor="admin-image-file-input"
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                padding: '0.65rem 1.25rem',
+                                backgroundColor: '#2563eb',
+                                color: '#ffffff',
+                                borderRadius: '8px',
+                                fontSize: '0.9rem',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                                transition: 'background-color 0.15s ease',
+                              }}
+                              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#1d4ed8')}
+                              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#2563eb')}
+                            >
+                              <Upload size={18} />
+                              <span>Choose Image From Local Storage</span>
+                            </label>
+
+                            {newProduct.image && (
+                              <button
+                                type="button"
+                                onClick={() => setNewProduct({ ...newProduct, image: '/Images/ace logo.jpg' })}
+                                style={{
+                                  background: '#ffffff',
+                                  border: '1px solid #cbd5e1',
+                                  borderRadius: '8px',
+                                  padding: '0.6rem 0.9rem',
+                                  fontSize: '0.85rem',
+                                  fontWeight: 500,
+                                  color: '#64748b',
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                Reset to Default Logo
+                              </button>
+                            )}
+                          </div>
+
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <input
+                              type="text"
+                              value={newProduct.image}
+                              onChange={(e) => setNewProduct({ ...newProduct, image: e.target.value })}
+                              className="form-input"
+                              placeholder="Or enter image URL / path directly..."
+                              style={{ fontSize: '0.85rem', padding: '0.5rem 0.75rem' }}
+                            />
+                          </div>
+                          <span style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '0.35rem', display: 'block' }}>
+                            ✓ Selected image is saved in high quality and permanently visible across the store catalog.
+                          </span>
+                        </div>
+                      </div>
                     </div>
 
                     <div className="form-group">
