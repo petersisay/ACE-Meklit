@@ -25,15 +25,15 @@ const AboutPage = () => {
 
     setStatus({ loading: true, success: false, error: null });
     try {
-      await contactApi.sendMessage({
-        name: formData.name,
-        email: formData.email,
-        subject: 'General Inquiry via About Page',
-        message: formData.message,
+      await contactApi.submit({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        message: formData.message.trim(),
       });
       setStatus({ loading: false, success: true, error: null });
       setFormData({ name: '', email: '', message: '' });
     } catch (err) {
+      console.error('Contact submit error:', err);
       setStatus({
         loading: false,
         success: false,
