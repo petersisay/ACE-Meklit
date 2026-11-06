@@ -9,6 +9,7 @@ import MediaPage from './pages/MediaPage';
 import AboutPage from './pages/AboutPage';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
+import PaymentCallbackPage from './pages/PaymentCallbackPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
@@ -85,6 +86,7 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route path="/payment/callback" element={<PaymentCallbackPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route
