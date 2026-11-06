@@ -146,10 +146,30 @@ const AdminDashboardPage = () => {
   const handleCreateProduct = async (e) => {
     e.preventDefault();
     try {
+      if (!newProduct.name || !newProduct.name.trim()) {
+        triggerFeedback('Product name is required', true);
+        return;
+      }
+
+      let sanitizedImage = (newProduct.image || '').trim();
+      if (!sanitizedImage) {
+        sanitizedImage = '/Images/ace logo.jpg';
+      } else if (
+        !sanitizedImage.startsWith('data:') &&
+        !sanitizedImage.startsWith('http://') &&
+        !sanitizedImage.startsWith('https://') &&
+        !sanitizedImage.startsWith('/')
+      ) {
+        sanitizedImage = '/' + sanitizedImage;
+      }
+
       const payload = {
         ...newProduct,
+        name: newProduct.name.trim(),
+        image: sanitizedImage,
         price: parseFloat(newProduct.price) || 0,
         countInStock: parseInt(newProduct.countInStock) || 0,
+        isFeatured: true,
       };
       await productsApi.create(payload);
       setShowAddProduct(false);
@@ -163,7 +183,7 @@ const AdminDashboardPage = () => {
         scriptureReference: '',
         isFeatured: true,
       });
-      triggerFeedback('Product created successfully!');
+      triggerFeedback('Product created and published to Meklit store successfully!');
       loadAllAdminData();
     } catch (err) {
       triggerFeedback(err.response?.data?.message || 'Error creating product', true);
