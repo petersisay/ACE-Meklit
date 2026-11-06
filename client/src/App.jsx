@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 import HomePage from './pages/HomePage';
 import StorePage from './pages/StorePage';
 import ProductDetailPage from './pages/ProductDetailPage';
@@ -69,6 +70,7 @@ const NotFoundPage = () => (
 function App() {
   return (
     <>
+      <ScrollToTop />
       <Navbar />
       <main className="main-content">
         <Routes>
