@@ -58,6 +58,7 @@ export const mediaApi = {
 
 export const contactApi = {
   submit: (messageData) => API.post('/contact', messageData),
+  sendMessage: (messageData) => API.post('/contact', messageData),
   getAll: () => API.get('/contact'),
   updateStatus: (id, status) => API.put(`/contact/${id}`, { status }),
   delete: (id) => API.delete(`/contact/${id}`),
