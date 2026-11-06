@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-const generateToken = (id) => {
+const generateToken = (id, email, role) => {
   return jwt.sign(
-    { id },
+    { id, email, role },
     process.env.JWT_SECRET || 'ace_meklit_jwt_secret_key_change_in_production_2026',
     { expiresIn: '30d' }
   );
@@ -40,7 +40,7 @@ const registerUser = async (req, res, next) => {
         email: user.email,
         role: user.role,
         phone: user.phone,
-        token: generateToken(user._id),
+        token: generateToken(user._id, user.email, user.role),
       });
     } else {
       res.status(400).json({ message: 'Invalid user data received' });
@@ -104,7 +104,7 @@ const loginUser = async (req, res, next) => {
         email: user.email,
         role: user.role,
         phone: user.phone,
-        token: generateToken(user._id),
+        token: generateToken(user._id, user.email, user.role),
       });
     } else {
       res.status(401).json({ message: 'Invalid email or password' });
