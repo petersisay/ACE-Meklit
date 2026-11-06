@@ -227,8 +227,6 @@ npm run dev
 | **Administrator** | `admin@acemeklit.org` | `password123` | Full Admin Privileges |
 | **Member / Customer** | `bereket@example.com` | `password123` | Customer / Buyer |
 
-*(You can also click the quick **Demo Admin** or **Demo Customer** buttons directly on the Login page!)*
-
 ---
 
 ## 📡 API Reference
