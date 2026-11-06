@@ -5,16 +5,18 @@ const ContactMessage = require('../models/ContactMessage');
 // @access  Public
 const submitContactMessage = async (req, res, next) => {
   try {
-    const { name, email, message } = req.body;
+    const { name, email, message, subject } = req.body;
 
-    if (!name || !email || !message) {
-      return res.status(400).json({ message: 'Please fill in all fields' });
+    if (!name || !name.trim() || !email || !email.trim() || !message || !message.trim()) {
+      return res.status(400).json({ message: 'Please fill in all required fields (name, email, message)' });
     }
 
     const newMessage = await ContactMessage.create({
-      name,
-      email,
-      message,
+      name: name.trim(),
+      email: email.trim().toLowerCase(),
+      subject: subject ? subject.trim() : 'General Inquiry',
+      message: message.trim(),
+      status: 'unread',
     });
 
     res.status(201).json({
