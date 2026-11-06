@@ -47,9 +47,20 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/media', mediaRoutes);
 app.use('/api/contact', contactRoutes);
 
-// Serve Frontend client build in production
+// Serve Frontend client build in production with high-performance cache headers
 const clientDistPath = path.join(__dirname, '../client/dist');
-app.use(express.static(clientDistPath));
+app.use(
+  express.static(clientDistPath, {
+    maxAge: '1d',
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith('.html')) {
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      } else if (filePath.match(/\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$/)) {
+        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      }
+    },
+  })
+);
 
 app.get('*', (req, res, next) => {
   if (req.originalUrl.startsWith('/api')) {
