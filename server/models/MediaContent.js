@@ -44,4 +44,8 @@ const mediaContentSchema = new mongoose.Schema(
   }
 );
 
+// Performance compound indexes for media queries and text search
+mediaContentSchema.index({ type: 1, isFeatured: -1, createdAt: -1 });
+mediaContentSchema.index({ title: 'text', artistOrSpeaker: 'text' });
+
 module.exports = mongoose.model('MediaContent', mediaContentSchema);
