@@ -21,6 +21,7 @@ import {
   contactApi,
   authApi,
 } from '../services/api';
+import { extractYouTubeId } from '../components/MediaCard';
 
 const AdminDashboardPage = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -217,7 +218,19 @@ const AdminDashboardPage = () => {
   const handleCreateMedia = async (e) => {
     e.preventDefault();
     try {
-      await mediaApi.create(newMedia);
+      const cleanId = extractYouTubeId(newMedia.youtubeId);
+      if (!cleanId) {
+        triggerFeedback('Please provide a valid YouTube link or 11-character video ID', true);
+        return;
+      }
+
+      await mediaApi.create({
+        ...newMedia,
+        title: newMedia.title.trim(),
+        artistOrSpeaker: newMedia.artistOrSpeaker.trim(),
+        youtubeId: cleanId,
+        youtubeUrl: `https://www.youtube.com/watch?v=${cleanId}`,
+      });
       setShowAddMedia(false);
       setNewMedia({
         title: '',
@@ -864,15 +877,18 @@ const AdminDashboardPage = () => {
                     </div>
 
                     <div className="form-group">
-                      <label className="form-label">YouTube Video ID *</label>
+                      <label className="form-label">YouTube Video Link or ID *</label>
                       <input
                         type="text"
                         required
                         value={newMedia.youtubeId}
                         onChange={(e) => setNewMedia({ ...newMedia, youtubeId: e.target.value })}
                         className="form-input"
-                        placeholder="e.g. kz9EyrTOIco"
+                        placeholder="Paste link e.g. https://youtu.be/... or ID e.g. kz9EyrTOIco"
                       />
+                      <span style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '0.25rem', display: 'block' }}>
+                        ✓ Accepts any copied YouTube link (watch, share, shorts) or raw video ID.
+                      </span>
                     </div>
                   </div>
 
@@ -916,7 +932,17 @@ const AdminDashboardPage = () => {
                               {m.type}
                             </span>
                           </td>
-                          <td style={{ padding: '0.75rem 1rem', fontFamily: 'monospace' }}>{m.youtubeId}</td>
+                          <td style={{ padding: '0.75rem 1rem', fontFamily: 'monospace' }}>
+                            <a
+                              href={`https://www.youtube.com/watch?v=${extractYouTubeId(m.youtubeId)}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              style={{ color: '#2563eb', textDecoration: 'underline' }}
+                              title="Test YouTube Video Link"
+                            >
+                              {extractYouTubeId(m.youtubeId)}
+                            </a>
+                          </td>
                           <td style={{ padding: '0.75rem 1rem', textAlign: 'right' }}>
                             <button
                               type="button"
