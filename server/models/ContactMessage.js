@@ -37,4 +37,7 @@ const contactMessageSchema = new mongoose.Schema(
   }
 );
 
+// Performance index for status filtering and timeline sorting
+contactMessageSchema.index({ status: 1, createdAt: -1 });
+
 module.exports = mongoose.model('ContactMessage', contactMessageSchema);
