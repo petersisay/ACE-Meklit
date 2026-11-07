@@ -15,8 +15,8 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
       match: [
-        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-        'Please add a valid email',
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        'Please provide a valid email address',
       ],
     },
     password: {
@@ -54,5 +54,8 @@ userSchema.pre('save', async function (next) {
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
+
+// Performance index for rapid authentication lookups
+userSchema.index({ email: 1, role: 1 });
 
 module.exports = mongoose.model('User', userSchema);
