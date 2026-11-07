@@ -25,9 +25,9 @@ const Navbar = () => {
         {/* Brand */}
         <Link to="/" className="nav-brand" onClick={() => { window.scrollTo(0, 0); setMobileMenuOpen(false); }}>
           <img src="/Images/ace logo.jpg" alt="ACE Logo" />
-          <div>
-            <span>ACE MEKLIT</span>
-            <small>{t('church_name')}</small>
+          <div className="nav-brand-text">
+            <span className="brand-title">ACE MEKLIT</span>
+            <small className="brand-subtitle">{t('church_name')}</small>
           </div>
         </Link>
 
