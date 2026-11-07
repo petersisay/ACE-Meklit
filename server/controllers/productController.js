@@ -11,7 +11,7 @@ const OFFICIAL_CATEGORIES = [
 const defaultProducts = [
   {
     name: 'Hoddie',
-    description: 'Living Word Apparel & ACE Logo official heavyweight hoodie. Scripture Thread, Covenant Cotton, Verity Wear.',
+    description: 'ACE Logo official heavyweight hoodie. Scripture Thread, Covenant Cotton, Verity Wear.',
     category: 'ACE Logo Products',
     price: 19.99,
     image: '/Images/hoddie.png',
