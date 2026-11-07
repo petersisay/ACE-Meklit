@@ -18,7 +18,7 @@ export const DEFAULT_MEKLIT_PRODUCTS = [
   {
     _id: '64b824c695e0bfc8bd000101',
     name: 'Hoddie',
-    description: 'Living Word Apparel & ACE Logo official heavyweight hoodie. Scripture Thread, Covenant Cotton, Verity Wear.',
+    description: 'ACE Logo official heavyweight hoodie. Scripture Thread, Covenant Cotton, Verity Wear.',
     category: 'ACE Logo Products',
     price: 19.99,
     image: '/Images/hoddie.png',
