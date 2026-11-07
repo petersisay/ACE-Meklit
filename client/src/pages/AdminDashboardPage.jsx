@@ -488,7 +488,7 @@ const AdminDashboardPage = () => {
                         value={newProduct.name}
                         onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
                         className="form-input"
-                        placeholder="e.g. Living Word Hoodie"
+                        placeholder="e.g. ACE Covenant Hoodie"
                       />
                     </div>
 
