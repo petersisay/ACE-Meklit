@@ -224,7 +224,6 @@ npm run dev
 
 | Account | Email | Password | Role |
 | :--- | :--- | :--- | :--- |
-| **Administrator** | `admin@acemeklit.org` | `password123` | Full Admin Privileges |
 | **Member / Customer** | `bereket@example.com` | `password123` | Customer / Buyer |
 
 ---
