@@ -20,7 +20,7 @@ const translations = {
     hero_title: 'ACE MEKLIT & CONTENTS',
     hero_quote: '" Hear, O Israel: The LORD our GOD, The LORD is one. "',
     hero_verse: '( Deuteronomy 6:4 )',
-    hero_sub: 'Scripture Thread • Living Word Apparel • Covenant Cotton • Verity Wear • Biblical Books & Apostolic Hymns',
+    hero_sub: 'Scripture Thread • Covenant Cotton • Verity Wear • Biblical Books & Apostolic Hymns',
     btn_shop: 'Shop ACE Meklit Store',
     btn_media: 'Listen to Gospel Music & Sermons',
 
@@ -37,7 +37,7 @@ const translations = {
     // Store
     store_title: 'ACE MEKLIT STORE',
     store_subtitle: 'Faith-Based Apparel & Merchandise',
-    store_desc: 'Scripture Thread • Living Word Apparel • Covenant Cotton • Verity Wear • Biblical Books ...',
+    store_desc: 'Scripture Thread • Covenant Cotton • Verity Wear • Biblical Books ...',
     store_search_placeholder: 'Search products by title, keyword, or scripture...',
     store_all: 'All',
     store_cat_logo: 'ACE Logo Products',
@@ -160,7 +160,7 @@ const translations = {
     hero_title: 'የኢሐቤክ መክሊት እና ይዘቶች',
     hero_quote: '" ስማ እስራኤል ሆይ፤ አምላካችን እግዚአብሔር አንድ እግዚአብሔር ነው፤ "',
     hero_verse: '( ዘዳግም 6:4 )',
-    hero_sub: 'የቅዱስ ቃል ልብሶች • የቃል ኪዳን ጥጥ • የእውነት ልብስ • ቅዱሳት መጻሕፍት እና ሐዋርያዊ ዝማሬዎች',
+    hero_sub: 'የቅዱስ ቃል ፈትል • የቃል ኪዳን ጥጥ • የእውነት ልብስ • ቅዱሳት መጻሕፍት እና ሐዋርያዊ ዝማሬዎች',
     btn_shop: 'የመክሊት መደብርን ይጎብኙ',
     btn_media: 'ወንጌላዊ መዝሙራትና ስብከቶችን ያዳምጡ',
 
@@ -177,7 +177,7 @@ const translations = {
     // Store
     store_title: 'የኢሐቤክ መክሊት መደብር',
     store_subtitle: 'የእምነት ልብሶች እና ንዋየ ቅድሳት',
-    store_desc: 'የቅዱስ ቃል ልብሶች • የቃል ኪዳን ጥጥ • የእውነት ልብስ • ቅዱሳት መጻሕፍት ...',
+    store_desc: 'የቅዱስ ቃል ፈትል • የቃል ኪዳን ጥጥ • የእውነት ልብስ • ቅዱሳት መጻሕፍት ...',
     store_search_placeholder: 'ምርቶችን በስም፣ በቁልፍ ቃል ወይም በጥቅስ ይፈልጉ...',
     store_all: 'ሁሉም',
     store_cat_logo: 'የኢሐቤክ አርማ ምርቶች',
