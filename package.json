@@ -9,6 +9,7 @@
     "client": "npm run dev --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "npm run build --prefix client",
+    "test": "node -c server/server.js && npm run build",
     "render-build": "npm run install:all && npm run build",
     "seed": "node server/seeder.js",
     "seed:destroy": "node server/seeder.js -d",
