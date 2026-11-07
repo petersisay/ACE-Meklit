@@ -352,4 +352,13 @@ const startServer = async () => {
 
 startServer();
 
+// Process safety handlers for zero-downtime stability
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('[Server] Unhandled Rejection at:', promise, 'reason:', reason);
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('[Server] Uncaught Exception:', err);
+});
+
 module.exports = app;
