@@ -234,7 +234,7 @@ const translations = {
     about_title: 'ስለ ኢሐቤክ መክሊት',
     about_subtitle: 'ጥሪያችን እና ቅርሳችን',
     about_our_story: 'ታሪካችን',
-    about_story_title: 'ዓላማ ላለው የእምነት ፋሽን የተተጋ',
+    about_story_title: 'ዓላማ ላለው የእምነት ፋሽን እንተጋለን',
     about_commitment: 'የእኛ ቃል ኪዳን',
     about_commitment_title: 'ጥራት እና ታማኝነት',
     contact_title: 'ኢሐቤክ መክሊትን ያግኙ',
