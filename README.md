@@ -228,46 +228,6 @@ npm run dev
 
 ---
 
-## 📡 API Reference
-
-### Authentication (`/api/auth`)
-* `POST /api/auth/register` — Register a new member
-* `POST /api/auth/login` — Sign in and obtain JWT
-* `GET /api/auth/profile` — Get logged-in user profile (Private)
-* `PUT /api/auth/profile` — Update user profile details (Private)
-* `GET /api/auth/users` — List all registered members (Admin)
-
-### Products (`/api/products`)
-* `GET /api/products` — Fetch products (supports `?category=`, `?keyword=`, `?sort=`)
-* `GET /api/products/:id` — Get single product details
-* `GET /api/products/categories/list` — List all unique categories
-* `POST /api/products` — Create new product (Admin)
-* `PUT /api/products/:id` — Update product (Admin)
-* `DELETE /api/products/:id` — Remove product (Admin)
-
-### Orders (`/api/orders`)
-* `POST /api/orders` — Create new purchase order (Private)
-* `GET /api/orders/myorders` — List current user's orders (Private)
-* `GET /api/orders/:id` — Get specific order details (Private)
-* `PUT /api/orders/:id/pay` — Record simulated payment (Private)
-* `GET /api/orders` — List all orders across users (Admin)
-* `PUT /api/orders/:id/status` — Update order delivery status (Admin)
-
-### Gospel Media (`/api/media`)
-* `GET /api/media` — Fetch media items (supports `?type=music|preaching`, `?featured=true`)
-* `GET /api/media/:id` — Get media item by ID
-* `POST /api/media` — Publish new video/album embed (Admin)
-* `PUT /api/media/:id` — Update media item (Admin)
-* `DELETE /api/media/:id` — Remove media item (Admin)
-
-### Contact (`/api/contact`)
-* `POST /api/contact` — Submit inquiry message (Public)
-* `GET /api/contact` — View all messages (Admin)
-* `PUT /api/contact/:id` — Update status (*unread*, *read*, *responded*) (Admin)
-* `DELETE /api/contact/:id` — Remove message (Admin)
-
----
-
 ## 🚀 Building for Production
 
 To build the optimized client bundle for deployment:
