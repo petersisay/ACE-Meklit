@@ -39,7 +39,7 @@ The application combines Christian values, anointed worship music, and apostolic
 ### 🔐 Authentication & Member Accounts
 * **JWT Authentication:** Secure password hashing with `bcryptjs` and stateless JWT tokens.
 * **Customer Dashboard (`/profile`):** View past orders, payment confirmations, and update profile details.
-* **Instant Demo Logins:** One-click demo credentials helper on the login page for rapid testing.
+* **Member Registration & Login:** Direct member registration, profile management, and role-based access control.
 
 ### 🛡️ Administrative Dashboard (`/admin`)
 * **Real-Time Metrics:** Total sales revenue, total order volume, catalog item count, and registered community members.
@@ -217,14 +217,6 @@ npm run dev
   ```bash
   npm run client
   ```
-
----
-
-## 👥 Default Demo & Admin Accounts
-
-| Account | Email | Password | Role |
-| :--- | :--- | :--- | :--- |
-| **Member / Customer** | `bereket@example.com` | `password123` | Customer / Buyer |
 
 ---
 
