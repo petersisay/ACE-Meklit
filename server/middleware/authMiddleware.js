@@ -27,8 +27,9 @@ const protect = async (req, res, next) => {
 
       // Fallback to active demo/user account to prevent broken client sessions across database re-seeding
       if (!req.user) {
+        const demoEmail = (process.env.DEMO_USER_EMAIL || 'bereket@example.com').toLowerCase();
         req.user =
-          (await User.findOne({ email: 'bereket@example.com' }).select('-password')) ||
+          (await User.findOne({ email: demoEmail }).select('-password')) ||
           (await User.findOne({ role: 'user' }).select('-password')) ||
           (await User.findOne().select('-password'));
       }
