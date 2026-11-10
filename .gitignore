@@ -3,26 +3,12 @@ node_modules/
 client/node_modules/
 server/node_modules/
 
-# Environment variables and secrets
+# Environment variables
 .env
-.env.*
-*.env
-*.env.*
-server/.env*
-client/.env*
-!.env.example
-!server/.env.example
-!client/.env.example
-
-# Security Credentials, Certificates & Keys
-*.pem
-*.key
-*.cert
-*.crt
-*.pfx
-*.p12
-*.secret
-id_rsa*
+.env.local
+.env.*.local
+server/.env
+client/.env
 
 # Build outputs
 dist/
