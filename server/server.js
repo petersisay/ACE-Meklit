@@ -97,46 +97,44 @@ const ensureDatabaseBootstrap = async () => {
     }
 
     // 1. Ensure Default Admin User exists and has valid credentials
-    const adminEmail = (process.env.ADMIN_EMAIL || 'admin@acemeklit.org').toLowerCase();
-    const adminPassword = process.env.ADMIN_PASSWORD || 'password123';
+    const adminEmail = 'admin@acemeklit.org';
     const adminUser = await User.findOne({ email: adminEmail });
     if (!adminUser) {
-      console.log(`[Server] Initializing default Admin account (${adminEmail})...`);
+      console.log('[Server] Creating default Admin user (admin@acemeklit.org)...');
       await User.create({
-        name: process.env.ADMIN_NAME || 'Admin Petros Sisay',
+        name: 'Admin Petros Sisay',
         email: adminEmail,
-        password: adminPassword,
+        password: 'password123',
         role: 'admin',
-        phone: process.env.ADMIN_PHONE || '+251911000000',
+        phone: '+251911000000',
       });
     } else {
       adminUser.role = 'admin';
-      const isMatch = await adminUser.matchPassword(adminPassword);
+      const isMatch = await adminUser.matchPassword('password123');
       if (!isMatch) {
-        console.log('[Server] Synchronizing Admin account credentials...');
-        adminUser.password = adminPassword;
+        console.log('[Server] Synchronizing Admin password to password123...');
+        adminUser.password = 'password123';
         await adminUser.save();
       }
     }
 
     // 2. Ensure Default Demo Customer exists and has valid credentials
-    const demoEmail = (process.env.DEMO_USER_EMAIL || 'bereket@example.com').toLowerCase();
-    const demoPassword = process.env.DEMO_USER_PASSWORD || 'password123';
+    const demoEmail = 'bereket@example.com';
     const demoUser = await User.findOne({ email: demoEmail });
     if (!demoUser) {
-      console.log(`[Server] Initializing default user account (${demoEmail})...`);
+      console.log('[Server] Creating default Demo user (bereket@example.com)...');
       await User.create({
         name: 'Bereket Tesfaye',
         email: demoEmail,
-        password: demoPassword,
+        password: 'password123',
         role: 'user',
         phone: '+251922000000',
       });
     } else {
-      const isMatch = await demoUser.matchPassword(demoPassword);
+      const isMatch = await demoUser.matchPassword('password123');
       if (!isMatch) {
-        console.log('[Server] Synchronizing user account credentials...');
-        demoUser.password = demoPassword;
+        console.log('[Server] Synchronizing Demo user password to password123...');
+        demoUser.password = 'password123';
         await demoUser.save();
       }
     }
