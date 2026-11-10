@@ -9,16 +9,16 @@ const Order = require('./models/Order');
 
 const users = [
   {
-    name: process.env.ADMIN_NAME || 'Admin Petros Sisay',
-    email: process.env.ADMIN_EMAIL || 'admin@acemeklit.org',
-    password: process.env.ADMIN_PASSWORD || 'password123',
+    name: 'Admin Petros Sisay',
+    email: 'admin@acemeklit.org',
+    password: 'password123',
     role: 'admin',
-    phone: process.env.ADMIN_PHONE || '+251911000000',
+    phone: '+251911000000',
   },
   {
     name: 'Bereket Tesfaye',
-    email: process.env.DEMO_USER_EMAIL || 'bereket@example.com',
-    password: process.env.DEMO_USER_PASSWORD || 'password123',
+    email: 'bereket@example.com',
+    password: 'password123',
     role: 'user',
     phone: '+251922000000',
   },
