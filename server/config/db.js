@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 
 let mongodInstance = null;
 
+// Mask credentials in MongoDB connection string to prevent leaking secrets in logs
+const sanitizeMongoUri = (rawUri) => {
+  if (!rawUri || typeof rawUri !== 'string') return '';
+  return rawUri.replace(/\/\/[^:]+:[^@]+@/, '//****:****@');
+};
+
 const connectDB = async () => {
   const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/ace_meklit';
   try {
@@ -11,7 +17,7 @@ const connectDB = async () => {
     console.log(`[MongoDB] Connected: ${conn.connection.host}/${conn.connection.name}`);
     return conn;
   } catch (primaryError) {
-    console.warn(`[MongoDB] Primary connection to ${uri} failed: ${primaryError.message}`);
+    console.warn(`[MongoDB] Primary connection to ${sanitizeMongoUri(uri)} failed: ${primaryError.message}`);
 
     // In development or test, try in-memory MongoDB server fallback
     if (process.env.NODE_ENV !== 'production') {
