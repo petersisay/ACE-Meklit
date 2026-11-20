@@ -11,13 +11,9 @@ const createOrder = async (req, res, next) => {
       orderItems,
       shippingAddress,
       paymentMethod,
-      itemsPrice,
-      taxPrice,
-      shippingPrice,
-      totalPrice,
     } = req.body;
 
-    if (!orderItems || orderItems.length === 0) {
+    if (!orderItems || !Array.isArray(orderItems) || orderItems.length === 0) {
       return res.status(400).json({ message: 'No order items provided' });
     }
 
@@ -25,27 +21,44 @@ const createOrder = async (req, res, next) => {
       return res.status(400).json({ message: 'Incomplete shipping address' });
     }
 
-    // Sanitize order items to prevent BSON ObjectId casting errors with default/client string IDs
-    const sanitizedOrderItems = await Promise.all(
-      orderItems.map(async (item) => {
-        let productId = item.product || item._id;
-        if (typeof productId === 'string' && !mongoose.Types.ObjectId.isValid(productId)) {
-          const dbProduct = await Product.findOne({ name: item.name });
-          if (dbProduct) {
-            productId = dbProduct._id;
-          } else {
-            productId = new mongoose.Types.ObjectId();
-          }
-        }
-        return {
-          name: item.name,
-          qty: Number(item.qty) || 1,
-          image: item.image,
-          price: Number(item.price),
-          product: productId,
-        };
-      })
-    );
+    // Server-side price verification and total calculation to prevent client-side price tampering
+    let calculatedItemsPrice = 0;
+    const sanitizedOrderItems = [];
+
+    for (const item of orderItems) {
+      const qty = Math.max(1, parseInt(item.qty, 10) || 1);
+      let dbProduct = null;
+
+      const rawId = item.product || item._id;
+      if (rawId && mongoose.Types.ObjectId.isValid(rawId)) {
+        dbProduct = await Product.findById(rawId);
+      }
+      if (!dbProduct && item.name) {
+        dbProduct = await Product.findOne({ name: item.name });
+      }
+
+      // Enforce server-side product price from database; fallback to item.price only if legacy product
+      const verifiedPrice = dbProduct ? Number(dbProduct.price) : (Number(item.price) || 0);
+      const verifiedName = dbProduct ? dbProduct.name : (item.name || 'ACE Product');
+      const verifiedImage = dbProduct ? dbProduct.image : (item.image || '/Images/ace logo.jpg');
+      const verifiedProductId = dbProduct ? dbProduct._id : (mongoose.Types.ObjectId.isValid(rawId) ? rawId : new mongoose.Types.ObjectId());
+
+      calculatedItemsPrice += verifiedPrice * qty;
+
+      sanitizedOrderItems.push({
+        name: verifiedName,
+        qty,
+        image: verifiedImage,
+        price: verifiedPrice,
+        product: verifiedProductId,
+      });
+    }
+
+    // Deterministic server-side total calculation: itemsPrice + tax (0%) + shipping (0)
+    const itemsPrice = Math.round(calculatedItemsPrice * 100) / 100;
+    const taxPrice = 0;
+    const shippingPrice = 0;
+    const totalPrice = itemsPrice + taxPrice + shippingPrice;
 
     const generatedTracking = 'TRK-' + Date.now() + '-' + Math.floor(1000 + Math.random() * 9000);
 
@@ -54,10 +67,10 @@ const createOrder = async (req, res, next) => {
       user: req.user._id,
       shippingAddress,
       paymentMethod: paymentMethod || 'Chapa (Telebirr, CBE Birr, Cards)',
-      itemsPrice: Number(itemsPrice || 0),
-      taxPrice: Number(taxPrice || 0),
-      shippingPrice: Number(shippingPrice || 0),
-      totalPrice: Number(totalPrice || 0),
+      itemsPrice,
+      taxPrice,
+      shippingPrice,
+      totalPrice,
       trackingNumber: generatedTracking,
     });
 
@@ -125,22 +138,30 @@ const updateOrderToPaid = async (req, res, next) => {
   try {
     const order = await Order.findById(req.params.id);
 
-    if (order) {
-      order.isPaid = true;
-      order.paidAt = Date.now();
-      order.status = 'Processing';
-      order.paymentResult = {
-        id: req.body.id || `CHAPA-TXN-${Date.now()}`,
-        status: req.body.status || 'COMPLETED',
-        update_time: req.body.update_time || new Date().toISOString(),
-        email_address: req.body.email_address || req.user.email,
-      };
-
-      const updatedOrder = await order.save();
-      res.json(updatedOrder);
-    } else {
-      res.status(404).json({ message: 'Order not found' });
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
     }
+
+    // Ownership check: User must own the order or be admin
+    if (
+      order.user.toString() !== req.user._id.toString() &&
+      req.user.role !== 'admin'
+    ) {
+      return res.status(403).json({ message: 'Not authorized to update this order' });
+    }
+
+    order.isPaid = true;
+    order.paidAt = Date.now();
+    order.status = 'Processing';
+    order.paymentResult = {
+      id: req.body.id || `CHAPA-TXN-${Date.now()}`,
+      status: req.body.status || 'COMPLETED',
+      update_time: req.body.update_time || new Date().toISOString(),
+      email_address: req.body.email_address || req.user.email,
+    };
+
+    const updatedOrder = await order.save();
+    res.json(updatedOrder);
   } catch (error) {
     next(error);
   }
@@ -178,6 +199,14 @@ const initializeChapa = async (req, res, next) => {
     const order = await Order.findById(req.params.id);
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });
+    }
+
+    // Ownership check: User must own the order or be admin
+    if (
+      order.user.toString() !== req.user._id.toString() &&
+      req.user.role !== 'admin'
+    ) {
+      return res.status(403).json({ message: 'Not authorized to initialize payment for this order' });
     }
 
     const secretKey = process.env.CHAPA_SECRET_KEY;
@@ -284,6 +313,16 @@ const verifyChapa = async (req, res, next) => {
     }
     if (!order) {
       order = await Order.findOne({ user: req.user._id }).sort({ createdAt: -1 });
+    }
+
+    if (order) {
+      // Ownership check: User must own the order or be admin
+      if (
+        order.user.toString() !== req.user._id.toString() &&
+        req.user.role !== 'admin'
+      ) {
+        return res.status(403).json({ message: 'Not authorized to verify this order' });
+      }
     }
 
     if (secretKey && secretKey.startsWith('CHASECK')) {
