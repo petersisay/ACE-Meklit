@@ -25,13 +25,7 @@ const protect = async (req, res, next) => {
         req.user = await User.findOne({ email: decoded.email.toLowerCase() }).select('-password');
       }
 
-      // Fallback to active demo/user account to prevent broken client sessions across database re-seeding
-      if (!req.user) {
-        req.user =
-          (await User.findOne({ email: 'bereket@example.com' }).select('-password')) ||
-          (await User.findOne({ role: 'user' }).select('-password')) ||
-          (await User.findOne().select('-password'));
-      }
+
 
       if (!req.user) {
         return res.status(401).json({ message: 'User not found for this token' });

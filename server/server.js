@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const morgan = require('morgan');
@@ -30,11 +31,13 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// Health check endpoint
+// Health check endpoint with database connectivity status and uptime
 app.get('/api/health', (req, res) => {
-  res.status(200).json({
-    status: 'online',
-    message: 'ACE Meklit API is running smoothly',
+  const isConnected = mongoose.connection && mongoose.connection.readyState === 1;
+  res.status(isConnected ? 200 : 503).json({
+    status: isConnected ? 'online' : 'degraded',
+    database: isConnected ? 'connected' : 'disconnected',
+    uptime: Math.floor(process.uptime()),
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
   });
@@ -336,21 +339,26 @@ const ensureDatabaseBootstrap = async () => {
   }
 };
 
-// Connect to Database and start server
+// Connect to Database and start server with non-blocking resilience
 const startServer = async () => {
+  // Bind HTTP server immediately so platforms like Render pass port binding healthchecks
+  const server = app.listen(PORT, () => {
+    console.log(`[Server] ACE Meklit API listening on port ${PORT} (${process.env.NODE_ENV || 'development'})`);
+  });
+
   try {
     await connectDB();
     await ensureDatabaseBootstrap();
-
-    app.listen(PORT, () => {
-      console.log(`[Server] ACE Meklit API listening on port ${PORT} (${process.env.NODE_ENV || 'development'})`);
-    });
   } catch (error) {
-    console.error(`[Server] Failed to start server: ${error.message}`);
+    console.error(`[Server] Database bootstrap pending or failed: ${error.message}`);
   }
+
+  return server;
 };
 
-startServer();
+if (require.main === module) {
+  startServer();
+}
 
 // Process safety handlers for zero-downtime stability
 process.on('unhandledRejection', (reason, promise) => {
