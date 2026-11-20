@@ -1,4 +1,4 @@
-# ✝️ Apostolic Church of Ethiopia (ACE) — ACE Meklit
+# ✝️ Apostolic Church of Ethiopia (ACE) — ACE Meklit (MERN STACK)
 
 A modern, responsive, full-stack **MERN (MongoDB, Express.js, React.js, Node.js)** web application built for the **Apostolic Church of Ethiopia (ACE)** and its faith apparel brand, **ACE Meklit**.
 
