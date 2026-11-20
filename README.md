@@ -248,5 +248,4 @@ Apostolic Church of Ethiopia Project
 
 ## 📜 License
 
-This project is created for educational, ministry, and portfolio demonstration purposes.  
 All rights reserved © 2026.
