@@ -303,11 +303,35 @@ const deleteProduct = async (req, res, next) => {
   }
 };
 
+// @desc    Update product stock (quick inventory adjustment)
+// @route   PUT /api/products/:id/stock
+// @access  Private/Admin
+const updateProductStock = async (req, res, next) => {
+  try {
+    const { countInStock } = req.body;
+    if (countInStock === undefined || isNaN(countInStock) || Number(countInStock) < 0) {
+      return res.status(400).json({ message: 'Valid non-negative stock quantity required' });
+    }
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      { countInStock: Math.floor(Number(countInStock)) },
+      { new: true, runValidators: true }
+    );
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+    res.json(product);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getProducts,
   getProductById,
   getCategories,
   createProduct,
   updateProduct,
+  updateProductStock,
   deleteProduct,
 };

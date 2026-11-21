@@ -6,6 +6,7 @@ const {
   getCategories,
   createProduct,
   updateProduct,
+  updateProductStock,
   deleteProduct,
 } = require('../controllers/productController');
 const { protect, admin } = require('../middleware/authMiddleware');
@@ -15,6 +16,9 @@ router.route('/')
   .post(protect, admin, createProduct);
 
 router.get('/categories/list', getCategories);
+
+router.route('/:id/stock')
+  .put(protect, admin, updateProductStock);
 
 router.route('/:id')
   .get(getProductById)
