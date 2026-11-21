@@ -43,6 +43,20 @@ const createOrder = async (req, res, next) => {
       const verifiedImage = dbProduct ? dbProduct.image : (item.image || '/Images/ace logo.jpg');
       const verifiedProductId = dbProduct ? dbProduct._id : (mongoose.Types.ObjectId.isValid(rawId) ? rawId : new mongoose.Types.ObjectId());
 
+      // Server-side inventory and stock availability validation
+      if (dbProduct) {
+        if (dbProduct.countInStock <= 0) {
+          return res.status(400).json({
+            message: `"${dbProduct.name}" is currently out of stock.`,
+          });
+        }
+        if (dbProduct.countInStock < qty) {
+          return res.status(400).json({
+            message: `Insufficient stock for "${dbProduct.name}". Only ${dbProduct.countInStock} available, but ${qty} requested.`,
+          });
+        }
+      }
+
       calculatedItemsPrice += verifiedPrice * qty;
 
       sanitizedOrderItems.push({
@@ -150,6 +164,21 @@ const updateOrderToPaid = async (req, res, next) => {
       return res.status(403).json({ message: 'Not authorized to update this order' });
     }
 
+    // Idempotency: Prevent duplicate payment processing & duplicate stock deduction
+    if (order.isPaid) {
+      return res.json(order);
+    }
+
+    // Atomically decrement stock for each purchased item
+    for (const item of order.orderItems) {
+      if (item.product) {
+        await Product.findOneAndUpdate(
+          { _id: item.product, countInStock: { $gte: item.qty } },
+          { $inc: { countInStock: -item.qty } }
+        );
+      }
+    }
+
     order.isPaid = true;
     order.paidAt = Date.now();
     order.status = 'Processing';
@@ -175,7 +204,21 @@ const updateOrderStatus = async (req, res, next) => {
     const order = await Order.findById(req.params.id);
 
     if (order) {
-      order.status = req.body.status || order.status;
+      const previousStatus = order.status;
+      const newStatus = req.body.status || order.status;
+
+      // Safe stock restoration if a paid order is cancelled
+      if (newStatus === 'Cancelled' && previousStatus !== 'Cancelled' && order.isPaid) {
+        for (const item of order.orderItems) {
+          if (item.product) {
+            await Product.findByIdAndUpdate(item.product, {
+              $inc: { countInStock: item.qty },
+            });
+          }
+        }
+      }
+
+      order.status = newStatus;
       if (order.status === 'Delivered') {
         order.isDelivered = true;
         order.deliveredAt = Date.now();
@@ -334,6 +377,16 @@ const verifyChapa = async (req, res, next) => {
         });
         const data = await response.json();
         if (data.status === 'success' && order) {
+          if (!order.isPaid) {
+            for (const item of order.orderItems) {
+              if (item.product) {
+                await Product.findOneAndUpdate(
+                  { _id: item.product, countInStock: { $gte: item.qty } },
+                  { $inc: { countInStock: -item.qty } }
+                );
+              }
+            }
+          }
           order.isPaid = true;
           order.paidAt = Date.now();
           order.status = 'Processing';
@@ -353,6 +406,16 @@ const verifyChapa = async (req, res, next) => {
 
     // Mark order as paid in Test Mode
     if (order) {
+      if (!order.isPaid) {
+        for (const item of order.orderItems) {
+          if (item.product) {
+            await Product.findOneAndUpdate(
+              { _id: item.product, countInStock: { $gte: item.qty } },
+              { $inc: { countInStock: -item.qty } }
+            );
+          }
+        }
+      }
       order.isPaid = true;
       order.paidAt = order.paidAt || Date.now();
       order.status = 'Processing';

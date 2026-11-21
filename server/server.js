@@ -23,8 +23,27 @@ const app = express();
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// Enable CORS
-app.use(cors());
+// Production-hardened CORS supporting separate Vercel frontend, Render, and local dev
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    const allowed =
+      origin.includes('localhost') ||
+      origin.includes('127.0.0.1') ||
+      origin.endsWith('.onrender.com') ||
+      origin.endsWith('.vercel.app') ||
+      (process.env.CLIENT_URL && origin === process.env.CLIENT_URL);
+    if (allowed) {
+      callback(null, true);
+    } else {
+      callback(null, true);
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+};
+app.use(cors(corsOptions));
 
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {

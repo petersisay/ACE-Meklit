@@ -131,9 +131,16 @@ const CartPage = () => {
                   <h4 style={{ fontSize: '1rem', fontWeight: 600, color: '#0f172a' }}>
                     <Link to={`/product/${item._id}`}>{item.name}</Link>
                   </h4>
-                  <span style={{ fontSize: '0.8rem', color: '#d97706', fontWeight: 600 }}>
-                    {item.category}
-                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.2rem' }}>
+                    <span style={{ fontSize: '0.8rem', color: '#d97706', fontWeight: 600 }}>
+                      {item.category}
+                    </span>
+                    {typeof item.countInStock === 'number' && item.countInStock <= 5 && (
+                      <span style={{ fontSize: '0.75rem', color: '#b45309', background: '#fef3c7', padding: '0.1rem 0.4rem', borderRadius: '4px', fontWeight: 600 }}>
+                        {item.countInStock <= 0 ? 'Out of Stock' : `Only ${item.countInStock} left`}
+                      </span>
+                    )}
+                  </div>
                   <div style={{ fontSize: '0.9rem', color: '#64748b', marginTop: '0.2rem' }}>
                     Unit Price: ${Number(item.price).toFixed(2)}
                   </div>
@@ -154,7 +161,16 @@ const CartPage = () => {
                   <button
                     type="button"
                     onClick={() => updateQuantity(item._id, item.qty + 1)}
-                    style={{ padding: '0.4rem 0.75rem', background: '#f8fafc', border: 'none', cursor: 'pointer', fontWeight: 700 }}
+                    disabled={typeof item.countInStock === 'number' && item.qty >= item.countInStock}
+                    style={{
+                      padding: '0.4rem 0.75rem',
+                      background: '#f8fafc',
+                      border: 'none',
+                      cursor: (typeof item.countInStock === 'number' && item.qty >= item.countInStock) ? 'not-allowed' : 'pointer',
+                      fontWeight: 700,
+                      opacity: (typeof item.countInStock === 'number' && item.qty >= item.countInStock) ? 0.4 : 1,
+                    }}
+                    title={typeof item.countInStock === 'number' && item.qty >= item.countInStock ? 'Maximum available stock reached' : 'Increase quantity'}
                   >
                     +
                   </button>

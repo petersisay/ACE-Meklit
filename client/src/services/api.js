@@ -1,7 +1,8 @@
 import axios from 'axios';
 
+const RAW_API_URL = import.meta.env.VITE_API_URL || '';
 const API = axios.create({
-  baseURL: '/api',
+  baseURL: RAW_API_URL ? `${RAW_API_URL.replace(/\/+$/, '')}/api` : '/api',
 });
 
 // Attach JWT token from localStorage to every authenticated request
@@ -34,6 +35,7 @@ export const productsApi = {
   getCategories: () => API.get('/products/categories/list'),
   create: (data) => API.post('/products', data),
   update: (id, data) => API.put(`/products/${id}`, data),
+  updateStock: (id, countInStock) => API.put(`/products/${id}/stock`, { countInStock }),
   delete: (id) => API.delete(`/products/${id}`),
 };
 
