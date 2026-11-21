@@ -134,13 +134,17 @@ const ProductDetailPage = () => {
               <span className="product-category" style={{ fontSize: '0.85rem' }}>
                 {product.category}
               </span>
-              {product.countInStock > 0 ? (
-                <span style={{ fontSize: '0.8rem', color: '#10b981', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
+              {product.countInStock > 5 ? (
+                <span style={{ fontSize: '0.82rem', color: '#10b981', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.3rem', background: '#ecfdf5', padding: '0.25rem 0.65rem', borderRadius: '6px' }}>
                   <Check size={14} /> {t('product_in_stock')} ({product.countInStock} {language === 'am' ? 'አለ' : 'available'})
                 </span>
+              ) : product.countInStock > 0 ? (
+                <span style={{ fontSize: '0.82rem', color: '#b45309', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.3rem', background: '#fef3c7', padding: '0.25rem 0.65rem', borderRadius: '6px' }}>
+                  ⚠️ {language === 'am' ? `${product.countInStock} ብቻ ቀርቷል — ፈጥነው ይዘዙ!` : `Only ${product.countInStock} left in stock — order soon!`}
+                </span>
               ) : (
-                <span style={{ fontSize: '0.8rem', color: '#ef4444', fontWeight: 600 }}>
-                  {t('product_out_of_stock')}
+                <span style={{ fontSize: '0.82rem', color: '#b91c1c', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.3rem', background: '#fee2e2', padding: '0.25rem 0.65rem', borderRadius: '6px' }}>
+                  ✕ {t('product_out_of_stock')}
                 </span>
               )}
             </div>
@@ -180,26 +184,29 @@ const ProductDetailPage = () => {
 
             {/* Quantity and Add to Cart */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
-              <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #cbd5e1', borderRadius: '8px', overflow: 'hidden' }}>
+              <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #cbd5e1', borderRadius: '8px', overflow: 'hidden', opacity: product.countInStock <= 0 ? 0.5 : 1 }}>
                 <button
                   type="button"
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  style={{ padding: '0.65rem 1rem', background: '#f8fafc', border: 'none', cursor: 'pointer', fontSize: '1.1rem', fontWeight: 600 }}
+                  disabled={product.countInStock <= 0 || quantity <= 1}
+                  style={{ padding: '0.65rem 1rem', background: '#f8fafc', border: 'none', cursor: (product.countInStock <= 0 || quantity <= 1) ? 'not-allowed' : 'pointer', fontSize: '1.1rem', fontWeight: 600 }}
                 >
                   -
                 </button>
                 <input
                   type="number"
                   min="1"
-                  max={product.countInStock}
-                  value={quantity}
-                  onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                  max={Math.max(1, product.countInStock || 1)}
+                  value={product.countInStock <= 0 ? 0 : quantity}
+                  disabled={product.countInStock <= 0}
+                  onChange={(e) => setQuantity(Math.min(product.countInStock, Math.max(1, parseInt(e.target.value) || 1)))}
                   style={{ width: '50px', textAlign: 'center', border: 'none', fontSize: '1rem', fontWeight: 600 }}
                 />
                 <button
                   type="button"
                   onClick={() => setQuantity((q) => Math.min(product.countInStock, q + 1))}
-                  style={{ padding: '0.65rem 1rem', background: '#f8fafc', border: 'none', cursor: 'pointer', fontSize: '1.1rem', fontWeight: 600 }}
+                  disabled={product.countInStock <= 0 || quantity >= product.countInStock}
+                  style={{ padding: '0.65rem 1rem', background: '#f8fafc', border: 'none', cursor: (product.countInStock <= 0 || quantity >= product.countInStock) ? 'not-allowed' : 'pointer', fontSize: '1.1rem', fontWeight: 600 }}
                 >
                   +
                 </button>
@@ -210,10 +217,17 @@ const ProductDetailPage = () => {
                 className="btn btn-primary"
                 onClick={handleAddToCart}
                 disabled={product.countInStock <= 0}
-                style={{ flex: '1 1 200px', padding: '0.85rem 1.75rem' }}
+                style={{
+                  flex: '1 1 200px',
+                  padding: '0.85rem 1.75rem',
+                  opacity: product.countInStock <= 0 ? 0.6 : 1,
+                  cursor: product.countInStock <= 0 ? 'not-allowed' : 'pointer',
+                  backgroundColor: product.countInStock <= 0 ? '#94a3b8' : undefined,
+                  borderColor: product.countInStock <= 0 ? '#94a3b8' : undefined,
+                }}
               >
                 <ShoppingBag size={20} />
-                <span>{t('store_add_cart')}</span>
+                <span>{product.countInStock <= 0 ? (language === 'am' ? 'ተጠናቋል' : 'Out of Stock') : t('store_add_cart')}</span>
               </button>
             </div>
 
