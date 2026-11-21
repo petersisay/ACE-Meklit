@@ -218,15 +218,14 @@ npm run dev
   npm run client
   ```
 
-<!--
-
+---
 ## 👥 Default Demo & Admin Accounts
 
 | Account | Email | Password | Role |
 | :--- | :--- | :--- | :--- |
 | **Member / Customer** | `bereket@example.com` | `password123` | Customer / Buyer |
 
--->
+---
 
 ## 🚀 Building for Production
 
