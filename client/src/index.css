@@ -104,22 +104,23 @@ h1, h2, h3, h4, .font-serif {
   justify-content: space-between;
   min-height: 72px;
   height: auto;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  gap: clamp(0.6rem, 1.5vw, 1.5rem);
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+  gap: clamp(0.75rem, 1.8vw, 2.2rem);
 }
 
 .nav-brand {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: clamp(0.5rem, 1vw, 0.85rem);
   flex-shrink: 0;
   text-decoration: none;
+  min-width: 0;
 }
 
 .nav-brand img {
-  height: clamp(38px, 4.5vw, 48px);
-  width: clamp(38px, 4.5vw, 48px);
+  height: clamp(38px, 4vw, 48px);
+  width: clamp(38px, 4vw, 48px);
   border-radius: 50%;
   border: 2px solid var(--gold);
   object-fit: cover;
@@ -131,21 +132,23 @@ h1, h2, h3, h4, .font-serif {
   flex-direction: column;
   justify-content: center;
   min-width: 0;
+  overflow: visible;
 }
 
 .brand-title {
   font-family: var(--font-serif);
   color: #ffffff;
   font-weight: 700;
-  font-size: clamp(0.95rem, 2vw, 1.25rem);
-  line-height: 1.15;
+  font-size: clamp(0.92rem, 1.8vw, 1.25rem);
+  line-height: 1.25;
   white-space: nowrap;
   letter-spacing: 0.02em;
+  padding-top: 1px;
 }
 
 .brand-subtitle {
   display: block;
-  font-size: clamp(0.58rem, 1vw, 0.72rem);
+  font-size: clamp(0.56rem, 0.9vw, 0.72rem);
   color: var(--gold-light);
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -153,15 +156,15 @@ h1, h2, h3, h4, .font-serif {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: clamp(130px, 18vw, 220px);
-  line-height: 1.2;
+  max-width: clamp(120px, 16vw, 240px);
+  line-height: 1.25;
   margin-top: 2px;
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: clamp(0.6rem, 1.4vw, 1.75rem);
+  gap: clamp(1rem, 1.8vw, 2.2rem);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -170,10 +173,10 @@ h1, h2, h3, h4, .font-serif {
 
 .nav-link {
   font-weight: 500;
-  font-size: clamp(0.85rem, 1.1vw, 0.95rem);
+  font-size: clamp(0.88rem, 1.05vw, 0.98rem);
   color: #cbd5e1;
   position: relative;
-  padding: 0.5rem 0.25rem;
+  padding: 0.5rem 0.5rem;
   white-space: nowrap;
   transition: color 0.15s ease;
 }
@@ -196,7 +199,7 @@ h1, h2, h3, h4, .font-serif {
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: clamp(0.35rem, 0.9vw, 0.85rem);
+  gap: clamp(0.5rem, 1vw, 1rem);
   flex-shrink: 0;
 }
 
@@ -737,17 +740,7 @@ h1, h2, h3, h4, .font-serif {
 }
 
 /* Responsive adjustments across electronics devices */
-@media (max-width: 1080px) {
-  .nav-links {
-    gap: clamp(0.5rem, 1vw, 1.1rem);
-  }
-  .nav-link {
-    font-size: 0.86rem;
-    padding: 0.4rem 0.15rem;
-  }
-}
-
-@media (max-width: 960px) {
+@media (max-width: 1040px) {
   .nav-links {
     display: none;
   }
@@ -756,8 +749,35 @@ h1, h2, h3, h4, .font-serif {
     align-items: center;
     justify-content: center;
   }
+  .brand-title {
+    font-size: 1.12rem;
+  }
+  .brand-subtitle {
+    font-size: 0.64rem;
+    max-width: 180px;
+  }
   .footer-grid {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-container {
+    min-height: 68px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    gap: 0.75rem;
+  }
+  .brand-title {
+    font-size: 1.05rem;
+  }
+  .brand-subtitle {
+    font-size: 0.6rem;
+    max-width: 150px;
+  }
+  .nav-brand img {
+    height: 40px;
+    width: 40px;
   }
 }
 
@@ -766,7 +786,7 @@ h1, h2, h3, h4, .font-serif {
     min-height: 64px;
     padding-left: 0.85rem;
     padding-right: 0.85rem;
-    gap: 0.45rem;
+    gap: 0.5rem;
   }
   .nav-brand {
     gap: 0.45rem;
@@ -776,14 +796,14 @@ h1, h2, h3, h4, .font-serif {
     width: 38px;
   }
   .brand-title {
-    font-size: 0.95rem;
+    font-size: 0.98rem;
   }
   .brand-subtitle {
-    font-size: 0.6rem;
+    font-size: 0.58rem;
     max-width: 130px;
   }
   .nav-actions {
-    gap: 0.35rem;
+    gap: 0.45rem;
   }
   .hero-title {
     font-size: 2rem;
@@ -798,11 +818,24 @@ h1, h2, h3, h4, .font-serif {
   }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 420px) {
   .brand-subtitle {
     display: none;
   }
   .brand-title {
-    font-size: 0.88rem;
+    font-size: 0.92rem;
+  }
+  .nav-actions {
+    gap: 0.35rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .brand-title {
+    font-size: 0.84rem;
+  }
+  .nav-brand img {
+    height: 34px;
+    width: 34px;
   }
 }
